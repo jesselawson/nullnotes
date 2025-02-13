@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gamedev on Jesse&#39;s Null Notes</title>
+    <link>/tags/gamedev/</link>
+    <description>Recent content in Gamedev on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <lastBuildDate>Sun, 21 May 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/gamedev/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Building Incremental Games as Web Applications</title>
+      <link>/web/clicker-game-template/</link>
+      <pubDate>Sun, 21 May 2023 00:00:00 +0000</pubDate>
+      <guid>/web/clicker-game-template/</guid>
+      <description>&lt;p&gt;Have you ever wanted to make an idle clicker game like this?&lt;/p&gt;&#xA;&lt;div id=&#34;gamedemo&#34;&gt;&#xA;&lt;p style=&#34;text-align:center&#34;&gt;&lt;button id=&#34;example-1-button&#34; class=&#34;example-button&#34;&gt;Add&amp;nbsp;&lt;span id=&#34;increment-value&#34;&gt;&lt;/span&gt;&amp;nbsp;to this &amp;rarr;&amp;nbsp;&lt;span id=&#34;example-1-counter&#34;&gt;0&lt;/span&gt;&lt;/button&gt; &lt;button id=&#34;example-1-upgrade-button&#34; class=&#34;example-button fadedout&#34;&gt;Spend&amp;nbsp;&lt;span id=&#34;upgrade-cost&#34;&gt;&lt;/span&gt;&amp;nbsp;for +1/click&lt;/button&gt; &lt;button id=&#34;buyAutoClickerButtonElement&#34; class=&#34;example-button fadedout&#34;&gt;Spend&amp;nbsp;&lt;span id=&#34;buyAutoClickerButtonUpgradeCostElement&#34;&gt;&lt;/span&gt;&amp;nbsp;for +1 click/second&lt;/button&gt;&lt;/p&gt;&#xA;&lt;p id=&#34;helpTextContainer&#34;&gt;&lt;span id=&#34;helptext1&#34;&gt;Click at least three times.&lt;/span&gt;&lt;span id=&#34;helptext2&#34; class=&#34;fadedout&#34;&gt;Good! Now try to get your number up to 100.&lt;/span&gt;&lt;span id=&#34;helptext3&#34; class=&#34;fadedout&#34;&gt; Great job! Can you make it to 1,000?&lt;/span&gt;&lt;div style=&#34;text-align:center&#34; id=&#34;autoClickersStatsContainer&#34; class=&#34;fadedout&#34;&gt;Total clicks ever: &lt;span id=&#34;totalClicksEver&#34;&gt;&lt;/span&gt;; Auto Clickers: &lt;span id=&#34;numAutoClickers&#34;&gt;&lt;/span&gt; (&lt;span id=&#34;autoClickerCPS&#34;&gt;&lt;/span&gt; clicks/second)&lt;/div&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

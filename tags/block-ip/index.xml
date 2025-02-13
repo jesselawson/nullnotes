@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Block Ip on Jesse&#39;s Null Notes</title>
+    <link>/tags/block-ip/</link>
+    <description>Recent content in Block Ip on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <lastBuildDate>Fri, 20 Dec 2013 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/block-ip/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WP Engine Hotfix: Preventing Spam and Bad Bot Traffic, Part II</title>
+      <link>/sysadmin/2013-12-20-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-ii/</link>
+      <pubDate>Fri, 20 Dec 2013 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2013-12-20-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-ii/</guid>
+      <description>&lt;p&gt;In [Part I][1] of this WP Engine Hotfix, I discussed some of the theory behind WP Engine&amp;rsquo;s visitor calculations and how end-users of WP Engine could benefit from taking charge of their traffic themselves. In this next part, I&amp;rsquo;ll discuss ways to log your visitor traffic, scrub that traffic for blacklisted and abusive IPs (as well as employ a nifty contact form honeypot), and completely block access to your site by these harmful bots, scrapers, harvesters, and spammers that jack up your visitor count.&lt;/p&gt;&#xA;&lt;p&gt;It&amp;rsquo;s important to note that this tutorial is not WP Engine specific. You can employ these methods on any hosting environment in which you have access to Apache. If you&amp;rsquo;re on Nginx, I&amp;rsquo;ll cover how to block unwanted traffic in a different tutorial.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>WP Engine Hotfix: Preventing Spam and Bad Bot Traffic, Part I</title>
+      <link>/sysadmin/2013-12-18-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-i/</link>
+      <pubDate>Wed, 18 Dec 2013 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2013-12-18-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-i/</guid>
+      <description>&lt;p&gt;WP Engine counts traffic from &amp;ldquo;bad&amp;rdquo; bots (like harvesters and spam bots) the same way it tracks human visitors. While some people have gone to great lengths to talk about how this has dissatisfied them to the point of leaving WP Engine, steps can be taken to take charge of your website&amp;rsquo;s defense and disallow these bots from ever making it to your pages. In this article, I discuss how to find out who is really visiting your blog (raw metrics), how to filter out the &amp;ldquo;bad&amp;rdquo; bot traffic, and (hopefully) reduce your visits in WP Engine&amp;rsquo;s algorithm.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Quickly Block Traffic with ipset and iptables</title>
+      <link>/sysadmin/2014-01-15-quickly-block-traffic-with-ipset-and-iptables/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2014-01-15-quickly-block-traffic-with-ipset-and-iptables/</guid>
+      <description>&lt;p&gt;To piggy-back off of the third preventive control in &lt;a href=&#34;http://lawsonry.com/2014/01/three-ways-to-increase-security-against-bad-bots-and-spam/&#34; title=&#34;Three Ways to Increase Security against Bad Bots and Spam&#34;&gt;increasing security against bad bots and spam&lt;/a&gt;, you can quickly block traffic with an iptables entry that utilizes ipset.****&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Three Ways to Increase Security against Bad Bots and Spam</title>
+      <link>/sysadmin/2014-01-15-three-ways-to-increase-security-against-bad-bots-and-spam/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2014-01-15-three-ways-to-increase-security-against-bad-bots-and-spam/</guid>
+      <description>&lt;p&gt;DashingWP&amp;rsquo;s servers were under attack today from what appears to be a pretty nasty DDoS attack that originated in China, bounced off of Germany, and then hit really hard from the UK, Portugal, Minnesota (USA), New Jersey (USA), and parts of Utah (USA). In total, there were 26,491 IP addresses that were discovered to be part of the attack, and we&amp;rsquo;re not entirely sure whether or not it was a roving attack or if something targeted us specifically.&lt;/p&gt;&#xA;&lt;p&gt;After defeating this problem, I thought about some of the things people could be doing better in order to help prevent their susceptibility to DDoS attacks and spam/bad bots in general. While we&amp;rsquo;ll never be able to fully prevent a DDoS attack from happening, we can go out of our way to strengthen our infrastructures defenses against spammy and malicious bots that lurk out there, and in doing so, lessen the likelihood of irreparable damage if and when we fall victim to a DDoS attack. In this article, I&amp;rsquo;ll share with you three preventive controls that you should be implementing in order to lessen your vulnerability and harden both your server and your sites.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

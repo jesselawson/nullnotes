@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+    <url>
+      <loc>/sysadmin/2015-07-16-nginx-proper-443-and-www-redirecting/</loc>
+      <lastmod>2015-07-16T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2015-01-27-automatically-block-banned-ips-with-fail2ban-iptables-and-ipset/</loc>
+      <lastmod>2015-01-27T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2015-01-27-how-to-build-and-install-libcurl/</loc>
+      <lastmod>2015-01-27T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2015-01-24-how-to-install-couchdb-locally-and-enable-cors/</loc>
+      <lastmod>2015-01-24T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2014-03-30-backup-wordpress-remote-server-s3/</loc>
+      <lastmod>2014-03-30T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2014-03-19-restrict-sftp-user-to-a-specific-directory/</loc>
+      <lastmod>2014-03-19T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2014-01-25-malicious-log-entries-look-like/</loc>
+      <lastmod>2014-01-25T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2014-01-09-how-to-fix-host-key-verification-failed-error/</loc>
+      <lastmod>2014-01-09T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2014-01-09-scrubbing-logs-for-bad-ips/</loc>
+      <lastmod>2014-01-09T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2014-01-08-the-problem-with-anti-spam-plugins/</loc>
+      <lastmod>2014-01-08T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2013-12-20-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-ii/</loc>
+      <lastmod>2013-12-20T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2013-12-18-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-i/</loc>
+      <lastmod>2013-12-18T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2013-12-03-wordpress-easy-options-page-wrapper/</loc>
+      <lastmod>2013-12-03T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2013-12-01-solved-wordpress-asking-for-local-ftp-credentials-on-xampp/</loc>
+      <lastmod>2013-12-01T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2013-11-30-how-to-find-and-replace-a-string-in-mysql/</loc>
+      <lastmod>2013-11-30T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2013-10-28-nginx-wpmu-non-wordpress-subdomains/</loc>
+      <lastmod>2013-10-28T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2013-06-24-author-image-as-default-post-image-in-wordpress/</loc>
+      <lastmod>2013-06-24T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2013-06-24-custom-category-style-in-wordpress/</loc>
+      <lastmod>2013-06-24T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2013-06-24-dropzone-js-wordpress-integration-tutorial/</loc>
+      <lastmod>2013-06-24T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2013-06-24-easy-author-image-plugin-for-wordpress/</loc>
+      <lastmod>2013-06-24T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2013-06-24-how-to-hide-a-category-in-wordpress/</loc>
+      <lastmod>2013-06-24T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2013-06-24-wordpress-author-box-without-a-plugin/</loc>
+      <lastmod>2013-06-24T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2014-01-15-quickly-block-traffic-with-ipset-and-iptables/</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2014-01-16-reset-mysql-root-password-on-ubuntu/</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/sysadmin/2014-01-15-three-ways-to-increase-security-against-bad-bots-and-spam/</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    </urlset>

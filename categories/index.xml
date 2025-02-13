@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Jesse&#39;s Null Notes</title>
+    <link>/categories/</link>
+    <description>Recent content in Categories on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <lastBuildDate>Sun, 21 May 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tutorial</title>
+      <link>/categories/tutorial/</link>
+      <pubDate>Sun, 21 May 2023 00:00:00 +0000</pubDate>
+      <guid>/categories/tutorial/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tutorials</title>
+      <link>/categories/tutorials/</link>
+      <pubDate>Thu, 16 Jul 2015 00:00:00 +0000</pubDate>
+      <guid>/categories/tutorials/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Sysadmin</title>
+      <link>/categories/sysadmin/</link>
+      <pubDate>Tue, 27 Jan 2015 00:00:00 +0000</pubDate>
+      <guid>/categories/sysadmin/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Nginx</title>
+      <link>/categories/nginx/</link>
+      <pubDate>Sun, 30 Mar 2014 00:00:00 +0000</pubDate>
+      <guid>/categories/nginx/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>WordPress</title>
+      <link>/categories/wordpress/</link>
+      <pubDate>Sun, 30 Mar 2014 00:00:00 +0000</pubDate>
+      <guid>/categories/wordpress/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Webdev</title>
+      <link>/categories/webdev/</link>
+      <pubDate>Tue, 03 Dec 2013 00:00:00 +0000</pubDate>
+      <guid>/categories/webdev/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>MySQL</title>
+      <link>/categories/mysql/</link>
+      <pubDate>Sat, 30 Nov 2013 00:00:00 +0000</pubDate>
+      <guid>/categories/mysql/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

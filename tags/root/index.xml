@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Root on Jesse&#39;s Null Notes</title>
+    <link>/tags/root/</link>
+    <description>Recent content in Root on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <atom:link href="/tags/root/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Reset MySQL Root Password on Ubuntu</title>
+      <link>/sysadmin/2014-01-16-reset-mysql-root-password-on-ubuntu/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2014-01-16-reset-mysql-root-password-on-ubuntu/</guid>
+      <description>&lt;p&gt;Do you know why there are so many tutorials online about resetting the MySQL root password? Because so many people are doing it wrong. This is a down-and-dirty, super quick way to reset your root password for MySQL.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

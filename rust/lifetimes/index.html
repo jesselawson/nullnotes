@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preload" href="/fonts/vendor/jost/jost-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/vendor/jost/jost-v4-latin-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/vendor/jost/jost-v4-latin-700.woff2" as="font" type="font/woff2" crossorigin>
+<script 
+  src="/js/color-mode.86a91f050a481d0a3f0c72ac26543cb6228c770875981c58dcbc008fd3f875c8.js"
+  integrity="sha256-hqkfBQpIHQo/DHKsJlQ8tiKMdwh1mBxY3LwAj9P4dcg=">
+</script>
+<script 
+  src="/js/dismissable-alert.72bb9eac822516d16f2fab8ac09cf6bfa193d3ce71c1c3f521742e0c75c35d85.js"
+  integrity="sha256-cruerIIlFtFvL6uKwJz2v6GT085xwcP1IXQuDHXDXYU=">
+</script>
+
+
+<link rel="stylesheet" href="/main.e3116562963566c4dec6b131e12c0c8709374f236ca4e60921eeaa736fbdc193518dde9790e6e3a069ec232e9ecbe246d25085a351e2510c4500ac21dc6e8d4a.css" integrity="sha512-4xFlYpY1ZsTexrEx4SwMhwk3TyNspOYJIe6qc2+9wZNRjd6XkObjoGnsIy6ey+JG0lCFo1HiUQxFAKwh3G6NSg==" crossorigin="anonymous">
+
+<noscript><style>img.lazyload { display: none; }</style></noscript><base href="/rust/lifetimes/">
+
+  <link rel="canonical" href="/rust/lifetimes/">
+
+
+<title>Lifetimes in Rust by example  |  Jesse&#39;s Null Notes</title>
+<meta name="description" content="Notes and marginalia on fine computer instructions">
+
+    
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    
+      <link
+        rel="apple-touch-icon"
+        href="/apple-touch-icon.png"
+        sizes="180x180"
+        type="image/png"
+      >
+      <link
+        rel="icon"
+        href="/favicon-192x192.png"
+        sizes="192x192"
+        type="image/png"
+      >
+      <link
+        rel="icon"
+        href="/favicon-512x512.png"
+        sizes="512x512"
+        type="image/png"
+      >
+<link rel="manifest" href="/manifest.webmanifest">
+
+<meta property="og:url" content="/rust/lifetimes/">
+  <meta property="og:site_name" content="Jesse&#39;s Null Notes">
+  <meta property="og:title" content="Lifetimes in Rust by example">
+  <meta property="og:description" content="When you make a reservation at a restaurant, the restaurant provides you access to a table in the future in the form of a reservation.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="rust">
+    <meta property="article:published_time" content="2024-02-24T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-02-24T00:00:00+00:00">
+    <meta property="og:image" content="/cover.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/cover.png">
+  <meta name="twitter:title" content="Lifetimes in Rust by example">
+  <meta name="twitter:description" content="When you make a reservation at a restaurant, the restaurant provides you access to a table in the future in the form of a reservation.">
+
+    
+    <script type="application/ld+json">
+  {
+   "@context": "https://schema.org",
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+     {
+       "@type": "ListItem",
+       "item": "/",
+       "name": "Jesse's Null Notes",
+       "position": 1
+     },
+     {
+       "@type": "ListItem",
+       "item": "/rust/",
+       "name": "Rust Programming",
+       "position": 2
+     },
+     {
+       "@type": "ListItem",
+       "name": "Lifetimes in Rust by Example",
+       "position": 3
+     }
+   ]
+ }
+</script>
+  
+	
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Lifetimes in Rust by example",
+      "description": "",
+      "isPartOf": {
+        "@id": "/rust/lifetimes/"
+      },
+      "mainEntityOfPage": {
+        "@id": "/rust/lifetimes/"
+      },
+      "datePublished": "2024-02-24T00:00:00+00:00",
+      "dateModified": "2024-02-24T00:00:00+00:00",
+      "author": {
+        "@type": "Person",
+        "name": "Jesse Lawson",
+        "url": "/"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Jesse Lawson"
+      }
+    }
+  ]
+}
+</script>
+
+
+
+
+
+
+</head>
+
+  
+  <body class="single section rust" data-bs-spy="scroll" data-bs-target="#toc" data-bs-root-margin="0px 0px -60%" data-bs-smooth-scroll="true" tabindex="0">
+    <div id="announcement" data-id="global-alert-048341a4a629fdfd700581837b3ede16" class="alert alert-primary alert-dismissible fade show text-center" role="alert">
+    <span class="alert-text">Migration from old site to here is underway, so some stuff may be missing. Check back in a bit!</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+<div class="sticky-top">
+<header class="navbar navbar-expand-lg">
+  <div class="container-md">
+  
+    <a class="navbar-brand me-auto me-lg-3" href="/">Jesse&#39;s Null Notes</a>
+
+    
+    
+    <button type="button" id="searchToggleMobile" class="btn btn-link nav-link mx-2 d-lg-none" aria-label="Search website">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <circle cx="10" cy="10" r="7"></circle>
+        <line x1="21" y1="21" x2="15" y2="15"></line>
+      </svg>
+    </button>
+    
+    <button class="btn btn-link d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavSection" aria-controls="offcanvasNavSection" aria-label="Open section navigation menu">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+        <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+      </svg>
+    </button>
+    <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasNavSection" aria-labelledby="offcanvasNavSectionLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavSectionLabel">Rust</h5>
+        <button type="button" class="btn btn-link nav-link p-0 ms-auto" data-bs-dismiss="offcanvas" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M18 6l-12 12"></path>
+            <path d="M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="offcanvas-body">
+        <aside class="doks-sidebar mt-n3">
+          <nav id="doks-docs-nav" aria-label="Tertiary navigation">
+            
+    
+<nav class="section-nav docs-links">
+  <ul class="list-unstyled">
+
+  <li>
+    <details open>
+      <summary>Rust Notes</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+      <a href="/rust/warp-filter-for-request-info/">Warp Filter for request info</a>
+  </li>
+
+  <li>
+      <a href="/rust/using-enums-with-diesel/">Using enums with Diesel</a>
+  </li>
+
+  <li>
+      <a href="/rust/mwe-axum-ws-server/">Axum WebSocket echo server</a>
+  </li>
+
+  <li class="active" >
+      <a aria-current="page" href="/rust/lifetimes/">Lifetimes in Rust by example</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+  </ul>
+</nav>
+
+
+          </nav>
+        </aside>
+      </div>
+    </div>
+    
+    <button class="btn btn-link nav-link mx-2 order-3 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavMain" aria-controls="offcanvasNavMain" aria-label="Open main navigation menu">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <line x1="4" y1="8" x2="20" y2="8"></line>
+        <line x1="4" y1="16" x2="20" y2="16"></line>
+      </svg>
+    </button>
+
+    
+    <div class="offcanvas offcanvas-end h-auto" tabindex="-1" id="offcanvasNavMain" aria-labelledby="offcanvasNavMainLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavMainLabel">Jesse&#39;s Null Notes</h5>
+        <button type="button" class="btn btn-link nav-link p-0 ms-auto" data-bs-dismiss="offcanvas" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M18 6l-12 12"></path>
+            <path d="M6 6l12 12"></path>
+         </svg>
+        </button>
+      </div>
+      
+      <div class="offcanvas-body d-flex flex-column flex-lg-row justify-content-between">
+        <ul class="navbar-nav flex-grow-1"><li class="nav-item">
+                <a class="nav-link" href="/all/">Browse All</a>
+              </li>
+            </ul>
+
+        
+        
+        <button type="button" id="searchToggleDesktop" class="btn btn-link nav-link p-2 d-none d-lg-block" aria-label="Search website">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <circle cx="10" cy="10" r="7"></circle>
+            <line x1="21" y1="21" x2="15" y2="15"></line>
+          </svg>
+        </button>
+        
+        
+        
+        <button id="buttonColorMode" class="btn btn-link mx-auto nav-link p-0 ms-lg-2 me-lg-1" type="button" aria-label="Toggle theme">
+          <svg data-bs-theme-value="dark" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
+          </svg>
+          <svg data-bs-theme-value="light" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sun" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0m-5 0h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"></path>
+          </svg>
+        </button>
+        
+        <ul id="socialMenu" class="nav mx-auto flex-row order-lg-4">
+          <li class="nav-item">
+              <a class="nav-link social-link" href="https://bsky.app/profile/jesse.lawsonry.com"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bluesky" width="24" height="24" viewBox="0 0 512 512" stroke-width="5" stroke="currentColor" fill="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2c42.1-31.6 110.3-56 110.3 21.8c0 15.5-8.9 130.5-14.1 149.2C478.2 298 412 314.6 353.1 304.5c102.9 17.5 129.1 75.5 72.5 133.5c-107.4 110.2-154.3-27.6-166.3-62.9l0 0c-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8l0 0c-12 35.3-59 173.1-166.3 62.9c-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1C10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z"/></svg><small class="ms-2 visually-hidden">BlueSky</small></a>
+            </li>
+          <li class="nav-item">
+              <a class="nav-link social-link" href="https://github.com/jesselawson"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path></svg><small class="ms-2 visually-hidden">GitHub</small></a>
+            </li>
+          </ul>
+        
+        <a class="btn btn-primary rounded-pill mt-2 btn-block d-lg-none" href="https://buymeacoffee.com/jesselawson" role="button">☕ buy me a coffee</a>
+        </div>
+    </div>
+
+    
+    <a class="btn btn-primary rounded-pill ms-3 me-2 px-4 order-lg-3 d-none d-lg-block" href="https://buymeacoffee.com/jesselawson" role="button">☕ buy me a coffee</a>
+    </div>
+</header>
+</div>
+
+<div class="modal" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 visually-hidden" id="searchModalLabel">Search</h1>
+        <button type="button" class="btn-close visually-hidden" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="search-input flex-grow-1 d-none">
+          <form id="search-form" class="search-form" action="#" method="post" accept-charset="UTF-8" role="search">
+            <label for="query" class="visually-hidden">Search</label>
+            <div class="d-flex">
+              <input type="search" id="query" name="query" class="search-text form-control form-control-lg" placeholder="Search" aria-label="Search" maxlength="128" autocomplete="off">
+              <button type="button" class="btn btn-link text-decoration-none px-0 ms-3 d-md-none" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-body">
+        <p class="search-loading status message d-none mt-3 text-center">Loading search index…</p>
+        <p class="search-no-recent message d-none mt-3 text-center">No recent searches</p>
+        <p class="search-no-results message d-none mt-3 text-center">No results for "<strong><span class="query-no-results">Query here</span></strong>"</p>
+        <div id="searchResults" class="search-results"></div>
+        <template>
+          <article class="search-result list-view">
+            <div class="card my-3">
+              <div class="card-body">
+                <header>
+                  <h2 class="h5 title title-submitted mb-0"><a class="stretched-link text-decoration-none text-reset" href="#">Title here</a></h2>
+                  <div class="submitted d-none"><time class="created-date">Date here</time></div>
+                </header>
+                <div class="content">Summary here</div>
+              </div>
+            </div>
+          </article>
+        </template>
+      </div>
+      <div class="modal-footer">
+        <ul class="list-inline me-auto d-none d-md-block">
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Enter key" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M12 3.53088v3c0 1-1 2-2 2H4M7 11.53088l-3-3 3-3"></path></g></svg></kbd><span class="DocSearch-Label">to select</span></li>
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Arrow down" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M7.5 3.5v8M10.5 8.5l-3 3-3-3"></path></g></svg></kbd><kbd class="me-2"><svg width="15" height="15" aria-label="Arrow up" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M7.5 11.5v-8M10.5 6.5l-3-3-3 3"></path></g></svg></kbd><span class="DocSearch-Label">to navigate</span></li>
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Escape key" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956"></path></g></svg></kbd><span class="DocSearch-Label">to close</span></li>
+        </ul>
+        <p class="d-md-none">Search by <a class="text-decoration-none" href="https://github.com/nextapps-de/flexsearch">FlexSearch</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <div class="wrap nn-container" role="document">
+      <div class="content">
+      
+        
+	<div class="row flex-xl-nowrap">
+		<div class="col-lg-5 col-xl-4 docs-sidebar d-none d-lg-block">
+			
+    
+<nav class="section-nav docs-links">
+  <ul class="list-unstyled">
+
+  <li>
+    <details open>
+      <summary>Rust Notes</summary>
+      <ul class="list-unstyled list-nested">
+
+  <li>
+      <a href="/rust/warp-filter-for-request-info/">Warp Filter for request info</a>
+  </li>
+
+  <li>
+      <a href="/rust/using-enums-with-diesel/">Using enums with Diesel</a>
+  </li>
+
+  <li>
+      <a href="/rust/mwe-axum-ws-server/">Axum WebSocket echo server</a>
+  </li>
+
+  <li class="active" >
+      <a aria-current="page" href="/rust/lifetimes/">Lifetimes in Rust by example</a>
+  </li>
+      </ul>
+    </details>
+  </li>
+  </ul>
+</nav>
+
+
+		</div>
+		
+		<nav class="docs-toc d-none d-xl-block col-xl-3" aria-label="Secondary navigation">
+			<div class="page-links">
+  <h3>On this page</h3>
+    <nav id="toc">
+  <ul>
+    <li><a href="#what-is-a-lifetime">What is a lifetime?</a></li>
+    <li><a href="#why-do-we-need-to-care-about-lifetimes">Why do we need to care about lifetimes?</a></li>
+    <li><a href="#how-do-we-use-lifetimes">How do we use lifetimes?</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#a-slightly-more-complex-example">A (slightly) more complex example</a></li>
+  </ul>
+</nav>
+</div>
+
+		</nav>
+		<main class="docs-content col-lg-11 col-xl-9">
+		
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="/">Home</a></li>
+<li class="breadcrumb-item"><a href="/rust/">Rust</a></li>
+<li class="breadcrumb-item active" aria-current="page">Lifetimes in Rust by example</li>
+					</ol>
+				</nav>
+			
+			<h1>Lifetimes in Rust by example</h1>
+			
+			<nav class="toc-mobile d-xl-none" aria-label="Quaternary navigation">
+				<details>
+    <summary>On this page</summary>
+    <div class="page-links">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-is-a-lifetime">What is a lifetime?</a></li>
+    <li><a href="#why-do-we-need-to-care-about-lifetimes">Why do we need to care about lifetimes?</a></li>
+    <li><a href="#how-do-we-use-lifetimes">How do we use lifetimes?</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#a-slightly-more-complex-example">A (slightly) more complex example</a></li>
+  </ul>
+</nav>
+    </div>
+  </details>
+
+			</nav>
+			<p>When you make a reservation at a restaurant, the restaurant provides you access
+to a table in the future in the form of a reservation.</p>
+<p>You can do two things with that reservation:</p>
+<ul>
+<li>You can use the reservation, which will give you access to the dining table
+associated with the reservation</li>
+<li>You could not use the reservation, and the table will be free to be used by
+someone else</li>
+</ul>
+<p>When you make a reservation at a restaurant, you are getting exclusive access
+to a table at the restaurant while you&rsquo;re eating your meal. You&rsquo;re not given
+<em>ownership</em> of the dining table, but you do have <strong>guaranteed access</strong> to it
+for  some length of time.</p>
+<p>In Rust, when you make a reference (&ldquo;borrow a reference&rdquo;) to some data, you&rsquo;re
+getting access to that specific data. You&rsquo;re not given <em>ownership</em> of the data,
+but you do have guaranteed access to it for a predetermined duration.</p>
+<p>It&rsquo;s that predetermined duration in which access to referenced data is
+guaranteed that we&rsquo;re talking about here today. That is a reference&rsquo;s
+<em>lifetime</em>.</p>
+<h2 id="what-is-a-lifetime">What is a lifetime?<a href="#what-is-a-lifetime" class="anchor" aria-hidden="true">#</a> </h2>
+<p>A reference&rsquo;s <strong>lifetime</strong> represents how long that reference is valid.</p>
+<h2 id="why-do-we-need-to-care-about-lifetimes">Why do we need to care about lifetimes?<a href="#why-do-we-need-to-care-about-lifetimes" class="anchor" aria-hidden="true">#</a> </h2>
+<p>One of the things Rust is designed to do is actively avoid dangling references.
+A dangling reference occurs when a variable that points to a memory location
+continues to do so after that memory location has been deallocated. This happens
+when the memory is freed before the references to it are destroyed or
+reassigned, leading to a scenario where the reference points to a memory
+location that may no longer hold valid data.</p>
+
+
+
+
+
+
+  
+
+
+
+
+<div class="shortcode-message">
+  <div class="profile">
+    
+    
+      <img src="/images/default.png" alt="default's profile" />
+    
+  </div>
+  <div class="content">
+    <p>When memory is deallocated, it is marked as available and can be reallocated by different programs.</p>
+  </div>
+</div>
+
+<p>A dangling reference could return null, or it could return some part of some
+other data from some other program that was stored there. When this happens, you
+experience an interesting issue known as a
+<a href="https://kb.iu.edu/d/aqsj">segmentation fault</a>.</p>
+<p>To avoid dangling references (and segmentation faults) and the issues that come
+with them, Rust needs to know that your references are valid for the entire time
+they are in scope. It&rsquo;s like how the restaurant needs to ensure that no two
+parties have the same table reserved at the exact same time.</p>
+
+
+
+
+
+
+
+
+
+<div class="shortcode-message">
+  <div class="profile">
+    
+    
+      <img src="/images/ohmy.png" alt="ohmy's profile" />
+    
+  </div>
+  <div class="content">
+    <p>Lifetimes tell us how long a reference is valid.</p>
+  </div>
+</div>
+
+<h2 id="how-do-we-use-lifetimes">How do we use lifetimes?<a href="#how-do-we-use-lifetimes" class="anchor" aria-hidden="true">#</a> </h2>
+<p>Every reference is associated with a lifetime, so if you use are using
+references, you are using lifetimes.</p>
+<p>In many cases, the Rust compiler can infer a reference&rsquo;s lifetime based on rules
+that it follows called
+<a href="https://doc.rust-lang.org/reference/lifetime-elision.html">lifetime elision rules</a>.
+These rules help the compiler understand your code in a way that allows you to
+elide the lifetime annotation in the code you&rsquo;re compiling.</p>
+<p>Here is a code snippet with lifetimes elided:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">get_reference</span><span class="p">(</span><span class="n">x</span>: <span class="kp">&amp;</span><span class="kt">i32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="kt">i32</span> <span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">x</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>And here is that same code with lifetimes included:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">get_reference</span><span class="o">&lt;</span><span class="na">&#39;a</span><span class="o">&gt;</span><span class="p">(</span><span class="n">x</span>: <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="kt">i32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="kt">i32</span> <span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">x</span><span class="w">          </span><span class="c1">// ^       ^           ^
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span><span class="w">              </span><span class="c1">// |       |           |
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">               </span><span class="c1">// Lifetime annotations
+</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>As you can see, lifetimes in Rust are annotated with a tick mark (<code>'</code>) followed
+by an identifier, like <code>'a</code> or <code>'y'</code>. The identifier is just a label; you can
+make it <code>'anything</code> if it <code>'helpsyou</code> except for <code>'static</code> which is a special
+lifetime annotation used to denote a static lifetime.</p>
+
+
+
+
+
+
+
+
+
+<div class="shortcode-message">
+  <div class="profile">
+    
+    
+      <img src="/images/explain.png" alt="explain's profile" />
+    
+  </div>
+  <div class="content">
+    <p>When a reference has a static lifetime, the compiler guarantees that reference to be valid for the duration of the entire program execution.</p>
+  </div>
+</div>
+
+<p>In both of the <code>get_reference</code> examples above, we have a function that takes a
+reference to an <code>i32</code> and returns a reference to an <code>i32</code> with the same lifetime
+as the one passed into the function. Essentially we&rsquo;re saying <em>if we&rsquo;re going to
+return a reference to some data, that reference must be available for at least
+as long as it takes to return that reference from this function.</em></p>
+<p>The explicit annotations in the second example make clear that the returned
+reference has the same lifetime as the input reference, <code>'a</code>. The compiler can
+generally infer the lifetime of references—especially in trivial examples like
+this.</p>
+<p>In other cases, the Rust compiler takes no chances and requires you to clearly
+articulate how long references are to alive for.</p>
+<p>Let&rsquo;s look at another example of lifetime annotations related to a function.</p>
+<p>Below we have a function that takes two references but returns only one of those
+references. For this to happen correctly, Rust needs to know the lifetime of the
+returned reference to ensure it&rsquo;s not outliving the data it refers to. Remember:
+the <em>lifetime of the returned reference</em> is kind of like the lifetime of a
+restaurant reservation.</p>
+<p>This function is trivial enough that the Rust compiler can infer the lifetimes,
+but try to guess where lifetimes have been elided:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="c1">// Return a ref to the first string (x) if it&#39;s not empty, otherwise,
+</span></span></span><span class="line"><span class="cl"><span class="c1">// return the second string (y)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">fn</span> <span class="nf">choose_non_empty</span><span class="p">(</span><span class="n">x</span>: <span class="kp">&amp;</span><span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="kp">&amp;</span><span class="kt">str</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="kt">str</span> <span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">x</span><span class="p">.</span><span class="n">is_empty</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></div>
+  </figure>
+</div>
+<details>
+  <summary>See the above snippet with explicit lifetime annotations</summary>
+  
+
+
+<div class="expressive-code">
+  <figure class="frame has-title not-content">
+  <figcaption class="header">
+    <span class="title">Example with explicit lifetimes</span>
+  </figcaption>
+  <div class="highlight" title="Example with explicit lifetimes"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="c1">// Lifetime annotations:_____________________________
+</span></span></span><span class="line"><span class="cl"><span class="c1">//                   |       |           |           |
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">fn</span> <span class="nf">choose_non_empty</span><span class="o">&lt;</span><span class="na">&#39;a</span><span class="o">&gt;</span><span class="p">(</span><span class="n">x</span>: <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="kt">str</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="kt">str</span> <span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">x</span><span class="p">.</span><span class="n">is_empty</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></div>
+  </figure>
+</div>
+</details>
+
+
+
+
+
+
+
+
+
+<div class="shortcode-message">
+  <div class="profile">
+    
+    
+      <img src="/images/sneaky.png" alt="sneaky's profile" />
+    
+  </div>
+  <div class="content">
+    <p>When a reference has a static lifetime, the compiler guarantees that reference to be valid for the duration of the entire program execution.</p>
+  </div>
+</div>
+
+<p>Rust can usually infer lifetimes based on your code. When this
+happens, you don&rsquo;t have to explicitly declare lifetimes. This is called
+<em>lifetime elision</em>—you are <em>eliding</em> the lifetimes. <strong>Explicit lifetime annotations</strong>
+are required when Rust can&rsquo;t figure things out on its own.</p>
+<p>Lifetimes help Rust understand how different references relate to each other in terms of their scope.</p>
+
+
+
+
+
+
+  
+
+
+
+
+<div class="shortcode-message">
+  <div class="profile">
+    
+    
+      <img src="/images/default.png" alt="default's profile" />
+    
+  </div>
+  <div class="content">
+    <p>The <code>'a</code> syntax is how you annotate lifetimes. The <code>a</code> can be anything — <code>'a</code>, <code>'b</code>, <code>'stuff</code>, <code>'etc</code>, except for <code>'static</code> (which is for static lifetimes only).</p>
+  </div>
+</div>
+
+<p>Let&rsquo;s explore a bit further into how you might use lifetimes in more complex
+situations.</p>
+<h1 id="struct-lifetime-annotations">struct lifetime annotations</h1>
+<p>Whenever you store references in a struct, you must annotate those references
+with lifetimes. This requirement prevents dangling references and ensures memory
+safety by verifying that the referenced data will not be cleaned up as long as
+the struct exists.</p>
+<p>Let&rsquo;s look at two examples.</p>
+<p>First, imagine we have a restaurant reservation system where each reservation
+keeps a reference to the customer making it. The system needs to ensure that
+information about the customer isn&rsquo;t removed or lost as long as the reservation
+exists.</p>
+<p>Here&rsquo;s how we might define a struct for this scenario:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Reservation</span><span class="o">&lt;</span><span class="na">&#39;a</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">table_number</span>: <span class="kt">u32</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">customer_name</span>: <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="kt">str</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>In this struct, <code>'a</code> tells Rust that the <code>customer_name</code> reference must not
+outlive the lifetime <code>'a</code>. It&rsquo;s like saying, &ldquo;As long as this reservation is
+active in the restaurant, the information about the customer must also be
+available.&rdquo;</p>
+<p>Let&rsquo;s take a break from the food references (I haven&rsquo;t eaten yet), and instead,
+let&rsquo;s imagine we have a file processing automation where each item in a queue
+keeps a reference to a particular file that needs to be processed. The system
+needs to ensure that information about the file isn&rsquo;t removed or lost as long
+as the item exists in the queue.</p>
+<p>Here&rsquo;s how you might define a struct with lifetimes in Rust for this scenario:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">QueueItem</span><span class="o">&lt;</span><span class="na">&#39;a</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">item_id</span>: <span class="kt">u32</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">file_reference</span>: <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="kt">str</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>In this struct, <code>'a</code> tells Rust that the <code>file_reference</code> must not outlive the
+lifetime <code>'a</code>. It&rsquo;s like saying, &ldquo;As long as this item is in the queue
+for processing, the reference to the file must also be available.&rdquo;</p>
+
+
+
+
+
+
+
+
+
+<div class="shortcode-message">
+  <div class="profile">
+    
+    
+      <img src="/images/delightful.png" alt="delightful's profile" />
+    
+  </div>
+  <div class="content">
+    <p>We annotate lifetimes for references in structs to ensure that the referenced data does not outlive the struct itself.</p>
+  </div>
+</div>
+
+<p>Lifetimes in Rust are fundamentally about ensuring data integrity
+and memory safety. By annotating lifetimes, you tell the Rust compiler <strong>how
+your references relate to each other</strong>, and in doing so, enable the compiler to
+guarantee the safety of your program.</p>
+<h2 id="a-slightly-more-complex-example">A (slightly) more complex example<a href="#a-slightly-more-complex-example" class="anchor" aria-hidden="true">#</a> </h2>
+<p>Now let&rsquo;s look at something a bit more interesting. Let&rsquo;s say we are
+building a session and config system where a user&rsquo;s session contains
+their ID and a reference to some configuration data:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Config</span><span class="o">&lt;</span><span class="na">&#39;a</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">data</span>: <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="kt">str</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">struct</span> <span class="nc">Session</span><span class="o">&lt;</span><span class="na">&#39;a</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">user_id</span>: <span class="kt">u32</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">config</span>: <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="nc">Config</span><span class="o">&lt;</span><span class="na">&#39;a</span><span class="o">&gt;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>Both the <code>Config</code> and <code>Session</code> structs are annotated with a lifetime parameter
+<code>'a</code>, which tells us (and the Rust compiler) that the references they hold
+(<code>data</code> in <code>Config</code>, and <code>config</code> in <code>Session</code>) must not outlive the struct
+instances themselves. In other words, these annotations ensure that the
+configuration data a session references cannot be deallocated while the session
+is still active.</p>
+<p>Now let&rsquo;s add some methods to the <code>Session</code> struct:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">impl</span><span class="o">&lt;</span><span class="na">&#39;a</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Session</span><span class="o">&lt;</span><span class="na">&#39;a</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">user_id</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"> </span><span class="n">config</span>: <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="nc">Config</span><span class="o">&lt;</span><span class="na">&#39;a</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Self</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="bp">Self</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">get_config_data</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="na">&#39;a</span> <span class="kt">str</span> <span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">get_user_id</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="kt">u32</span> <span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="o">&amp;</span><span class="bp">self</span><span class="p">.</span><span class="n">user_id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>Here, the <code>new</code> function for <code>Session</code> takes a reference to a <code>Config</code> instance
+with the same lifetime as the <code>Session</code> it returns. This setup ensures that the
+session can&rsquo;t outlive the configuration it depends on.</p>
+<p>Similarly, the <code>get_config_data</code> method returns a reference to the configuration
+data with a lifetime tied to the <code>Config</code> instance, ensuring the data remains
+valid as long as the session needs it.</p>
+<h1 id="parting-thoughts">Parting thoughts</h1>
+<p>We went through many examples of lifetimes here. If you&rsquo;re feeling overwhelmed
+by these things, remember that <em>you&rsquo;re not alone</em>. Rust&rsquo;s inherent complexity is
+part and parcel of it&rsquo;s steep learning curve, but stick with it and you&rsquo;ll come
+out the other side a more competent and more capable systems-level programmer.</p>
+<p>While you can do <em>a lot</em> in Rust by ignoring lifetimes, as the complexity of
+your projects grows, so too will your need to master lifetimes. Whenever you
+make a struct that holds references to data not owned by that struct, for
+example, you&rsquo;ll need to use lifetimes to ensure the data referenced does not go
+out of scope as long as the struct instance needs it. Additionally, struct
+methods—especially those returning references to data owned by the struct—need
+to take into account the lifetimes of the struct&rsquo;s data.</p>
+<p>The thing I want you to remember is this: <strong>lifetimes are a way to ensure
+references always remain valid</strong>. Lifetimes are part of the Rust compiler&rsquo;s
+zero-cost abstractions, which, while very powerful, do come at the cost of a
+steep learning curve—but the more you practice, the less daunting it gets.</p>
+
+			<div class="page-footer-meta d-flex flex-column flex-md-row justify-content-between">
+				
+				
+				</div>
+			<div class="page-nav d-flex flex-column flex-sm-row">
+	
+	<div class="card w-100">
+			<div class="card-body d-flex">
+				<div class="d-flex flex-column justify-content-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M5 12l14 0"></path>
+						<path d="M5 12l6 6"></path>
+						<path d="M5 12l6 -6"></path>
+				 	</svg>
+				</div>
+				<div class="d-flex flex-column">
+					<div class="text-body-secondary">Prev</div>
+					<a href="/rust/mwe-axum-ws-server/" class="stretched-link text-reset text-decoration-none">Axum WebSocket echo server</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+			
+		</main>
+		
+	</div>
+
+      
+      </div>
+    </div>
+    
+    
+    <footer class="footer text-muted">
+  <div class="container-md">
+    <div class="row">
+      <div class="col-lg-8 text-center text-lg-start">
+        <ul class="list-inline">
+          <li class="list-inline-item"><a class="text-muted" href="https://bsky.app/profile/jesse.lawsonry.com">Connect on BlueSky</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-8 text-center text-lg-end">
+        <ul class="list-inline">
+          <li class="list-inline-item">Copyright &copy; 2014-2024 Jesse Lawson. All Rights Reserved.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+
+<script async
+  src="/js/app.c17553444ec7c62f781ddbaa011948f6d85a1bab49420047d68a2b89852a8b36.js"
+  integrity="sha256-wXVTRE7Hxi94HduqARlI9thaG6tJQgBH1ooriYUqizY=">
+</script>
+
+
+
+
+
+
+<script async
+  src="/js/flexsearch.7b25ae2da7ab3cc745d4f8536e3f914f92ea8b1afad96ab9249c160c35e0648c.js"
+  integrity="sha256-eyWuLaerPMdF1PhTbj&#43;RT5Lqixr62Wq5JJwWDDXgZIw=">
+</script>
+<script async
+  src="/js/search-modal.0415aa45353ab123a509f6ddc6861549ece898b90872fcf757cd2663041dac96.js"
+  integrity="sha256-BBWqRTU6sSOlCfbdxoYVSezomLkIcvz3V80mYwQdrJY=">
+</script>
+
+    
+  </body>
+</html>

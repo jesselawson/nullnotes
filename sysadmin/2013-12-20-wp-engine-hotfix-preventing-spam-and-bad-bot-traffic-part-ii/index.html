@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preload" href="/fonts/vendor/jost/jost-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/vendor/jost/jost-v4-latin-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/vendor/jost/jost-v4-latin-700.woff2" as="font" type="font/woff2" crossorigin>
+<script 
+  src="/js/color-mode.86a91f050a481d0a3f0c72ac26543cb6228c770875981c58dcbc008fd3f875c8.js"
+  integrity="sha256-hqkfBQpIHQo/DHKsJlQ8tiKMdwh1mBxY3LwAj9P4dcg=">
+</script>
+<script 
+  src="/js/dismissable-alert.72bb9eac822516d16f2fab8ac09cf6bfa193d3ce71c1c3f521742e0c75c35d85.js"
+  integrity="sha256-cruerIIlFtFvL6uKwJz2v6GT085xwcP1IXQuDHXDXYU=">
+</script>
+
+
+<link rel="stylesheet" href="/main.e3116562963566c4dec6b131e12c0c8709374f236ca4e60921eeaa736fbdc193518dde9790e6e3a069ec232e9ecbe246d25085a351e2510c4500ac21dc6e8d4a.css" integrity="sha512-4xFlYpY1ZsTexrEx4SwMhwk3TyNspOYJIe6qc2+9wZNRjd6XkObjoGnsIy6ey+JG0lCFo1HiUQxFAKwh3G6NSg==" crossorigin="anonymous">
+
+<noscript><style>img.lazyload { display: none; }</style></noscript><base href="/sysadmin/2013-12-20-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-ii/">
+
+  <link rel="canonical" href="/sysadmin/2013-12-20-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-ii/">
+
+
+<title>WP Engine Hotfix: Preventing Spam and Bad Bot Traffic, Part II  |  Jesse&#39;s Null Notes</title>
+<meta name="description" content="Notes and marginalia on fine computer instructions">
+
+    
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    
+      <link
+        rel="apple-touch-icon"
+        href="/apple-touch-icon.png"
+        sizes="180x180"
+        type="image/png"
+      >
+      <link
+        rel="icon"
+        href="/favicon-192x192.png"
+        sizes="192x192"
+        type="image/png"
+      >
+      <link
+        rel="icon"
+        href="/favicon-512x512.png"
+        sizes="512x512"
+        type="image/png"
+      >
+<link rel="manifest" href="/manifest.webmanifest">
+
+<meta property="og:url" content="/sysadmin/2013-12-20-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-ii/">
+  <meta property="og:site_name" content="Jesse&#39;s Null Notes">
+  <meta property="og:title" content="WP Engine Hotfix: Preventing Spam and Bad Bot Traffic, Part II">
+  <meta property="og:description" content="In [Part I][1] of this WP Engine Hotfix, I discussed some of the theory behind WP Engine’s visitor calculations and how end-users of WP Engine could benefit from taking charge of their traffic themselves. In this next part, I’ll discuss ways to log your visitor traffic, scrub that traffic for blacklisted and abusive IPs (as well as employ a nifty contact form honeypot), and completely block access to your site by these harmful bots, scrapers, harvesters, and spammers that jack up your visitor count.
+It’s important to note that this tutorial is not WP Engine specific. You can employ these methods on any hosting environment in which you have access to Apache. If you’re on Nginx, I’ll cover how to block unwanted traffic in a different tutorial.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="sysadmin">
+    <meta property="article:published_time" content="2013-12-20T00:00:00+00:00">
+    <meta property="article:modified_time" content="2013-12-20T00:00:00+00:00">
+    <meta property="article:tag" content="Bad Bots">
+    <meta property="article:tag" content="Block Ip">
+    <meta property="article:tag" content="Htaccess">
+    <meta property="article:tag" content="Spam">
+    <meta property="article:tag" content="Visitors">
+    <meta property="article:tag" content="Wp Engine">
+    <meta property="og:image" content="/cover.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/cover.png">
+  <meta name="twitter:title" content="WP Engine Hotfix: Preventing Spam and Bad Bot Traffic, Part II">
+  <meta name="twitter:description" content="In [Part I][1] of this WP Engine Hotfix, I discussed some of the theory behind WP Engine’s visitor calculations and how end-users of WP Engine could benefit from taking charge of their traffic themselves. In this next part, I’ll discuss ways to log your visitor traffic, scrub that traffic for blacklisted and abusive IPs (as well as employ a nifty contact form honeypot), and completely block access to your site by these harmful bots, scrapers, harvesters, and spammers that jack up your visitor count.
+It’s important to note that this tutorial is not WP Engine specific. You can employ these methods on any hosting environment in which you have access to Apache. If you’re on Nginx, I’ll cover how to block unwanted traffic in a different tutorial.">
+
+    
+    <script type="application/ld+json">
+  {
+   "@context": "https://schema.org",
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+     {
+       "@type": "ListItem",
+       "item": "/",
+       "name": "Jesse's Null Notes",
+       "position": 1
+     },
+     {
+       "@type": "ListItem",
+       "item": "/sysadmin/",
+       "name": "Systems Administration",
+       "position": 2
+     },
+     {
+       "@type": "ListItem",
+       "name": "Wp Engine Hotfix Preventing Spam and Bad Bot Traffic, Part Ii",
+       "position": 3
+     }
+   ]
+ }
+</script>
+  
+	
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "WP Engine Hotfix: Preventing Spam and Bad Bot Traffic, Part II",
+      "description": "",
+      "isPartOf": {
+        "@id": "/sysadmin/2013-12-20-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-ii/"
+      },
+      "mainEntityOfPage": {
+        "@id": "/sysadmin/2013-12-20-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-ii/"
+      },
+      "datePublished": "2013-12-20T00:00:00+00:00",
+      "dateModified": "2013-12-20T00:00:00+00:00",
+      "author": {
+        "@type": "Person",
+        "name": "Jesse Lawson",
+        "url": "/"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Jesse Lawson"
+      }
+    }
+  ]
+}
+</script>
+
+
+
+
+
+
+</head>
+
+  
+  <body class="single section sysadmin" data-bs-spy="scroll" data-bs-target="#toc" data-bs-root-margin="0px 0px -60%" data-bs-smooth-scroll="true" tabindex="0">
+    <div id="announcement" data-id="global-alert-048341a4a629fdfd700581837b3ede16" class="alert alert-primary alert-dismissible fade show text-center" role="alert">
+    <span class="alert-text">Migration from old site to here is underway, so some stuff may be missing. Check back in a bit!</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+<div class="sticky-top">
+<header class="navbar navbar-expand-lg">
+  <div class="container-md">
+  
+    <a class="navbar-brand me-auto me-lg-3" href="/">Jesse&#39;s Null Notes</a>
+
+    
+    
+    <button type="button" id="searchToggleMobile" class="btn btn-link nav-link mx-2 d-lg-none" aria-label="Search website">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <circle cx="10" cy="10" r="7"></circle>
+        <line x1="21" y1="21" x2="15" y2="15"></line>
+      </svg>
+    </button>
+    
+    
+    <button class="btn btn-link nav-link mx-2 order-3 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavMain" aria-controls="offcanvasNavMain" aria-label="Open main navigation menu">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <line x1="4" y1="8" x2="20" y2="8"></line>
+        <line x1="4" y1="16" x2="20" y2="16"></line>
+      </svg>
+    </button>
+
+    
+    <div class="offcanvas offcanvas-end h-auto" tabindex="-1" id="offcanvasNavMain" aria-labelledby="offcanvasNavMainLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavMainLabel">Jesse&#39;s Null Notes</h5>
+        <button type="button" class="btn btn-link nav-link p-0 ms-auto" data-bs-dismiss="offcanvas" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M18 6l-12 12"></path>
+            <path d="M6 6l12 12"></path>
+         </svg>
+        </button>
+      </div>
+      
+      <div class="offcanvas-body d-flex flex-column flex-lg-row justify-content-between">
+        <ul class="navbar-nav flex-grow-1"><li class="nav-item">
+                <a class="nav-link" href="/all/">Browse All</a>
+              </li>
+            </ul>
+
+        
+        
+        <button type="button" id="searchToggleDesktop" class="btn btn-link nav-link p-2 d-none d-lg-block" aria-label="Search website">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <circle cx="10" cy="10" r="7"></circle>
+            <line x1="21" y1="21" x2="15" y2="15"></line>
+          </svg>
+        </button>
+        
+        
+        
+        <button id="buttonColorMode" class="btn btn-link mx-auto nav-link p-0 ms-lg-2 me-lg-1" type="button" aria-label="Toggle theme">
+          <svg data-bs-theme-value="dark" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
+          </svg>
+          <svg data-bs-theme-value="light" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sun" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0m-5 0h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"></path>
+          </svg>
+        </button>
+        
+        <ul id="socialMenu" class="nav mx-auto flex-row order-lg-4">
+          <li class="nav-item">
+              <a class="nav-link social-link" href="https://bsky.app/profile/jesse.lawsonry.com"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bluesky" width="24" height="24" viewBox="0 0 512 512" stroke-width="5" stroke="currentColor" fill="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2c42.1-31.6 110.3-56 110.3 21.8c0 15.5-8.9 130.5-14.1 149.2C478.2 298 412 314.6 353.1 304.5c102.9 17.5 129.1 75.5 72.5 133.5c-107.4 110.2-154.3-27.6-166.3-62.9l0 0c-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8l0 0c-12 35.3-59 173.1-166.3 62.9c-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1C10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z"/></svg><small class="ms-2 visually-hidden">BlueSky</small></a>
+            </li>
+          <li class="nav-item">
+              <a class="nav-link social-link" href="https://github.com/jesselawson"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path></svg><small class="ms-2 visually-hidden">GitHub</small></a>
+            </li>
+          </ul>
+        
+        <a class="btn btn-primary rounded-pill mt-2 btn-block d-lg-none" href="https://buymeacoffee.com/jesselawson" role="button">☕ buy me a coffee</a>
+        </div>
+    </div>
+
+    
+    <a class="btn btn-primary rounded-pill ms-3 me-2 px-4 order-lg-3 d-none d-lg-block" href="https://buymeacoffee.com/jesselawson" role="button">☕ buy me a coffee</a>
+    </div>
+</header>
+</div>
+
+<div class="modal" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 visually-hidden" id="searchModalLabel">Search</h1>
+        <button type="button" class="btn-close visually-hidden" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="search-input flex-grow-1 d-none">
+          <form id="search-form" class="search-form" action="#" method="post" accept-charset="UTF-8" role="search">
+            <label for="query" class="visually-hidden">Search</label>
+            <div class="d-flex">
+              <input type="search" id="query" name="query" class="search-text form-control form-control-lg" placeholder="Search" aria-label="Search" maxlength="128" autocomplete="off">
+              <button type="button" class="btn btn-link text-decoration-none px-0 ms-3 d-md-none" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-body">
+        <p class="search-loading status message d-none mt-3 text-center">Loading search index…</p>
+        <p class="search-no-recent message d-none mt-3 text-center">No recent searches</p>
+        <p class="search-no-results message d-none mt-3 text-center">No results for "<strong><span class="query-no-results">Query here</span></strong>"</p>
+        <div id="searchResults" class="search-results"></div>
+        <template>
+          <article class="search-result list-view">
+            <div class="card my-3">
+              <div class="card-body">
+                <header>
+                  <h2 class="h5 title title-submitted mb-0"><a class="stretched-link text-decoration-none text-reset" href="#">Title here</a></h2>
+                  <div class="submitted d-none"><time class="created-date">Date here</time></div>
+                </header>
+                <div class="content">Summary here</div>
+              </div>
+            </div>
+          </article>
+        </template>
+      </div>
+      <div class="modal-footer">
+        <ul class="list-inline me-auto d-none d-md-block">
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Enter key" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M12 3.53088v3c0 1-1 2-2 2H4M7 11.53088l-3-3 3-3"></path></g></svg></kbd><span class="DocSearch-Label">to select</span></li>
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Arrow down" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M7.5 3.5v8M10.5 8.5l-3 3-3-3"></path></g></svg></kbd><kbd class="me-2"><svg width="15" height="15" aria-label="Arrow up" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M7.5 11.5v-8M10.5 6.5l-3-3-3 3"></path></g></svg></kbd><span class="DocSearch-Label">to navigate</span></li>
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Escape key" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956"></path></g></svg></kbd><span class="DocSearch-Label">to close</span></li>
+        </ul>
+        <p class="d-md-none">Search by <a class="text-decoration-none" href="https://github.com/nextapps-de/flexsearch">FlexSearch</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <div class="wrap nn-container" role="document">
+      <div class="content">
+      
+        
+	<div class="row flex-xl-nowrap">
+		
+		<nav class="docs-toc d-none d-xl-block col-xl-3" aria-label="Secondary navigation">
+			<div class="page-links">
+  <h3>On this page</h3>
+    <nav id="toc">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#step-1-create-a-script-that-logs-every-single-visitor-to-your-site">Step 1: Create a script that logs every single visitor to your site.</a></li>
+        <li><a href="#step-2-modify-indexphp-to-include-visitor-logger">Step 2: Modify index.php to include visitor logger</a></li>
+        <li><a href="#step-3-wait-for-24-48-hours-while-your-script-logs-visitors">Step 3: Wait for 24-48 hours while your script logs visitors.</a></li>
+        <li><a href="#step-4-copy-and-paste-our-visitor-logs-into-excel">Step 4: Copy and paste our visitor logs into Excel.</a></li>
+        <li><a href="#step-5-scrub-the-ips-for-blacklisted-abusive-etc-addresses">Step 5: Scrub the IPs for blacklisted, abusive, etc addresses.</a></li>
+        <li><a href="#step-6-call-our-spam-scrubber-on-each-ip-address">Step 6: Call our spam scrubber on each IP address.</a></li>
+        <li><a href="#step-7-place-these-new-calls-to-our-function-in-spamscrubphp">Step 7: Place these new calls to our function in spamscrub.php</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+
+		</nav>
+		<main class="docs-content col-lg-11 col-xl-9 mx-xl-auto">
+		
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="/">Home</a></li>
+<li class="breadcrumb-item"><a href="/sysadmin/">Sysadmin</a></li>
+<li class="breadcrumb-item active" aria-current="page">WP Engine Hotfix: Preventing Spam and Bad Bot Traffic, Part II</li>
+					</ol>
+				</nav>
+			
+			<h1>WP Engine Hotfix: Preventing Spam and Bad Bot Traffic, Part II</h1>
+			
+			<nav class="toc-mobile d-xl-none" aria-label="Quaternary navigation">
+				<details>
+    <summary>On this page</summary>
+    <div class="page-links">
+      <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#step-1-create-a-script-that-logs-every-single-visitor-to-your-site">Step 1: Create a script that logs every single visitor to your site.</a></li>
+        <li><a href="#step-2-modify-indexphp-to-include-visitor-logger">Step 2: Modify index.php to include visitor logger</a></li>
+        <li><a href="#step-3-wait-for-24-48-hours-while-your-script-logs-visitors">Step 3: Wait for 24-48 hours while your script logs visitors.</a></li>
+        <li><a href="#step-4-copy-and-paste-our-visitor-logs-into-excel">Step 4: Copy and paste our visitor logs into Excel.</a></li>
+        <li><a href="#step-5-scrub-the-ips-for-blacklisted-abusive-etc-addresses">Step 5: Scrub the IPs for blacklisted, abusive, etc addresses.</a></li>
+        <li><a href="#step-6-call-our-spam-scrubber-on-each-ip-address">Step 6: Call our spam scrubber on each IP address.</a></li>
+        <li><a href="#step-7-place-these-new-calls-to-our-function-in-spamscrubphp">Step 7: Place these new calls to our function in spamscrub.php</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  </details>
+
+			</nav>
+			<p>In [Part I][1] of this WP Engine Hotfix, I discussed some of the theory behind WP Engine&rsquo;s visitor calculations and how end-users of WP Engine could benefit from taking charge of their traffic themselves. In this next part, I&rsquo;ll discuss ways to log your visitor traffic, scrub that traffic for blacklisted and abusive IPs (as well as employ a nifty contact form honeypot), and completely block access to your site by these harmful bots, scrapers, harvesters, and spammers that jack up your visitor count.</p>
+<p>It&rsquo;s important to note that this tutorial is not WP Engine specific. You can employ these methods on any hosting environment in which you have access to Apache. If you&rsquo;re on Nginx, I&rsquo;ll cover how to block unwanted traffic in a different tutorial.</p>
+<p><em>Update: Got a reply from Donovan once he saw this monstrosity of an article:</em></p>
+<blockquote class="twitter-tweet" data-conversation="none" lang="en">
+  <p>
+    <a href="https://twitter.com/lawsonry">@lawsonry</a> <a href="https://twitter.com/austingunter">@austingunter</a> <a href="https://twitter.com/wpengine">@wpengine</a> That's a lot of work! You could just parse the IP's with one line: <a href="https://t.co/n6nuFjrz69">https://t.co/n6nuFjrz69</a>
+  </p>
+  <p>
+    &mdash; Donovan Hernandez (@heydonovan) <a href="https://twitter.com/heydonovan/statuses/414153919900573696">December 20, 2013</a>
+  </p>
+</blockquote>
+<p><em>His solution is great if you have command-line SSH access to a Linux box, but since WP Engine users do not, the solution has to work within the confines of WP Engine&rsquo;s strict SFTP-only policy.</em></p>
+<h3 id="step-1-create-a-script-that-logs-every-single-visitor-to-your-site">Step 1: Create a script that logs every single visitor to your site.<a href="#step-1-create-a-script-that-logs-every-single-visitor-to-your-site" class="anchor" aria-hidden="true">#</a> </h3>
+<p>Go to the root of your site and create a file called <code>log_visitors.php</code>. Copy and paste the following into it:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Log Visitors
+</span></span></span><span class="line"><span class="cl"><span class="c1">// This is a very basic way of logging users to a text file. 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nv">$remote_addr</span> <span class="o">=</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;REMOTE_ADDR&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$request_time</span> <span class="o">=</span> <span class="nx">date</span><span class="p">(</span><span class="s1">&#39;Y-m-d g:i a&#39;</span><span class="p">,</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;REQUEST_TIME&#39;</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$request_uri</span> <span class="o">=</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;REQUEST_URI&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$user_agent</span> <span class="o">=</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;HTTP_USER_AGENT&#39;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$visitor</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="si">$request_time</span><span class="s2">: </span><span class="si">$remote_addr</span><span class="s2"> -&amp;gt; </span><span class="se">\&#34;</span><span class="si">$request_uri\</span><span class="s2">&#34;</span> <span class="k">as</span> <span class="nv">$user_agent\r\n</span><span class="s2">&#34;;
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">// Record EVERY visitor in the visitors.txt file
+</span></span></span><span class="line"><span class="cl"><span class="s2">file_put_contents(&#34;</span><span class="nx">visitors</span><span class="o">.</span><span class="nx">txt</span><span class="s2">&#34;, </span><span class="si">$visitor</span><span class="s2">, FILE_APPEND);
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">?&gt;
+</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>The file is very straightforward: every time this script is accessed, the requesting entity&rsquo;s IP address, requesting URL, user agent, and time of request will be appended on a single line to a text file.</p>
+<p>Now let&rsquo;s setup a call to this file every time someone visits our site.</p>
+<h3 id="step-2-modify-indexphp-to-include-visitor-logger">Step 2: Modify index.php to include visitor logger<a href="#step-2-modify-indexphp-to-include-visitor-logger" class="anchor" aria-hidden="true">#</a> </h3>
+<p>Open up your <code>index.php</code> file in the root of your WordPress installation and make it look like the following:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Include our visitor logging script
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">include</span><span class="p">(</span><span class="s2">&#34;log_visitors.php&#34;</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="sd">/**
+</span></span></span><span class="line"><span class="cl"><span class="sd"> * Front to the WordPress application. This file doesn&#39;t do anything, but loads
+</span></span></span><span class="line"><span class="cl"><span class="sd"> * wp-blog-header.php which does and tells WordPress to load the theme.
+</span></span></span><span class="line"><span class="cl"><span class="sd"> *
+</span></span></span><span class="line"><span class="cl"><span class="sd"> * @package WordPress
+</span></span></span><span class="line"><span class="cl"><span class="sd"> */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="sd">/**
+</span></span></span><span class="line"><span class="cl"><span class="sd"> * Tells WordPress to load the WordPress theme and output it.
+</span></span></span><span class="line"><span class="cl"><span class="sd"> *
+</span></span></span><span class="line"><span class="cl"><span class="sd"> * @var bool
+</span></span></span><span class="line"><span class="cl"><span class="sd"> */</span>
+</span></span><span class="line"><span class="cl"><span class="nx">define</span><span class="p">(</span><span class="s1">&#39;WP_USE_THEMES&#39;</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="sd">/** Loads the WordPress Environment and Template */</span>
+</span></span><span class="line"><span class="cl"><span class="k">require</span><span class="p">(</span> <span class="nx">dirname</span><span class="p">(</span> <span class="no">__FILE__</span> <span class="p">)</span> <span class="o">.</span> <span class="s1">&#39;/wp-blog-header.php&#39;</span> <span class="p">);</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>This will have our <code>log_visitors.php</code> file called every time our WP install is accessed, which means every time someone accesses our site, we append a new line of text with their header request information to a text file.</p>
+<h3 id="step-3-wait-for-24-48-hours-while-your-script-logs-visitors">Step 3: Wait for 24-48 hours while your script logs visitors.<a href="#step-3-wait-for-24-48-hours-while-your-script-logs-visitors" class="anchor" aria-hidden="true">#</a> </h3>
+<p>You will want to have at least 24 hours worth of data to account for all the scrapers and spam bots that are hitting your site on a rotating daily frequency. I would recommend you keep this bad boy running for 48 hours, and follow this tutorial once per week for an entire month to ensure that you find as many of these garbage traffic hoarders as possible.</p>
+<p>For this tutorial (and to combat the immediate threat of spam bots that were targeting my site), I only waited 5 hours.</p>
+<h3 id="step-4-copy-and-paste-our-visitor-logs-into-excel">Step 4: Copy and paste our visitor logs into Excel.<a href="#step-4-copy-and-paste-our-visitor-logs-into-excel" class="anchor" aria-hidden="true">#</a> </h3>
+<p>Since I like to visualize my data, I use Excel in order to sort through and delete duplicate entries in the visitor logs. Here&rsquo;s what my logs looked like when I opened them with a text editor after 5 hours of logging:</p>
+<img class="aligncenter size-full wp-image-10880" alt="5-hours-of-visitor-logging" src="https://jesselawson.org/wp-content/uploads/2013/12/5-hours-of-visitor-logging.png" width="1507" height="1010" />
+<p>So what do we see here? Automated activity for sure. You can see some &ldquo;nice&rdquo; bots accessing the robots.txt file, and then you can see some not so nice bots continuously trying to access pages that I know don&rsquo;t exist anymore. <strong>Or you could see just a bunch of garbled text because you have no idea what this all means</strong>. That&rsquo;s okay. All the important stuff is in a nice line down the file toward the left (the IP addresses).</p>
+<p>We need to pull out these IPs and get them into a list, so let&rsquo;s copy and paste the contents of the file and paste it into excel, using Paste Special. We want to ensure that we allow spaces to be considered the delimiter so that each segment of every line goes into its own column. Here&rsquo;s what it looked like when I copied and pasted into Excel:</p>
+<img class="aligncenter size-full wp-image-10881" alt="just-put-the-results-in-excel" src="https://jesselawson.org/wp-content/uploads/2013/12/just-put-the-results-in-excel.png" width="1078" height="777" />
+<p>Starting to look a little more manageable? I hope so.</p>
+<p>Now do the following to clean up this list:</p>
+<ol>
+<li>Select all the cells and go to Data-&gt;Sort, and sort by IP address (Column D for me).</li>
+<li>Go to your menu and find the Remove Duplicates button. We don&rsquo;t need any duplicate IP entries here for what we&rsquo;re about to do next.<img class="aligncenter size-full wp-image-10882" alt="remove-duplicate-ip-entries" src="https://jesselawson.org/wp-content/uploads/2013/12/remove-duplicate-ip-entries.png" width="466" height="292" /></li>
+<li>Get up and stretch your arms and legs. It&rsquo;s good to stretch every once in a while.</li>
+</ol>
+<p>We&rsquo;re left with an Excel spreadsheet with a list of IP addresses all in one column and no duplicate entries.</p>
+<p>Copy the entire column of IP addresses and paste them into a text editor, preferably one with regular expression search+replace capabilities (you&rsquo;ll see why later). So at the end of this step, you should have a text file with a list of IP addresses, one per line. Hold on to it, because we&rsquo;re coming back to it in Step 6.</p>
+<h3 id="step-5-scrub-the-ips-for-blacklisted-abusive-etc-addresses">Step 5: Scrub the IPs for blacklisted, abusive, etc addresses.<a href="#step-5-scrub-the-ips-for-blacklisted-abusive-etc-addresses" class="anchor" aria-hidden="true">#</a> </h3>
+<p>With our list of IPs on the side, we&rsquo;ll now create a custom function to check the reputation (read: public blacklist status) of each of them and then report to us whether the IP address is good to go or should be banned to the depths of internet oblivion.</p>
+<p>The way I did this was through a shell script, but it works just fine in your browser, too.</p>
+<p>Let&rsquo;s jump right in to some code. The following shall be called <code>spamscrub.php</code>:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Let&#39;s count how many bad IPs we found
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// We&#39;ll hold all the bad guys in an array
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">$denyfrom</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// The Almighty SpamScrub Function
+</span></span></span><span class="line"><span class="cl"><span class="c1">// This is a very rudimentary (read: prototype but working) function
+</span></span></span><span class="line"><span class="cl"><span class="c1">// that will check with CleanTalk.org to determine whether the IP
+</span></span></span><span class="line"><span class="cl"><span class="c1">// address you passed to the function is publicly blacklisted on any of
+</span></span></span><span class="line"><span class="cl"><span class="c1">// over a dozen public bad IP databases. 
+</span></span></span><span class="line"><span class="cl"><span class="c1">// The irony of this function is that we are scraping the results of
+</span></span></span><span class="line"><span class="cl"><span class="c1">// the URL query in order to block bots that are scraping our site.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">spamscrub</span><span class="p">(</span><span class="nv">$addr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// We want to use our counter and denyfrom array in here.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">global</span> <span class="nv">$counter</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">global</span> <span class="nv">$denyfrom</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">echo</span> <span class="s2">&#34;Checking </span><span class="si">$addr</span><span class="s2">... &#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// We&#39;ll read in the contents of the URL of cleantalk.org for
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// each IP check. We&#39;re basically loading up the page and then
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// checking to see whether it tells us that the IP was found
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// in a blacklist or not. Automated browsing, is what you&#39;d call it?
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// First we&#39;ll fopen the remote file.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nv">$handle</span> <span class="o">=</span> <span class="nx">fopen</span><span class="p">(</span><span class="s2">&#34;https://cleantalk.org/blacklists?record=</span><span class="si">$addr</span><span class="s2">&#34;</span><span class="p">,</span> <span class="s2">&#34;rb&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">$contents</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// While the file still has content... 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="nx">feof</span><span class="p">(</span><span class="nv">$handle</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// Read in 1,000 byte chunks at a time
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  		<span class="nv">$contents</span> <span class="o">.=</span> <span class="nx">fread</span><span class="p">(</span><span class="nv">$handle</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  		<span class="c1">// First check if it&#39;s clean
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  		<span class="k">if</span><span class="p">(</span><span class="nx">strstr</span><span class="p">(</span><span class="nv">$contents</span><span class="p">,</span> <span class="s2">&#34;not found in blacklists&#34;</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">			<span class="k">echo</span> <span class="s2">&#34;[  OK  ]</span><span class="se">\r\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="k">break</span><span class="p">;</span> <span class="c1">// Forget the rest of the file
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="c1">// Then check if it&#39;s dirty
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  		<span class="k">if</span><span class="p">(</span><span class="nx">strstr</span><span class="p">(</span><span class="nv">$contents</span><span class="p">,</span> <span class="s2">&#34;has spam activity on&#34;</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">			<span class="k">echo</span> <span class="s2">&#34;[ SPAM ]</span><span class="se">\r\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                        <span class="c1">// Since this IP has been found on a blacklist, 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                        <span class="c1">// let&#39;s add it to our denyfrom array.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="nv">$denyfrom</span><span class="p">[</span><span class="nv">$counter</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$addr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="nv">$counter</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="k">break</span><span class="p">;</span> <span class="c1">// Forget the rest of the file
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="p">}</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// If neither condition is met, it will just loop through and grab more $content, but the page always displays one of those conditions so this is just a safeguard.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">fclose</span><span class="p">(</span><span class="nv">$handle</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Placeholder for our calls to spamscrub()
+</span></span></span><span class="line"><span class="cl"><span class="c1">// We&#39;re going to put a bunch of calls to this function during the next
+</span></span></span><span class="line"><span class="cl"><span class="c1">// step. For now, let&#39;s just leave this here as a placeholder.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Report back on the status of this script. 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="s2">&#34;Spam Scrub Complete.</span><span class="se">\r\n</span><span class="s2">Total spam/bad IPs: </span><span class="si">$counter\r\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Print out a copy+paste-able list of &#34;deny from&#34; entries for our .htaccess
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">echo</span> <span class="s2">&#34;Add the following to your .htaccess:</span><span class="se">\r\n\r\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;# BEGIN IP blocking from &#34;</span><span class="o">.</span><span class="nx">date</span><span class="p">(</span><span class="s2">&#34;m/d/Y&#34;</span><span class="p">)</span><span class="o">.</span><span class="s2">&#34; spam scrub</span><span class="se">\r\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span><span class="p">(</span><span class="nv">$denyfrom</span> <span class="k">as</span> <span class="nv">$addr</span><span class="p">){</span>	
+</span></span><span class="line"><span class="cl">	<span class="k">echo</span> <span class="s2">&#34;deny from </span><span class="si">$addr\r\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;# END &#34;</span><span class="o">.</span><span class="nx">date</span><span class="p">(</span><span class="s2">&#34;m/d/Y&#34;</span><span class="p">)</span><span class="o">.</span><span class="s2">&#34; spam scrub</span><span class="se">\r\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>Of course, we could just manually check each and every single IP address by going to cleantalk.org and typing in the IP addresses one by one, one we could just automatically &ldquo;browse&rdquo; the results and do it this way.</p>
+<p>You&rsquo;re going to want to remember where we put that placeholder in there, because we&rsquo;ll be coming back to it in a moment. Now, let&rsquo;s get those IP addresses ready to plug into our <code>spamscrub.php</code> file.</p>
+<h3 id="step-6-call-our-spam-scrubber-on-each-ip-address">Step 6: Call our spam scrubber on each IP address.<a href="#step-6-call-our-spam-scrubber-on-each-ip-address" class="anchor" aria-hidden="true">#</a> </h3>
+<p>Go to the text file with our list of IPs, and be prepared for some copy + paste goodness. We&rsquo;re going to plug each and every one of those IPs into a call to our spamscrub() function and then place all those function calls where we had that placeholder text.</p>
+<p>You might be wondering why we don&rsquo;t just pass a huge array to our spamscrub() function, and then tailor the spam scrubbing goodness to just loop through each array element. While this would make sense for normal variable and data manipulation, since we&rsquo;re fread()ing content from a remote URL it is better for everyone&rsquo;s sanity if we break up the calls into separate function calls, that way our php process isn&rsquo;t hanging and waiting for this giant loop to be completed.</p>
+<p>The methodology is simple: for every IP address in our text file, we want to add <code>spamscrub(&quot;</code> to the beginning and then <code>&quot;);</code> to the end. So you can copy and paste the first part (the function call) to the beginning of each IP listing and then copy and paste the ending (the closing parenthesis and semicolon) to the end of all of the IPs, or you can use a regular expression to do all this for you.</p>
+<p><em>To use a regular expression</em>, you&rsquo;ll need something like Sublime Text or some other editor that allows you to search and replace using regular expressions. For Sublime (which is what I use), I would hit Ctrl+H (search + replace) and then type in the following to the search and replace fields:</p>
+<img class="aligncenter size-full wp-image-10883" alt="spamscrub-search-and-replace" src="https://jesselawson.org/wp-content/uploads/2013/12/spamscrub-search-and-replace.png" width="633" height="101" />
+<p>Click on &ldquo;replace all&rdquo; and every instance of your IP address <code>xx.xxx.xx.xxx</code>  will turn into <code>spamscrub(&quot;xx.xxx.xx.xxx&quot;);</code> .</p>
+<p>We&rsquo;re almost done!</p>
+<h3 id="step-7-place-these-new-calls-to-our-function-in-spamscrubphp">Step 7: Place these new calls to our function in spamscrub.php<a href="#step-7-place-these-new-calls-to-our-function-in-spamscrubphp" class="anchor" aria-hidden="true">#</a> </h3>
+<p>Copy and paste all these calls to our spamscrub() function into the spamscrub.php file where we had that placeholder comment. For example, the entire contents of my spamscrub.php file for this tutorial and at this step looks like this:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$denyfrom</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">spamscrub</span><span class="p">(</span><span class="s2">&#34;101.18.43.67&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">spamscrub</span><span class="p">(</span><span class="s2">&#34;103.24.73.26&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">spamscrub</span><span class="p">(</span><span class="s2">&#34;107.211.0.61&#34;</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl"><span class="nx">spamscrub</span><span class="p">(</span><span class="s2">&#34;65.28.184.81&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">spamscrub</span><span class="p">(</span><span class="s2">&#34;65.52.0.135&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">spamscrub</span><span class="p">(</span><span class="s2">&#34;65.55.24.237&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">spamscrub</span><span class="p">(</span><span class="s2">&#34;66.249.76.31&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">spamscrub</span><span class="p">(</span><span class="s2">&#34;66.249.84.100&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">spamscrub</span><span class="p">(</span><span class="s2">&#34;68.32.228.137&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">spamscrub</span><span class="p">(</span><span class="s2">&#34;69.171.247.114&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 100 calls have been removed so that we&#39;re not beating a dead horse with this tutorial
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">spamscrub</span><span class="p">(</span><span class="nv">$addr</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">global</span> <span class="nv">$counter</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">global</span> <span class="nv">$denyfrom</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">echo</span> <span class="s2">&#34;Checking </span><span class="si">$addr</span><span class="s2">... &#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// fread the remote file in chunks to speed up reading.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// Besides, we don&#39;t need the whole page
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nv">$handle</span> <span class="o">=</span> <span class="nx">fopen</span><span class="p">(</span><span class="s2">&#34;https://cleantalk.org/blacklists?record=</span><span class="si">$addr</span><span class="s2">&#34;</span><span class="p">,</span> <span class="s2">&#34;rb&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">$contents</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="nx">feof</span><span class="p">(</span><span class="nv">$handle</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// Read in 1,000 byte chunks at a time
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  		<span class="nv">$contents</span> <span class="o">.=</span> <span class="nx">fread</span><span class="p">(</span><span class="nv">$handle</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  		<span class="c1">// First check if it&#39;s clean
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  		<span class="k">if</span><span class="p">(</span><span class="nx">strstr</span><span class="p">(</span><span class="nv">$contents</span><span class="p">,</span> <span class="s2">&#34;not found in blacklists&#34;</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">			<span class="k">echo</span> <span class="s2">&#34;[  OK  ]</span><span class="se">\r\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  		<span class="k">if</span><span class="p">(</span><span class="nx">strstr</span><span class="p">(</span><span class="nv">$contents</span><span class="p">,</span> <span class="s2">&#34;has spam activity on&#34;</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl">			<span class="k">echo</span> <span class="s2">&#34;[ SPAM ]</span><span class="se">\r\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="nv">$denyfrom</span><span class="p">[</span><span class="nv">$counter</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$addr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="nv">$counter</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// If neither condition is met, it will just loop through and grab more $content
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">fclose</span><span class="p">(</span><span class="nv">$handle</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;Spam Scrub Complete.</span><span class="se">\r\n</span><span class="s2">Total spam/bad IPs: </span><span class="si">$counter\r\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;Add the following to your .htaccess:</span><span class="se">\r\n\r\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;# BEGIN IP blocking from &#34;</span><span class="o">.</span><span class="nx">date</span><span class="p">(</span><span class="s2">&#34;m/d/Y&#34;</span><span class="p">)</span><span class="o">.</span><span class="s2">&#34; spam scrub</span><span class="se">\r\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span><span class="p">(</span><span class="nv">$denyfrom</span> <span class="k">as</span> <span class="nv">$addr</span><span class="p">){</span>		
+</span></span><span class="line"><span class="cl">	<span class="k">echo</span> <span class="s2">&#34;deny from </span><span class="si">$addr\r\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">echo</span> <span class="s2">&#34;# END &#34;</span><span class="o">.</span><span class="nx">date</span><span class="p">(</span><span class="s2">&#34;m/d/Y&#34;</span><span class="p">)</span><span class="o">.</span><span class="s2">&#34; spam scrub</span><span class="se">\r\n</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>Save this file and run it. I chose to run it in the command line, but you&rsquo;re more than welcome to run it in a browser (though you might want to change the \r\n to <br/> instead).</p>
+<p>When you run it in your browser or from the command line, you&rsquo;ll get some output like this:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <pre tabindex="0"><code>Checking 12.345.67.890... [ OK ]
+Checking 12.345.67.890... [ OK ]
+Checking 12.345.67.890... [ OK ]
+Checking 12.345.67.890... [ OK ]
+Checking 12.345.67.890... [ OK ]
+Checking 12.345.67.890... [ SPAM ]
+Checking 12.345.67.890... [ OK ]
+Checking 12.345.67.890... [ OK ]
+Checking 12.345.67.890... [ SPAM ]
+Checking 12.345.67.890... [ SPAM ]
+Spam scrub Complete. Total spam/bad IPs: 3
+Add the following to your .htaccess:
+
+# BEGIN IP blocking from 12/20/2013 spam scrub
+deny from 12.345.67.890
+deny from 09.876.54.321
+deny from 54.321.67.890
+# END 12/20/2013 spam scrub</code></pre>
+  </figure>
+</div>
+<p>So what we have here is a simple copy+paste-able inclusion to our .htaccess file that will give us the ability to block out unwanted IPs from harvesters, spammers, bad bots, and more, so that we don&rsquo;t have to worry about then hogging up our resources.</p>
+<h1 id="if-you-are-using-wp-engine-keep-reading">If you are using WP Engine, keep reading.</h1>
+<p>On December 18th, 2013, I engaged WP Engine&rsquo;s Christian Justo about implementing this WP Engine Hotfix and found out something interesting about WP Engine and they way they log visitors:</p>
+<p><strong>Blocking IP addresses via .htaccess will not prevent bad traffic from being counted against your visitors per month.</strong></p>
+<p>Essentially, WP Engine customers are powerless to take their traffic into their own hands and filter out all this garbage traffic. I was very clear in <a href="/sysadmin/2013-12-18-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-i/">Part I of this Hotfix</a> that WP Engine&rsquo;s users need to stop complaining about the traffic that reaches their site and start doing something about it (WP Engine is <em>not</em> your traffic filter, they&rsquo;re your hosting provider).</p>
+<p>But how is anyone supposed to take matters into their own hands if the only method of IP denial (.htaccess) does nothing for their visitors metrics? (We have to assume with a high degree of confidence that 99.99% of people implementing IP denial are actively trying to stop WP Engine from counting garbage traffic toward their monthly visitors allotment).</p>
+<p>Christian at WP Engine offered the following:</p>
+<blockquote>
+<p>So we can actually block traffic in a particular way in which if the request hits the server it will not count.</p>
+<p>The only problem is that it can not be implemented through .htaccess. If we create a custom nginx rule to return a 444 to particular bots, the traffic will not count.</p></blockquote>
+<p>This is a good <em>temporary</em> solution for one or two accounts, but it will never work as a distributed solution. I know you can do it at the server block level in Nginx, but imagine all the support tickets if that becomes the norm once people realize that they can filter out bad bot and spam traffic.</p>
+<p>I&rsquo;ve been actively pursuing Senior Engineer Donovan Hernandez and he&rsquo;s been very open to a lot of my ideas. I&rsquo;m looking forward to turning this into a permanent solution for WP Engine and their customers (and hopefully getting a good word in with whomever is responsible for hiring over there). Hint hint!</p>
+<p>I think WP Engine is ready to start reaching out and coming up with new ways to combat a negative social image that, from my end, seems to really degrade their word-of-mouth advertising. (If you really want to read more about my thoughts on WP Engine&rsquo;s visitor metrics, read <a href="/sysadmin/2013-12-18-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-i/">Part I</a> of this Hotfix).</p>
+			<div class="page-footer-meta d-flex flex-column flex-md-row justify-content-between">
+				
+				
+				</div>
+			<div class="page-nav d-flex flex-column flex-sm-row">
+	
+	<div class="card w-100">
+			<div class="card-body d-flex">
+				<div class="d-flex flex-column justify-content-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M5 12l14 0"></path>
+						<path d="M5 12l6 6"></path>
+						<path d="M5 12l6 -6"></path>
+				 	</svg>
+				</div>
+				<div class="d-flex flex-column">
+					<div class="text-body-secondary">Prev</div>
+					<a href="/sysadmin/2014-01-08-the-problem-with-anti-spam-plugins/" class="stretched-link text-reset text-decoration-none">The Problem with Anti-Spam Plugins</a>
+				</div>
+			</div>
+		</div>
+	<div class="m-2"></div>
+	<div class="card text-end w-100">
+			<div class="card-body d-flex justify-content-end">
+				<div class="d-flex flex-column">
+					<div class="text-body-secondary">Next</div>
+					<a href="/sysadmin/2013-12-18-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-i/" class="stretched-link text-reset text-decoration-none">WP Engine Hotfix: Preventing Spam and Bad Bot Traffic, Part I</a>
+				</div>
+				<div class="d-flex flex-column justify-content-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M5 12l14 0"></path>
+						<path d="M13 18l6 -6"></path>
+						<path d="M13 6l6 6"></path>
+					</svg>
+				</div>
+			</div>
+		</div>
+	</div>
+
+			
+		</main>
+		
+	</div>
+
+      
+      </div>
+    </div>
+    
+    
+    <footer class="footer text-muted">
+  <div class="container-md">
+    <div class="row">
+      <div class="col-lg-8 text-center text-lg-start">
+        <ul class="list-inline">
+          <li class="list-inline-item"><a class="text-muted" href="https://bsky.app/profile/jesse.lawsonry.com">Connect on BlueSky</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-8 text-center text-lg-end">
+        <ul class="list-inline">
+          <li class="list-inline-item">Copyright &copy; 2014-2024 Jesse Lawson. All Rights Reserved.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+
+<script async
+  src="/js/app.c17553444ec7c62f781ddbaa011948f6d85a1bab49420047d68a2b89852a8b36.js"
+  integrity="sha256-wXVTRE7Hxi94HduqARlI9thaG6tJQgBH1ooriYUqizY=">
+</script>
+
+
+
+
+
+
+<script async
+  src="/js/flexsearch.7b25ae2da7ab3cc745d4f8536e3f914f92ea8b1afad96ab9249c160c35e0648c.js"
+  integrity="sha256-eyWuLaerPMdF1PhTbj&#43;RT5Lqixr62Wq5JJwWDDXgZIw=">
+</script>
+<script async
+  src="/js/search-modal.0415aa45353ab123a509f6ddc6861549ece898b90872fcf757cd2663041dac96.js"
+  integrity="sha256-BBWqRTU6sSOlCfbdxoYVSezomLkIcvz3V80mYwQdrJY=">
+</script>
+
+    
+  </body>
+</html>

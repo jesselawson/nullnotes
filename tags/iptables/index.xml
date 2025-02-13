@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Iptables on Jesse&#39;s Null Notes</title>
+    <link>/tags/iptables/</link>
+    <description>Recent content in Iptables on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <atom:link href="/tags/iptables/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Quickly Block Traffic with ipset and iptables</title>
+      <link>/sysadmin/2014-01-15-quickly-block-traffic-with-ipset-and-iptables/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2014-01-15-quickly-block-traffic-with-ipset-and-iptables/</guid>
+      <description>&lt;p&gt;To piggy-back off of the third preventive control in &lt;a href=&#34;http://lawsonry.com/2014/01/three-ways-to-increase-security-against-bad-bots-and-spam/&#34; title=&#34;Three Ways to Increase Security against Bad Bots and Spam&#34;&gt;increasing security against bad bots and spam&lt;/a&gt;, you can quickly block traffic with an iptables entry that utilizes ipset.****&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Three Ways to Increase Security against Bad Bots and Spam</title>
+      <link>/sysadmin/2014-01-15-three-ways-to-increase-security-against-bad-bots-and-spam/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2014-01-15-three-ways-to-increase-security-against-bad-bots-and-spam/</guid>
+      <description>&lt;p&gt;DashingWP&amp;rsquo;s servers were under attack today from what appears to be a pretty nasty DDoS attack that originated in China, bounced off of Germany, and then hit really hard from the UK, Portugal, Minnesota (USA), New Jersey (USA), and parts of Utah (USA). In total, there were 26,491 IP addresses that were discovered to be part of the attack, and we&amp;rsquo;re not entirely sure whether or not it was a roving attack or if something targeted us specifically.&lt;/p&gt;&#xA;&lt;p&gt;After defeating this problem, I thought about some of the things people could be doing better in order to help prevent their susceptibility to DDoS attacks and spam/bad bots in general. While we&amp;rsquo;ll never be able to fully prevent a DDoS attack from happening, we can go out of our way to strengthen our infrastructures defenses against spammy and malicious bots that lurk out there, and in doing so, lessen the likelihood of irreparable damage if and when we fall victim to a DDoS attack. In this article, I&amp;rsquo;ll share with you three preventive controls that you should be implementing in order to lessen your vulnerability and harden both your server and your sites.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

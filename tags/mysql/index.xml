@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mysql on Jesse&#39;s Null Notes</title>
+    <link>/tags/mysql/</link>
+    <description>Recent content in Mysql on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <lastBuildDate>Sat, 30 Nov 2013 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to Find and Replace a String in MySQL</title>
+      <link>/sysadmin/2013-11-30-how-to-find-and-replace-a-string-in-mysql/</link>
+      <pubDate>Sat, 30 Nov 2013 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2013-11-30-how-to-find-and-replace-a-string-in-mysql/</guid>
+      <description>&lt;p&gt;One of the problems with moving your site from one domain to another is that the images in all your posts are still served from the old setup. In order to fix this, you need to run a simple MySQL command that will search through all your posts and replace the old URL with the new one.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Reset MySQL Root Password on Ubuntu</title>
+      <link>/sysadmin/2014-01-16-reset-mysql-root-password-on-ubuntu/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2014-01-16-reset-mysql-root-password-on-ubuntu/</guid>
+      <description>&lt;p&gt;Do you know why there are so many tutorials online about resetting the MySQL root password? Because so many people are doing it wrong. This is a down-and-dirty, super quick way to reset your root password for MySQL.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

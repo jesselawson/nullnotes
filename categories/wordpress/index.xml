@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>WordPress on Jesse&#39;s Null Notes</title>
+    <link>/categories/wordpress/</link>
+    <description>Recent content in WordPress on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <lastBuildDate>Sun, 30 Mar 2014 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/categories/wordpress/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to Backup WordPress on a Remote Server (and send it to Amazon S3)</title>
+      <link>/sysadmin/2014-03-30-backup-wordpress-remote-server-s3/</link>
+      <pubDate>Sun, 30 Mar 2014 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2014-03-30-backup-wordpress-remote-server-s3/</guid>
+      <description>&lt;p&gt;Let&amp;rsquo;s talk about &lt;strong&gt;backups&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;When you are running your own WordPress hosting service, you need to ensure that your sites are backed up nightly. Unfortunately, the more sites you have on your server, the more processing power is required to do these backups, especially if there have been a lot of changes during the day.&lt;/p&gt;&#xA;&lt;p&gt;The smartest way to proceed with nightly backups, then, is to offload the processing requirements to a separate, dedicated backup server, or just a secondary server that can afford to use a lot of its CPU in zipping, rsyncing, and uploading to the Amazon cloud.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>WP Engine Hotfix: Preventing Spam and Bad Bot Traffic, Part II</title>
+      <link>/sysadmin/2013-12-20-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-ii/</link>
+      <pubDate>Fri, 20 Dec 2013 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2013-12-20-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-ii/</guid>
+      <description>&lt;p&gt;In [Part I][1] of this WP Engine Hotfix, I discussed some of the theory behind WP Engine&amp;rsquo;s visitor calculations and how end-users of WP Engine could benefit from taking charge of their traffic themselves. In this next part, I&amp;rsquo;ll discuss ways to log your visitor traffic, scrub that traffic for blacklisted and abusive IPs (as well as employ a nifty contact form honeypot), and completely block access to your site by these harmful bots, scrapers, harvesters, and spammers that jack up your visitor count.&lt;/p&gt;&#xA;&lt;p&gt;It&amp;rsquo;s important to note that this tutorial is not WP Engine specific. You can employ these methods on any hosting environment in which you have access to Apache. If you&amp;rsquo;re on Nginx, I&amp;rsquo;ll cover how to block unwanted traffic in a different tutorial.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>WP Engine Hotfix: Preventing Spam and Bad Bot Traffic, Part I</title>
+      <link>/sysadmin/2013-12-18-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-i/</link>
+      <pubDate>Wed, 18 Dec 2013 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2013-12-18-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-i/</guid>
+      <description>&lt;p&gt;WP Engine counts traffic from &amp;ldquo;bad&amp;rdquo; bots (like harvesters and spam bots) the same way it tracks human visitors. While some people have gone to great lengths to talk about how this has dissatisfied them to the point of leaving WP Engine, steps can be taken to take charge of your website&amp;rsquo;s defense and disallow these bots from ever making it to your pages. In this article, I discuss how to find out who is really visiting your blog (raw metrics), how to filter out the &amp;ldquo;bad&amp;rdquo; bot traffic, and (hopefully) reduce your visits in WP Engine&amp;rsquo;s algorithm.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>WordPress Easy Options Page Wrapper</title>
+      <link>/sysadmin/2013-12-03-wordpress-easy-options-page-wrapper/</link>
+      <pubDate>Tue, 03 Dec 2013 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2013-12-03-wordpress-easy-options-page-wrapper/</guid>
+      <description>&lt;p&gt;This is a wrapper of Tareq Hasan&amp;rsquo;s WordPress Settings API class. It changes the way you use his class by using member functions to modify an instantiated class, rather than modifying the class itself.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>WordPress Asking for Local FTP Credentials on XAMPP Solved</title>
+      <link>/sysadmin/2013-12-01-solved-wordpress-asking-for-local-ftp-credentials-on-xampp/</link>
+      <pubDate>Sun, 01 Dec 2013 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2013-12-01-solved-wordpress-asking-for-local-ftp-credentials-on-xampp/</guid>
+      <description>&lt;p&gt;A few developers were asking why their localhost instances of WordPress were asking for FTP credentials when trying to install new plugins and themes. If you&amp;rsquo;re getting the dreaded &amp;ldquo;Please enter your FTP credentials&amp;rdquo; page &lt;strong&gt;and you&amp;rsquo;re running XAMPP&lt;/strong&gt; for your local WP development environment, &lt;em&gt;do not follow&lt;/em&gt; the popular StackOverflow answer that tells you to chown your wordpress folder to _www. Read more for the real fix.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How to Find and Replace a String in MySQL</title>
+      <link>/sysadmin/2013-11-30-how-to-find-and-replace-a-string-in-mysql/</link>
+      <pubDate>Sat, 30 Nov 2013 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2013-11-30-how-to-find-and-replace-a-string-in-mysql/</guid>
+      <description>&lt;p&gt;One of the problems with moving your site from one domain to another is that the images in all your posts are still served from the old setup. In order to fix this, you need to run a simple MySQL command that will search through all your posts and replace the old URL with the new one.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>NGINX &#43; WPMU &#43; Non-WordPress Subdomains</title>
+      <link>/sysadmin/2013-10-28-nginx-wpmu-non-wordpress-subdomains/</link>
+      <pubDate>Mon, 28 Oct 2013 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2013-10-28-nginx-wpmu-non-wordpress-subdomains/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;ve been trying to configure a subdomain on a WPMU install that runs on Nginx that is &lt;em&gt;not&lt;/em&gt; part of the WPMU network and have ran into nothing but problems. In this post, I discuss some of the problems I ran into while trying to setup non-WordPress sub-domains alongside a WPMU sub-domain site and how I got both WP and non-WP sub-domains working and correctly configured in Nginx (hint: I didn&amp;rsquo;t).&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tutorials on Jesse&#39;s Null Notes</title>
+    <link>/categories/tutorials/</link>
+    <description>Recent content in Tutorials on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <lastBuildDate>Thu, 16 Jul 2015 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/categories/tutorials/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nginx - Proper 443 (HTTPS) and WWW Redirecting</title>
+      <link>/sysadmin/2015-07-16-nginx-proper-443-and-www-redirecting/</link>
+      <pubDate>Thu, 16 Jul 2015 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2015-07-16-nginx-proper-443-and-www-redirecting/</guid>
+      <description>&lt;p&gt;Recently I was working on a project that required an Nginx server to redirect all traffic to &lt;code&gt;https://domain.com&lt;/code&gt;, and by all traffic I mean anything that did not start with &lt;code&gt;https://domain.com&lt;/code&gt; needed to be rewritten to that. This included:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How to Install CouchDB Locally and Enable CORS</title>
+      <link>/sysadmin/2015-01-24-how-to-install-couchdb-locally-and-enable-cors/</link>
+      <pubDate>Sat, 24 Jan 2015 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2015-01-24-how-to-install-couchdb-locally-and-enable-cors/</guid>
+      <description>&lt;p&gt;These days I&amp;rsquo;m doing all my development work on a Chromebook. Since the majority of my projects involve Apache&amp;rsquo;s CouchDB, I need a local instance up and running. In this tutorial, I&amp;rsquo;ll walk you through how to install CouchDB from a Ubuntu command line and enable CORS manually (by editing the config file).&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preload" href="/fonts/vendor/jost/jost-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/vendor/jost/jost-v4-latin-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/vendor/jost/jost-v4-latin-700.woff2" as="font" type="font/woff2" crossorigin>
+<script 
+  src="/js/color-mode.86a91f050a481d0a3f0c72ac26543cb6228c770875981c58dcbc008fd3f875c8.js"
+  integrity="sha256-hqkfBQpIHQo/DHKsJlQ8tiKMdwh1mBxY3LwAj9P4dcg=">
+</script>
+<script 
+  src="/js/dismissable-alert.72bb9eac822516d16f2fab8ac09cf6bfa193d3ce71c1c3f521742e0c75c35d85.js"
+  integrity="sha256-cruerIIlFtFvL6uKwJz2v6GT085xwcP1IXQuDHXDXYU=">
+</script>
+
+
+<link rel="stylesheet" href="/main.e3116562963566c4dec6b131e12c0c8709374f236ca4e60921eeaa736fbdc193518dde9790e6e3a069ec232e9ecbe246d25085a351e2510c4500ac21dc6e8d4a.css" integrity="sha512-4xFlYpY1ZsTexrEx4SwMhwk3TyNspOYJIe6qc2+9wZNRjd6XkObjoGnsIy6ey+JG0lCFo1HiUQxFAKwh3G6NSg==" crossorigin="anonymous">
+
+<noscript><style>img.lazyload { display: none; }</style></noscript><base href="/sysadmin/2014-03-30-backup-wordpress-remote-server-s3/">
+
+  <link rel="canonical" href="/sysadmin/2014-03-30-backup-wordpress-remote-server-s3/">
+
+
+<title>How to Backup WordPress on a Remote Server (and send it to Amazon S3)  |  Jesse&#39;s Null Notes</title>
+<meta name="description" content="Notes and marginalia on fine computer instructions">
+
+    
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    
+      <link
+        rel="apple-touch-icon"
+        href="/apple-touch-icon.png"
+        sizes="180x180"
+        type="image/png"
+      >
+      <link
+        rel="icon"
+        href="/favicon-192x192.png"
+        sizes="192x192"
+        type="image/png"
+      >
+      <link
+        rel="icon"
+        href="/favicon-512x512.png"
+        sizes="512x512"
+        type="image/png"
+      >
+<link rel="manifest" href="/manifest.webmanifest">
+
+<meta property="og:url" content="/sysadmin/2014-03-30-backup-wordpress-remote-server-s3/">
+  <meta property="og:site_name" content="Jesse&#39;s Null Notes">
+  <meta property="og:title" content="How to Backup WordPress on a Remote Server (and send it to Amazon S3)">
+  <meta property="og:description" content="Let’s talk about backups.
+When you are running your own WordPress hosting service, you need to ensure that your sites are backed up nightly. Unfortunately, the more sites you have on your server, the more processing power is required to do these backups, especially if there have been a lot of changes during the day.
+The smartest way to proceed with nightly backups, then, is to offload the processing requirements to a separate, dedicated backup server, or just a secondary server that can afford to use a lot of its CPU in zipping, rsyncing, and uploading to the Amazon cloud.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="sysadmin">
+    <meta property="article:published_time" content="2014-03-30T00:00:00+00:00">
+    <meta property="article:modified_time" content="2014-03-30T00:00:00+00:00">
+    <meta property="og:image" content="/cover.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/cover.png">
+  <meta name="twitter:title" content="How to Backup WordPress on a Remote Server (and send it to Amazon S3)">
+  <meta name="twitter:description" content="Let’s talk about backups.
+When you are running your own WordPress hosting service, you need to ensure that your sites are backed up nightly. Unfortunately, the more sites you have on your server, the more processing power is required to do these backups, especially if there have been a lot of changes during the day.
+The smartest way to proceed with nightly backups, then, is to offload the processing requirements to a separate, dedicated backup server, or just a secondary server that can afford to use a lot of its CPU in zipping, rsyncing, and uploading to the Amazon cloud.">
+
+    
+    <script type="application/ld+json">
+  {
+   "@context": "https://schema.org",
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+     {
+       "@type": "ListItem",
+       "item": "/",
+       "name": "Jesse's Null Notes",
+       "position": 1
+     },
+     {
+       "@type": "ListItem",
+       "item": "/sysadmin/",
+       "name": "Systems Administration",
+       "position": 2
+     },
+     {
+       "@type": "ListItem",
+       "name": "How to Backup Word Press on a Remote Server (And Send It to Amazon S3)",
+       "position": 3
+     }
+   ]
+ }
+</script>
+  
+	
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "How to Backup WordPress on a Remote Server (and send it to Amazon S3)",
+      "description": "",
+      "isPartOf": {
+        "@id": "/sysadmin/2014-03-30-backup-wordpress-remote-server-s3/"
+      },
+      "mainEntityOfPage": {
+        "@id": "/sysadmin/2014-03-30-backup-wordpress-remote-server-s3/"
+      },
+      "datePublished": "2014-03-30T00:00:00+00:00",
+      "dateModified": "2014-03-30T00:00:00+00:00",
+      "author": {
+        "@type": "Person",
+        "name": "Jesse Lawson",
+        "url": "/"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Jesse Lawson"
+      }
+    }
+  ]
+}
+</script>
+
+
+
+
+
+
+</head>
+
+  
+  <body class="single section sysadmin" data-bs-spy="scroll" data-bs-target="#toc" data-bs-root-margin="0px 0px -60%" data-bs-smooth-scroll="true" tabindex="0">
+    <div id="announcement" data-id="global-alert-048341a4a629fdfd700581837b3ede16" class="alert alert-primary alert-dismissible fade show text-center" role="alert">
+    <span class="alert-text">Migration from old site to here is underway, so some stuff may be missing. Check back in a bit!</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+<div class="sticky-top">
+<header class="navbar navbar-expand-lg">
+  <div class="container-md">
+  
+    <a class="navbar-brand me-auto me-lg-3" href="/">Jesse&#39;s Null Notes</a>
+
+    
+    
+    <button type="button" id="searchToggleMobile" class="btn btn-link nav-link mx-2 d-lg-none" aria-label="Search website">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <circle cx="10" cy="10" r="7"></circle>
+        <line x1="21" y1="21" x2="15" y2="15"></line>
+      </svg>
+    </button>
+    
+    
+    <button class="btn btn-link nav-link mx-2 order-3 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavMain" aria-controls="offcanvasNavMain" aria-label="Open main navigation menu">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <line x1="4" y1="8" x2="20" y2="8"></line>
+        <line x1="4" y1="16" x2="20" y2="16"></line>
+      </svg>
+    </button>
+
+    
+    <div class="offcanvas offcanvas-end h-auto" tabindex="-1" id="offcanvasNavMain" aria-labelledby="offcanvasNavMainLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavMainLabel">Jesse&#39;s Null Notes</h5>
+        <button type="button" class="btn btn-link nav-link p-0 ms-auto" data-bs-dismiss="offcanvas" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M18 6l-12 12"></path>
+            <path d="M6 6l12 12"></path>
+         </svg>
+        </button>
+      </div>
+      
+      <div class="offcanvas-body d-flex flex-column flex-lg-row justify-content-between">
+        <ul class="navbar-nav flex-grow-1"><li class="nav-item">
+                <a class="nav-link" href="/all/">Browse All</a>
+              </li>
+            </ul>
+
+        
+        
+        <button type="button" id="searchToggleDesktop" class="btn btn-link nav-link p-2 d-none d-lg-block" aria-label="Search website">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <circle cx="10" cy="10" r="7"></circle>
+            <line x1="21" y1="21" x2="15" y2="15"></line>
+          </svg>
+        </button>
+        
+        
+        
+        <button id="buttonColorMode" class="btn btn-link mx-auto nav-link p-0 ms-lg-2 me-lg-1" type="button" aria-label="Toggle theme">
+          <svg data-bs-theme-value="dark" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
+          </svg>
+          <svg data-bs-theme-value="light" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sun" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0m-5 0h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"></path>
+          </svg>
+        </button>
+        
+        <ul id="socialMenu" class="nav mx-auto flex-row order-lg-4">
+          <li class="nav-item">
+              <a class="nav-link social-link" href="https://bsky.app/profile/jesse.lawsonry.com"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bluesky" width="24" height="24" viewBox="0 0 512 512" stroke-width="5" stroke="currentColor" fill="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2c42.1-31.6 110.3-56 110.3 21.8c0 15.5-8.9 130.5-14.1 149.2C478.2 298 412 314.6 353.1 304.5c102.9 17.5 129.1 75.5 72.5 133.5c-107.4 110.2-154.3-27.6-166.3-62.9l0 0c-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8l0 0c-12 35.3-59 173.1-166.3 62.9c-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1C10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z"/></svg><small class="ms-2 visually-hidden">BlueSky</small></a>
+            </li>
+          <li class="nav-item">
+              <a class="nav-link social-link" href="https://github.com/jesselawson"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path></svg><small class="ms-2 visually-hidden">GitHub</small></a>
+            </li>
+          </ul>
+        
+        <a class="btn btn-primary rounded-pill mt-2 btn-block d-lg-none" href="https://buymeacoffee.com/jesselawson" role="button">☕ buy me a coffee</a>
+        </div>
+    </div>
+
+    
+    <a class="btn btn-primary rounded-pill ms-3 me-2 px-4 order-lg-3 d-none d-lg-block" href="https://buymeacoffee.com/jesselawson" role="button">☕ buy me a coffee</a>
+    </div>
+</header>
+</div>
+
+<div class="modal" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 visually-hidden" id="searchModalLabel">Search</h1>
+        <button type="button" class="btn-close visually-hidden" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="search-input flex-grow-1 d-none">
+          <form id="search-form" class="search-form" action="#" method="post" accept-charset="UTF-8" role="search">
+            <label for="query" class="visually-hidden">Search</label>
+            <div class="d-flex">
+              <input type="search" id="query" name="query" class="search-text form-control form-control-lg" placeholder="Search" aria-label="Search" maxlength="128" autocomplete="off">
+              <button type="button" class="btn btn-link text-decoration-none px-0 ms-3 d-md-none" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-body">
+        <p class="search-loading status message d-none mt-3 text-center">Loading search index…</p>
+        <p class="search-no-recent message d-none mt-3 text-center">No recent searches</p>
+        <p class="search-no-results message d-none mt-3 text-center">No results for "<strong><span class="query-no-results">Query here</span></strong>"</p>
+        <div id="searchResults" class="search-results"></div>
+        <template>
+          <article class="search-result list-view">
+            <div class="card my-3">
+              <div class="card-body">
+                <header>
+                  <h2 class="h5 title title-submitted mb-0"><a class="stretched-link text-decoration-none text-reset" href="#">Title here</a></h2>
+                  <div class="submitted d-none"><time class="created-date">Date here</time></div>
+                </header>
+                <div class="content">Summary here</div>
+              </div>
+            </div>
+          </article>
+        </template>
+      </div>
+      <div class="modal-footer">
+        <ul class="list-inline me-auto d-none d-md-block">
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Enter key" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M12 3.53088v3c0 1-1 2-2 2H4M7 11.53088l-3-3 3-3"></path></g></svg></kbd><span class="DocSearch-Label">to select</span></li>
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Arrow down" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M7.5 3.5v8M10.5 8.5l-3 3-3-3"></path></g></svg></kbd><kbd class="me-2"><svg width="15" height="15" aria-label="Arrow up" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M7.5 11.5v-8M10.5 6.5l-3-3-3 3"></path></g></svg></kbd><span class="DocSearch-Label">to navigate</span></li>
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Escape key" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956"></path></g></svg></kbd><span class="DocSearch-Label">to close</span></li>
+        </ul>
+        <p class="d-md-none">Search by <a class="text-decoration-none" href="https://github.com/nextapps-de/flexsearch">FlexSearch</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <div class="wrap nn-container" role="document">
+      <div class="content">
+      
+        
+	<div class="row flex-xl-nowrap">
+		
+		<nav class="docs-toc d-none d-xl-block col-xl-3" aria-label="Secondary navigation">
+			<div class="page-links">
+  <h3>On this page</h3>
+    <nav id="toc">
+  <ul>
+    <li><a href="#the-setup">The Setup</a></li>
+    <li><a href="#connect-to-remote-server-and-get-a-list-of-clients">Connect to remote server and get a list of clients</a></li>
+  </ul>
+</nav>
+</div>
+
+		</nav>
+		<main class="docs-content col-lg-11 col-xl-9 mx-xl-auto">
+		
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="/">Home</a></li>
+<li class="breadcrumb-item"><a href="/sysadmin/">Sysadmin</a></li>
+<li class="breadcrumb-item active" aria-current="page">How to Backup WordPress on a Remote Server (and send it to Amazon S3)</li>
+					</ol>
+				</nav>
+			
+			<h1>How to Backup WordPress on a Remote Server (and send it to Amazon S3)</h1>
+			
+			<nav class="toc-mobile d-xl-none" aria-label="Quaternary navigation">
+				<details>
+    <summary>On this page</summary>
+    <div class="page-links">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-setup">The Setup</a></li>
+    <li><a href="#connect-to-remote-server-and-get-a-list-of-clients">Connect to remote server and get a list of clients</a></li>
+  </ul>
+</nav>
+    </div>
+  </details>
+
+			</nav>
+			<p>Let&rsquo;s talk about <strong>backups</strong>.</p>
+<p>When you are running your own WordPress hosting service, you need to ensure that your sites are backed up nightly. Unfortunately, the more sites you have on your server, the more processing power is required to do these backups, especially if there have been a lot of changes during the day.</p>
+<p>The smartest way to proceed with nightly backups, then, is to offload the processing requirements to a separate, dedicated backup server, or just a secondary server that can afford to use a lot of its CPU in zipping, rsyncing, and uploading to the Amazon cloud.</p>
+<p>In this tutorial, we&rsquo;re going to build a bash script that will:</p>
+<ol>
+<li>Connect to a remote server</li>
+<li>Create a list of all your WP clients</li>
+<li>Loop through each client and sync changes to a local directory, both files and DB</li>
+<li>Zip the entire site</li>
+<li>Upload that site to Amazon S3</li>
+</ol>
+<p>Ready to get started? Good!</p>
+<h2 id="the-setup">The Setup<a href="#the-setup" class="anchor" aria-hidden="true">#</a> </h2>
+<p>Throughout this tutorial I&rsquo;ll be referring to servers <code>Mercury</code> and <code>Venus</code>, which will be what we call our two servers in this dedicated backup box scenario.</p>
+<p><strong>Venus</strong> will be the box that faces the internet. This should have a filesystem that contains all your WordPress installs. For example, you might have something like:</p>
+<p><code>/var/www/client_a.yoursite.com/htdocs/&lt;em&gt;wordpress here&lt;/em&gt;</code></p>
+<p>and</p>
+<p><code>/var/www/lawsonry.yoursite.com/htdocs/&lt;em&gt;wordpress here&lt;/em&gt;</code></p>
+<p>You can obviously have your files wherever you want, just be sure to change the folders in the code contained in this tutorial before you plug it in to your server.</p>
+<p><strong>Mercury</strong> will be the server that does all the work. The steps involved in Mercury becoming a dedicated backup box to backup WordPress to S3 are outlined at the top of this article, and are exactly what we&rsquo;re going to go through now.</p>
+<p>Please note that I am using <code>s3cmd</code> to communicate with Amazon SWS (S3). You can follow this simple setup tutorial <a href="http://lawsonry.com/2014/03/install-s3cmd-ubuntu/">here</a> if you aren&rsquo;t using it yet (you should be!).</p>
+<p>So remember: Venus has the web folders that are accessed when your sites are hit, and Mercury is the second server that will do all the work.</p>
+<h2 id="connect-to-remote-server-and-get-a-list-of-clients">Connect to remote server and get a list of clients<a href="#connect-to-remote-server-and-get-a-list-of-clients" class="anchor" aria-hidden="true">#</a> </h2>
+<p>This script will be a bash script existing on Mercury. The first part involves Mercury talking to Venus and getting a list of clients. I accomplish this by listing all the folder names in a specific web directory (the <code>/var/www</code> directory, in my case) and then extracting the name of the client from there.</p>
+<p>For example, I have clients named <code>lawsonry</code>, <code>thebobs</code>, and <code>thor</code>. Their web folders will be in the following locations (with the following naming scheme):</p>
+<p><code>/var/www/lawsonry.mysite.com&lt;br /&gt; /var/www/thebobs.mysite.com&lt;br /&gt; /var/www/thor.mysite.com</code></p>
+<p>Inside each of these, I have two folders: <code>htdocs</code>, where the web files are stored, and <code>log</code>, where I host log files. It&rsquo;s also important to note that I keep the wp-config.php file in the main folder (i.e., <code>lawsonry.mysite.com</code>, and not in the same folder as the web files (htdocs)).</p>
+<p>You can setup your naming scheme however you want, but this is how I do mine so that&rsquo;s what you&rsquo;ll see addressed below.</p>
+<pre class="brush: bash; title: ; notranslate" title="">&lt;h1&gt;!/bin/bash&lt;/h1&gt;
+
+&lt;h1&gt;This automated backup script is designed for use with the DashingWP file system.&lt;/h1&gt;
+
+&lt;h1&gt;Author: Jesse Lawson&lt;/h1&gt;
+
+&lt;h1&gt;Note: This backup system only backs up Venus server clients.&lt;/h1&gt;
+
+echo -e &quot;Beginning backup of Venus server...&quot;
+</pre>
+<h1 id="get-a-list-of-all-your-clients">Get a list of all your clients</h1>
+<p>The first thing we&rsquo;ll do is contact the remote server and get a list of all the directories in <code>/var/www</code>. We do this by calling <code>ls/var/www</code>, and then looping through the results and checking that the dir name contains &ldquo;.yoursite.com&rdquo; on the end — that means it&rsquo;s a hosted site and requires backups. (This naming convention also allows us to put other folders in the <code>/var/www</code> directory and have them <em>not</em> processed for backups, in case we want that).</p>
+<pre class="brush: bash; title: ; notranslate" title="">&lt;h1&gt;Create an array to store the client folders&lt;/h1&gt;
+
+list_of_clients=()
+
+&lt;h1&gt;Get the list of directories from Venus&lt;/h1&gt;
+
+for item in &lt;code&gt;MARKDOWN_HASH5f5eba1d3f8be433b350db9a78cbe123MARKDOWN_HASH&lt;/code&gt;
+do
+  # Check if item is a client site
+  if [[ $item = *.yoursite.com ]]; then
+    echo -e &quot;Found client \&quot;$item\&quot;&quot;
+    list_of_clients+=(&quot;$item&quot;)
+  fi
+done
+</pre>
+<p>Note that I wrote <code>venus_ip</code> up there. You&rsquo;ll have to replace that with the IP address of your equivalent of the Venus server, preferably using a private network IP and not a public one (for security reasons). Example: <code>123.45.678.90</code></p>
+<p>In the code above, you can see that we list the contents of <code>/var/www</code> and then loop through them, for each one checking to see if its syntax matches the <code>*.yoursite.com</code> scheme. If it does, we&rsquo;ll pull it out and push it into our array.</p>
+<h1 id="3-loop-through-clients-and-start-prepping-variables">3. Loop through clients and start prepping variables</h1>
+<p>Next, we&rsquo;ll loop through the results and pull out the relevant data (i.e., the site name), and also preconfigure some variables we&rsquo;ll be using later.</p>
+<pre class="brush: bash; title: ; notranslate" title="">&lt;h1&gt;We are calling a separate loop because I want to clearly differentiate between ssh calls&lt;/h1&gt;
+
+echo -e &quot;Found $counter clients.&quot;
+echo -e &quot;Filtering out clients to new array...&quot;
+
+for client in ${list_of_clients[@]};
+do
+  # Set internal name for backups. &quot;Cut string delimited by periods (-d .) and only retrive the first part (-f 1)
+  internal_name=$(echo $client | cut -d . -f 1)
+
+# Create a var that holds the current day
+  NOW=$(date +&quot;%d&quot;)
+
+# Create a filename that has the name of the site + the day of the month in it
+  FILE=&quot;$internal_name.daily_$NOW.zip&quot;
+
+# Create a placeholder for the directory where we'll store the zip file
+  BACKUP_DIR=&quot;/var/www-backups/$internal_name&quot;
+
+# Create a placeholder for the directory where the site actually is on Venus
+  WWW_DIR=&quot;/var/www/$internal_name.yoursite.com/&quot;
+</pre>
+<p>As you can see, we looped through the results of our clients (list_of_clients array) and for each one, we pulled out the name of the site (and call it <code>internal_name</code>), and setup some variables. The date variables are probably the most confusing here, but it only takes a second to explain.</p>
+<p>Amazon AWS will house as much data as you want, and frankly, that&rsquo;s both a good thing and a bad thing. When I first designed this, I just put a current date timestamp at the end of the file (something like <code>lawsonry_backup_20140115.zip</code> for a January 15 backup of Lawsonry) and then uploaded it to the S3 servers. What ended up happening was that I would end up with as many backups as days my site has been online; at one point I realized that I would soon have hundreds and hundreds of backups!</p>
+<p>Instead of writing a system to go back and delete old backups, I figured it would be easier to just create backups based on the day of the month. So if today is the 15th of the month, tomorrow&rsquo;s backup (for the 16th) will be the most current snapshot of your site. The next backup after that (the 17th) will actually be the backup for the 17th of <em>last</em> month. Get it?</p>
+<p>So during every backup cycle, we simply enumerate the backup file according to the current day of the month. Eventually we&rsquo;ll start overriding files, but those files will already be 30 days old by the time they&rsquo;re overridden.</p>
+<p><strong>As far as your clients are concerned, this method ensures that you&rsquo;re keeping 30 days worth of daily backups.</strong></p>
+<p>At the end of the code block above, you can see that I am creating a temporary folder <code>www-backups</code> where I store a copy of the zip file. You can keep a local copy of the zip file on the folder here (in case Venus goes down <em>and</em> you lose access to S3 for some reason), or you can get rid of it to save space (more on this later on in the tutorial).</p>
+<h1 id="rsync-from-your-web-sever-to-your-backup-server">Rsync from your web sever to your backup server</h1>
+<p>Let&rsquo;s keep moving along. Next, we&rsquo;ll use <code>rsync</code> to marry up the contents of the web directories on Venus and Mercury.</p>
+<pre class="brush: bash; title: ; notranslate" title="">echo -e &quot;Backing up $client&quot;
+echo -e &quot;--&gt; Pulling directory from Venus...&quot;
+
+rsync -avzhe ssh --exclude='&lt;em&gt;wp-snapshots&lt;/em&gt;' root@venus_ip:/var/www/$client /var/www
+</pre>
+<p>You&rsquo;ll notice two things here right off the bat:</p>
+<ul>
+<li><strong>Mercury has a fresh copy of Venus&rsquo;s web folder</strong>, which is where the backups are generated from (to take the load off of Venus, which needs to worry about serving files to the web). If you wanted you, you can also turn Mercury into a failover server that serves the content of <em>its</em> <code>/var/www</code> folders in case Venus goes offline. Two birds, one stone.</p></li>
+<li>I am <strong>purposefully excluding those giant wp-snapshots from plugins like Duplicator</strong>, just in case people are using them. In the future, we could probably exclude all backup dir taxonomies to ensure that people who use backup plugins even though we tell them not to are not having those backups included in our rsync transfers and zipped backups (they&rsquo;ll take up way too much room). basically, with that exclude flag in there, I am excluding any file and/or folder that contains the word <code>wp-snapshots</code> in it whatsoever.</p></li>
+</ul>
+<p>&lt;</p>
+<p>p&gt;Now that we&rsquo;ve rsync&rsquo;d the hosting site over to Mercury, a &ldquo;fresh&rdquo; copy of the site exists. This means that the bulk of CPU power on Venus during backups is taken up during the initial rsync (and any future rsyncs where there are lots of information to exchange). Assuming everyone installs and adds all the files they&rsquo;re going to add on day one, Venus should only experience high CPU load during rsync while transferring the data to Mercury for the first time. After that, rsync will only transfer over the changed files, making future rsyncs for each client sites very fast, and taking the CPU load off of Venus very quickly.</p>
+<h1 id="do-a-remote-mysqldump">Do a remote mysqldump</h1>
+<p>After this rsync, the only other load Venus will incur is a mysqldump. Let&rsquo;s do that now.</p>
+<pre class="brush: bash; title: ; notranslate" title="">echo -e &quot;Remotely dumping $client database...&quot;
+
+&lt;h1&gt;Navigate to folder and backup database to a file in wp-content&lt;/h1&gt;
+
+cd /var/www/$client
+
+&lt;h1&gt;Backup database to wp-content folder&lt;/h1&gt;
+
+&lt;h1&gt;Extract db variables from config file&lt;/h1&gt;
+
+echo -e &quot;Extracting database credentials...&quot;
+
+DB_NAME=&lt;code&gt;MARKDOWN_HASH8ae4553f04077396482911d59432003fMARKDOWN_HASH&lt;/code&gt;
+DB_USER=&lt;code&gt;MARKDOWN_HASH0ae7444b590748f419a14422287731c7MARKDOWN_HASH&lt;/code&gt;
+DB_PASS=&lt;code&gt;MARKDOWN_HASH5182bafcd249767316487c8c80ec8838MARKDOWN_HASH&lt;/code&gt;
+DB_FILE=&quot;mysql.sql&quot;
+
+echo -e &quot;Creating temporary backup directory...&quot;
+
+&lt;h1&gt;mkdir if it doesn't exist. It's only temporary&lt;/h1&gt;
+
+mkdir -p $BACKUP_DIR
+
+echo -e &quot;Commencing remote mysqldump... &quot;
+
+&lt;h1&gt;Dump database to mysql.sql in wp-content folder&lt;/h1&gt;
+
+ssh root@venus_ip &quot;mysqldump -u$DB_USER -p$DB_PASS $DB_NAME&quot; &amp;gt; /var/www/$client/htdocs/wp-content/mysql.sql
+</pre>
+<p>The comments and echoed updates should help to explain this. Basically, we&rsquo;re using grep to look in the wp-config.php file in order to extract the database credentials. From there, we ssh into Venus and remote mysqldump the database into a local file on Mercury.</p>
+<h1 id="zip-our-latest-snapshot-and-push-it-to-s3">Zip our latest snapshot and push it to S3</h1>
+<p>So we have the files, we have the database, now let&rsquo;s just move the wp-config file to a location that&rsquo;s easily accessible for when we have to restore from this backup. <strong>Note that this is only necessary because I put my wp-config.php files outside of the htdocs folder on purpose.</strong> You can skip this if you keep your wp-config.php file in your WP root folder.</p>
+<p>echo -e &ldquo;Copying wp-config to wp-content directory… &quot;</p>
+<h1 id="copy-over-the-wp-configphp-file-so-that-we-can-just-zip-the-htdocs-folder">Copy over the wp-config.php file so that we can just zip the htdocs folder</h1>
+<p>cp wp-config.php htdocs/wp-config.php<br>
+[/code]</p>
+<p>Now that our local (Mercury) files are synced up to be the most current snapshot of the client sites on Venus, we can zip the contents without putting a load on Venus. The final steps involved are zipping our local clients and then pushing them up to S3.</p>
+<pre class="brush: bash; title: ; notranslate" title="">&lt;h1&gt;Go into htdocs so the zip goes straight to the directory&lt;/h1&gt;
+
+cd /var/www/$client/htdocs
+
+echo -e &quot;Updating $client's snapshot (daily.zip)...&quot;
+
+&lt;h1&gt;The --filesync arg synchronizes our rsync'd directory with a 'daily.zip' file that exists at&lt;/h1&gt;
+
+&lt;h1&gt;/var/www-backups/internal_name/daily.zip. filesync is explained on this page: http://www.info-zip.org/mans/zip.html&lt;/h1&gt;
+
+&lt;h1&gt;Basically, it checks for changes in our local (Mercury) copy of the site, and then only modifies the daily.zip to account for changes in that local copy (Mercury).&lt;/h1&gt;
+
+zip -9 -r --filesync --quiet $BACKUP_DIR/daily.zip .
+
+&lt;h1&gt;Now that we've updated our daily snapshot, we need to copy it to a daily_# file so we can upload it.&lt;/h1&gt;
+
+echo -e &quot;Duplicating snapshot to $FILE...&quot;
+
+cp $BACKUP_DIR/daily.zip $BACKUP_DIR/$FILE
+
+&lt;h1&gt;Push to S3&lt;/h1&gt;
+
+echo -e &quot;Pushing $FILE to Amazon S3...&quot;
+s3cmd put $BACKUP_DIR/$FILE s3://yoursite/snapshots/$internal_name/$FILE
+
+&lt;h1&gt;Remove backup dir and wp-content from htdocs&lt;/h1&gt;
+
+echo -e &quot;Removing $FILE...&quot;
+
+rm -rfv $BACKUP_DIR/$FILE
+</pre>
+<p>Still with me? Good!</p>
+<p>The following data stays on Mercury:</p>
+<ul>
+<li>`/var/www/$internal_name – This is a nightly snapshot of the sites on Venus</li>
+<li>`/var/www-backups/$internal_name/daily.zip – This is a nightly zip archive of the above snapshot. Note that we&rsquo;re keeping our local (Mercury) copy of the rsync&rsquo;d data because it lessens the load on Venus during backups, and allows us to use zip –filesync to greatly speed up zipping operations.</li>
+</ul>
+<pre class="brush: bash; title: ; notranslate" title="">echo -e &quot;$internal_name backup is complete.&quot;
+
+&lt;h1&gt;Write to backup log file&lt;/h1&gt;
+
+&lt;h1&gt;TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S|%N')&lt;/h1&gt;
+
+&lt;h1&gt;echo &quot;Daily #$NOW backup for $internal_name completed at $TIMESTAMP\n&quot; &gt;&gt; /var/www-backups/log/daily-backups.log&lt;/h1&gt;
+
+done
+
+echo -e &quot;Finished backup of Venus server.&quot;
+</pre>
+<h1 id="plug-it-into-cron">Plug it into cron</h1>
+<p>Edit you crontab with <code>crontab -e</code> and set this file to execute every night.</p>
+<h1 id="and-thats-it">And that&rsquo;s it!</h1>
+<p>Congratulations! You just setup a system to remote backup your web server and push the backups to S3, all while keeping a daily zip of the most current snapshot <em>and</em> a copy of the web directory on your backup server just in case your web server fails (and you have to turn your backup server into a web server). High availability, anyone?</p>
+<p>Leave your questions and comments below and I&rsquo;ll do what I can to help get you all setup. Cheers!</p>
+			<div class="page-footer-meta d-flex flex-column flex-md-row justify-content-between">
+				
+				
+				</div>
+			<div class="page-nav d-flex flex-column flex-sm-row">
+	
+	<div class="card w-100">
+			<div class="card-body d-flex">
+				<div class="d-flex flex-column justify-content-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M5 12l14 0"></path>
+						<path d="M5 12l6 6"></path>
+						<path d="M5 12l6 -6"></path>
+				 	</svg>
+				</div>
+				<div class="d-flex flex-column">
+					<div class="text-body-secondary">Prev</div>
+					<a href="/sysadmin/2015-01-24-how-to-install-couchdb-locally-and-enable-cors/" class="stretched-link text-reset text-decoration-none">How to Install CouchDB Locally and Enable CORS</a>
+				</div>
+			</div>
+		</div>
+	<div class="m-2"></div>
+	<div class="card text-end w-100">
+			<div class="card-body d-flex justify-content-end">
+				<div class="d-flex flex-column">
+					<div class="text-body-secondary">Next</div>
+					<a href="/sysadmin/2014-03-19-restrict-sftp-user-to-a-specific-directory/" class="stretched-link text-reset text-decoration-none">Restrict SFTP User to their Sites Directory (not just their Home Directory)</a>
+				</div>
+				<div class="d-flex flex-column justify-content-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M5 12l14 0"></path>
+						<path d="M13 18l6 -6"></path>
+						<path d="M13 6l6 6"></path>
+					</svg>
+				</div>
+			</div>
+		</div>
+	</div>
+
+			
+		</main>
+		
+	</div>
+
+      
+      </div>
+    </div>
+    
+    
+    <footer class="footer text-muted">
+  <div class="container-md">
+    <div class="row">
+      <div class="col-lg-8 text-center text-lg-start">
+        <ul class="list-inline">
+          <li class="list-inline-item"><a class="text-muted" href="https://bsky.app/profile/jesse.lawsonry.com">Connect on BlueSky</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-8 text-center text-lg-end">
+        <ul class="list-inline">
+          <li class="list-inline-item">Copyright &copy; 2014-2024 Jesse Lawson. All Rights Reserved.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+
+<script async
+  src="/js/app.c17553444ec7c62f781ddbaa011948f6d85a1bab49420047d68a2b89852a8b36.js"
+  integrity="sha256-wXVTRE7Hxi94HduqARlI9thaG6tJQgBH1ooriYUqizY=">
+</script>
+
+
+
+
+
+
+<script async
+  src="/js/flexsearch.7b25ae2da7ab3cc745d4f8536e3f914f92ea8b1afad96ab9249c160c35e0648c.js"
+  integrity="sha256-eyWuLaerPMdF1PhTbj&#43;RT5Lqixr62Wq5JJwWDDXgZIw=">
+</script>
+<script async
+  src="/js/search-modal.0415aa45353ab123a509f6ddc6861549ece898b90872fcf757cd2663041dac96.js"
+  integrity="sha256-BBWqRTU6sSOlCfbdxoYVSezomLkIcvz3V80mYwQdrJY=">
+</script>
+
+    
+  </body>
+</html>

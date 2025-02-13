@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sysadmin on Jesse&#39;s Null Notes</title>
+    <link>/categories/sysadmin/</link>
+    <description>Recent content in Sysadmin on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <lastBuildDate>Tue, 27 Jan 2015 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/categories/sysadmin/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Automatically Block Banned IPs with fail2ban, iptables, and ipset</title>
+      <link>/sysadmin/2015-01-27-automatically-block-banned-ips-with-fail2ban-iptables-and-ipset/</link>
+      <pubDate>Tue, 27 Jan 2015 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2015-01-27-automatically-block-banned-ips-with-fail2ban-iptables-and-ipset/</guid>
+      <description>&lt;p&gt;In this tutorial, we&amp;rsquo;ll develop a script that will get all the IP addresses blocked by &lt;code&gt;fail2ban&lt;/code&gt; on the &lt;code&gt;ssh&lt;/code&gt; chain and then add them to an &lt;code&gt;ipset&lt;/code&gt; that will be automatically blocked by &lt;code&gt;iptables.&lt;/code&gt; Talk about power traffic management!&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How to Build and Install Libcurl</title>
+      <link>/sysadmin/2015-01-27-how-to-build-and-install-libcurl/</link>
+      <pubDate>Tue, 27 Jan 2015 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2015-01-27-how-to-build-and-install-libcurl/</guid>
+      <description>&lt;p&gt;For many server-side projects that are designed to work with outside resources at the command line level, &lt;code&gt;curl&lt;/code&gt; is a tool that I often have to use. This is especially true when I am writing programs in C that are designed to be used specifically with internet resources. In this tutorial, I&amp;rsquo;ll show you how to compile, build, and install libcurl on your own machine.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How to Install CouchDB Locally and Enable CORS</title>
+      <link>/sysadmin/2015-01-24-how-to-install-couchdb-locally-and-enable-cors/</link>
+      <pubDate>Sat, 24 Jan 2015 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2015-01-24-how-to-install-couchdb-locally-and-enable-cors/</guid>
+      <description>&lt;p&gt;These days I&amp;rsquo;m doing all my development work on a Chromebook. Since the majority of my projects involve Apache&amp;rsquo;s CouchDB, I need a local instance up and running. In this tutorial, I&amp;rsquo;ll walk you through how to install CouchDB from a Ubuntu command line and enable CORS manually (by editing the config file).&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How to Backup WordPress on a Remote Server (and send it to Amazon S3)</title>
+      <link>/sysadmin/2014-03-30-backup-wordpress-remote-server-s3/</link>
+      <pubDate>Sun, 30 Mar 2014 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2014-03-30-backup-wordpress-remote-server-s3/</guid>
+      <description>&lt;p&gt;Let&amp;rsquo;s talk about &lt;strong&gt;backups&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;When you are running your own WordPress hosting service, you need to ensure that your sites are backed up nightly. Unfortunately, the more sites you have on your server, the more processing power is required to do these backups, especially if there have been a lot of changes during the day.&lt;/p&gt;&#xA;&lt;p&gt;The smartest way to proceed with nightly backups, then, is to offload the processing requirements to a separate, dedicated backup server, or just a secondary server that can afford to use a lot of its CPU in zipping, rsyncing, and uploading to the Amazon cloud.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Restrict SFTP User to their Sites Directory (not just their Home Directory)</title>
+      <link>/sysadmin/2014-03-19-restrict-sftp-user-to-a-specific-directory/</link>
+      <pubDate>Wed, 19 Mar 2014 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2014-03-19-restrict-sftp-user-to-a-specific-directory/</guid>
+      <description>&lt;p&gt;If you want to give your web hosting clients SFTP access to specific directories (probably their sites, right?) while keeping them chrooted (jailed) into their home directory, then read on.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>What do malicious log entries look like?</title>
+      <link>/sysadmin/2014-01-25-malicious-log-entries-look-like/</link>
+      <pubDate>Sat, 25 Jan 2014 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2014-01-25-malicious-log-entries-look-like/</guid>
+      <description>&lt;p&gt;A good server admin will be scrubbing her logs constantly. Whether you do this automatically or by hand, there is one thing that is a sure sign of malicious behavior: the ol&amp;rsquo; &amp;ldquo;they forgot to delete that file&amp;rdquo; trick.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How to fix &#34;Host key verification failed&#34; error</title>
+      <link>/sysadmin/2014-01-09-how-to-fix-host-key-verification-failed-error/</link>
+      <pubDate>Thu, 09 Jan 2014 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2014-01-09-how-to-fix-host-key-verification-failed-error/</guid>
+      <description>&lt;p&gt;If you&amp;rsquo;ve ever rebuilt a server that you have connected to in the past, chances are you&amp;rsquo;ve received an error when trying to ssh back into it for the first time since the rebuild. If you&amp;rsquo;re getting a screen that says &amp;ldquo;WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!&amp;rdquo;, the workaround is actually quite simple.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Scrubbing logs for bad IPs</title>
+      <link>/sysadmin/2014-01-09-scrubbing-logs-for-bad-ips/</link>
+      <pubDate>Thu, 09 Jan 2014 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2014-01-09-scrubbing-logs-for-bad-ips/</guid>
+      <description>&lt;p&gt;Periodically, log files should be scrubbed for bad bots and malicious IPs. Let&amp;rsquo;s do that.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The Problem with Anti-Spam Plugins</title>
+      <link>/sysadmin/2014-01-08-the-problem-with-anti-spam-plugins/</link>
+      <pubDate>Wed, 08 Jan 2014 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2014-01-08-the-problem-with-anti-spam-plugins/</guid>
+      <description>&lt;p&gt;Installing anti-spam plugins are only the first step to mitigating garbage traffic. If we really want to tackle the issue of spam, we need to approach it from the server&amp;rsquo;s perspective and thwart garbage requests before they&amp;rsquo;re served. Is this possible? The short answer is: it depends.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>WP Engine Hotfix: Preventing Spam and Bad Bot Traffic, Part II</title>
+      <link>/sysadmin/2013-12-20-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-ii/</link>
+      <pubDate>Fri, 20 Dec 2013 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2013-12-20-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-ii/</guid>
+      <description>&lt;p&gt;In [Part I][1] of this WP Engine Hotfix, I discussed some of the theory behind WP Engine&amp;rsquo;s visitor calculations and how end-users of WP Engine could benefit from taking charge of their traffic themselves. In this next part, I&amp;rsquo;ll discuss ways to log your visitor traffic, scrub that traffic for blacklisted and abusive IPs (as well as employ a nifty contact form honeypot), and completely block access to your site by these harmful bots, scrapers, harvesters, and spammers that jack up your visitor count.&lt;/p&gt;&#xA;&lt;p&gt;It&amp;rsquo;s important to note that this tutorial is not WP Engine specific. You can employ these methods on any hosting environment in which you have access to Apache. If you&amp;rsquo;re on Nginx, I&amp;rsquo;ll cover how to block unwanted traffic in a different tutorial.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jujutsu vcs notes on Jesse&#39;s Null Notes</title>
+    <link>/jj/</link>
+    <description>Recent content in Jujutsu vcs notes on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <lastBuildDate>Thu, 13 Feb 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/jj/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>jj pick out files from working copy</title>
+      <link>/jj/pick-out-files-from-working-copy/</link>
+      <pubDate>Thu, 13 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>/jj/pick-out-files-from-working-copy/</guid>
+      <description>&lt;p&gt;If you have a subset of files in your working copy you would like to&#xA;pull out into a separate commit, you can use &lt;code&gt;jj split -i&lt;/code&gt; to interactively&#xA;select which files to do that with.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

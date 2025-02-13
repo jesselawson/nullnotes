@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ftp Credentials Error on Jesse&#39;s Null Notes</title>
+    <link>/tags/ftp-credentials-error/</link>
+    <description>Recent content in Ftp Credentials Error on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <lastBuildDate>Sun, 01 Dec 2013 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/ftp-credentials-error/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WordPress Asking for Local FTP Credentials on XAMPP Solved</title>
+      <link>/sysadmin/2013-12-01-solved-wordpress-asking-for-local-ftp-credentials-on-xampp/</link>
+      <pubDate>Sun, 01 Dec 2013 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2013-12-01-solved-wordpress-asking-for-local-ftp-credentials-on-xampp/</guid>
+      <description>&lt;p&gt;A few developers were asking why their localhost instances of WordPress were asking for FTP credentials when trying to install new plugins and themes. If you&amp;rsquo;re getting the dreaded &amp;ldquo;Please enter your FTP credentials&amp;rdquo; page &lt;strong&gt;and you&amp;rsquo;re running XAMPP&lt;/strong&gt; for your local WP development environment, &lt;em&gt;do not follow&lt;/em&gt; the popular StackOverflow answer that tells you to chown your wordpress folder to _www. Read more for the real fix.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

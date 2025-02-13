@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+    <url>
+      <loc>/rust/warp-filter-for-request-info/</loc>
+      <lastmod>2025-02-12T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/rust/using-enums-with-diesel/</loc>
+      <lastmod>2025-01-21T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/rust/mwe-axum-ws-server/</loc>
+      <lastmod>2024-11-19T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
+      <loc>/rust/lifetimes/</loc>
+      <lastmod>2024-02-24T00:00:00+00:00</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    </urlset>

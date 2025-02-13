@@ -1,0 +1,1670 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preload" href="/fonts/vendor/jost/jost-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/vendor/jost/jost-v4-latin-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/vendor/jost/jost-v4-latin-700.woff2" as="font" type="font/woff2" crossorigin>
+<script 
+  src="/js/color-mode.86a91f050a481d0a3f0c72ac26543cb6228c770875981c58dcbc008fd3f875c8.js"
+  integrity="sha256-hqkfBQpIHQo/DHKsJlQ8tiKMdwh1mBxY3LwAj9P4dcg=">
+</script>
+<script 
+  src="/js/dismissable-alert.72bb9eac822516d16f2fab8ac09cf6bfa193d3ce71c1c3f521742e0c75c35d85.js"
+  integrity="sha256-cruerIIlFtFvL6uKwJz2v6GT085xwcP1IXQuDHXDXYU=">
+</script>
+
+
+<link rel="stylesheet" href="/main.e3116562963566c4dec6b131e12c0c8709374f236ca4e60921eeaa736fbdc193518dde9790e6e3a069ec232e9ecbe246d25085a351e2510c4500ac21dc6e8d4a.css" integrity="sha512-4xFlYpY1ZsTexrEx4SwMhwk3TyNspOYJIe6qc2+9wZNRjd6XkObjoGnsIy6ey+JG0lCFo1HiUQxFAKwh3G6NSg==" crossorigin="anonymous">
+
+<noscript><style>img.lazyload { display: none; }</style></noscript><base href="/web/clicker-game-template/">
+
+  <link rel="canonical" href="/web/clicker-game-template/">
+
+
+<title>Building Incremental Games as Web Applications  |  Jesse&#39;s Null Notes</title>
+<meta name="description" content="Use this to start off your next browser-based incremental game.">
+
+    
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    
+      <link
+        rel="apple-touch-icon"
+        href="/apple-touch-icon.png"
+        sizes="180x180"
+        type="image/png"
+      >
+      <link
+        rel="icon"
+        href="/favicon-192x192.png"
+        sizes="192x192"
+        type="image/png"
+      >
+      <link
+        rel="icon"
+        href="/favicon-512x512.png"
+        sizes="512x512"
+        type="image/png"
+      >
+<link rel="manifest" href="/manifest.webmanifest">
+
+<meta property="og:url" content="/web/clicker-game-template/">
+  <meta property="og:site_name" content="Jesse&#39;s Null Notes">
+  <meta property="og:title" content="Building Incremental Games as Web Applications">
+  <meta property="og:description" content="Use this to start off your next browser-based incremental game.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="web">
+    <meta property="article:published_time" content="2023-05-21T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-05-21T00:00:00+00:00">
+    <meta property="article:tag" content="Pinia">
+    <meta property="article:tag" content="Typescript">
+    <meta property="article:tag" content="Gamedev">
+    <meta property="og:image" content="/cover.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/cover.png">
+  <meta name="twitter:title" content="Building Incremental Games as Web Applications">
+  <meta name="twitter:description" content="Use this to start off your next browser-based incremental game.">
+
+    
+    <script type="application/ld+json">
+  {
+   "@context": "https://schema.org",
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+     {
+       "@type": "ListItem",
+       "item": "/",
+       "name": "Jesse's Null Notes",
+       "position": 1
+     },
+     {
+       "@type": "ListItem",
+       "item": "/web/",
+       "name": "Web Front End Notes",
+       "position": 2
+     },
+     {
+       "@type": "ListItem",
+       "name": "Building Incremental Games as Web Applications",
+       "position": 3
+     }
+   ]
+ }
+</script>
+  
+	
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Building Incremental Games as Web Applications",
+      "description": "Use this to start off your next browser-based incremental game.",
+      "isPartOf": {
+        "@id": "/web/clicker-game-template/"
+      },
+      "mainEntityOfPage": {
+        "@id": "/web/clicker-game-template/"
+      },
+      "datePublished": "2023-05-21T00:00:00+00:00",
+      "dateModified": "2023-05-21T00:00:00+00:00",
+      "author": {
+        "@type": "Person",
+        "name": "Jesse Lawson",
+        "url": "/"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Jesse Lawson"
+      }
+    }
+  ]
+}
+</script>
+
+
+
+
+
+
+    
+        
+        <link href="/css/clicker-demo.min.css" rel="stylesheet">
+    
+
+</head>
+
+  
+  <body class="single section web" data-bs-spy="scroll" data-bs-target="#toc" data-bs-root-margin="0px 0px -60%" data-bs-smooth-scroll="true" tabindex="0">
+    <div id="announcement" data-id="global-alert-048341a4a629fdfd700581837b3ede16" class="alert alert-primary alert-dismissible fade show text-center" role="alert">
+    <span class="alert-text">Migration from old site to here is underway, so some stuff may be missing. Check back in a bit!</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+<div class="sticky-top">
+<header class="navbar navbar-expand-lg">
+  <div class="container-md">
+  
+    <a class="navbar-brand me-auto me-lg-3" href="/">Jesse&#39;s Null Notes</a>
+
+    
+    
+    <button type="button" id="searchToggleMobile" class="btn btn-link nav-link mx-2 d-lg-none" aria-label="Search website">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <circle cx="10" cy="10" r="7"></circle>
+        <line x1="21" y1="21" x2="15" y2="15"></line>
+      </svg>
+    </button>
+    
+    
+    <button class="btn btn-link nav-link mx-2 order-3 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavMain" aria-controls="offcanvasNavMain" aria-label="Open main navigation menu">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <line x1="4" y1="8" x2="20" y2="8"></line>
+        <line x1="4" y1="16" x2="20" y2="16"></line>
+      </svg>
+    </button>
+
+    
+    <div class="offcanvas offcanvas-end h-auto" tabindex="-1" id="offcanvasNavMain" aria-labelledby="offcanvasNavMainLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavMainLabel">Jesse&#39;s Null Notes</h5>
+        <button type="button" class="btn btn-link nav-link p-0 ms-auto" data-bs-dismiss="offcanvas" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M18 6l-12 12"></path>
+            <path d="M6 6l12 12"></path>
+         </svg>
+        </button>
+      </div>
+      
+      <div class="offcanvas-body d-flex flex-column flex-lg-row justify-content-between">
+        <ul class="navbar-nav flex-grow-1"><li class="nav-item">
+                <a class="nav-link" href="/all/">Browse All</a>
+              </li>
+            </ul>
+
+        
+        
+        <button type="button" id="searchToggleDesktop" class="btn btn-link nav-link p-2 d-none d-lg-block" aria-label="Search website">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <circle cx="10" cy="10" r="7"></circle>
+            <line x1="21" y1="21" x2="15" y2="15"></line>
+          </svg>
+        </button>
+        
+        
+        
+        <button id="buttonColorMode" class="btn btn-link mx-auto nav-link p-0 ms-lg-2 me-lg-1" type="button" aria-label="Toggle theme">
+          <svg data-bs-theme-value="dark" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
+          </svg>
+          <svg data-bs-theme-value="light" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sun" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0m-5 0h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"></path>
+          </svg>
+        </button>
+        
+        <ul id="socialMenu" class="nav mx-auto flex-row order-lg-4">
+          <li class="nav-item">
+              <a class="nav-link social-link" href="https://bsky.app/profile/jesse.lawsonry.com"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bluesky" width="24" height="24" viewBox="0 0 512 512" stroke-width="5" stroke="currentColor" fill="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2c42.1-31.6 110.3-56 110.3 21.8c0 15.5-8.9 130.5-14.1 149.2C478.2 298 412 314.6 353.1 304.5c102.9 17.5 129.1 75.5 72.5 133.5c-107.4 110.2-154.3-27.6-166.3-62.9l0 0c-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8l0 0c-12 35.3-59 173.1-166.3 62.9c-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1C10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z"/></svg><small class="ms-2 visually-hidden">BlueSky</small></a>
+            </li>
+          <li class="nav-item">
+              <a class="nav-link social-link" href="https://github.com/jesselawson"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path></svg><small class="ms-2 visually-hidden">GitHub</small></a>
+            </li>
+          </ul>
+        
+        <a class="btn btn-primary rounded-pill mt-2 btn-block d-lg-none" href="https://buymeacoffee.com/jesselawson" role="button">☕ buy me a coffee</a>
+        </div>
+    </div>
+
+    
+    <a class="btn btn-primary rounded-pill ms-3 me-2 px-4 order-lg-3 d-none d-lg-block" href="https://buymeacoffee.com/jesselawson" role="button">☕ buy me a coffee</a>
+    </div>
+</header>
+</div>
+
+<div class="modal" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 visually-hidden" id="searchModalLabel">Search</h1>
+        <button type="button" class="btn-close visually-hidden" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="search-input flex-grow-1 d-none">
+          <form id="search-form" class="search-form" action="#" method="post" accept-charset="UTF-8" role="search">
+            <label for="query" class="visually-hidden">Search</label>
+            <div class="d-flex">
+              <input type="search" id="query" name="query" class="search-text form-control form-control-lg" placeholder="Search" aria-label="Search" maxlength="128" autocomplete="off">
+              <button type="button" class="btn btn-link text-decoration-none px-0 ms-3 d-md-none" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-body">
+        <p class="search-loading status message d-none mt-3 text-center">Loading search index…</p>
+        <p class="search-no-recent message d-none mt-3 text-center">No recent searches</p>
+        <p class="search-no-results message d-none mt-3 text-center">No results for "<strong><span class="query-no-results">Query here</span></strong>"</p>
+        <div id="searchResults" class="search-results"></div>
+        <template>
+          <article class="search-result list-view">
+            <div class="card my-3">
+              <div class="card-body">
+                <header>
+                  <h2 class="h5 title title-submitted mb-0"><a class="stretched-link text-decoration-none text-reset" href="#">Title here</a></h2>
+                  <div class="submitted d-none"><time class="created-date">Date here</time></div>
+                </header>
+                <div class="content">Summary here</div>
+              </div>
+            </div>
+          </article>
+        </template>
+      </div>
+      <div class="modal-footer">
+        <ul class="list-inline me-auto d-none d-md-block">
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Enter key" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M12 3.53088v3c0 1-1 2-2 2H4M7 11.53088l-3-3 3-3"></path></g></svg></kbd><span class="DocSearch-Label">to select</span></li>
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Arrow down" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M7.5 3.5v8M10.5 8.5l-3 3-3-3"></path></g></svg></kbd><kbd class="me-2"><svg width="15" height="15" aria-label="Arrow up" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M7.5 11.5v-8M10.5 6.5l-3-3-3 3"></path></g></svg></kbd><span class="DocSearch-Label">to navigate</span></li>
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Escape key" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956"></path></g></svg></kbd><span class="DocSearch-Label">to close</span></li>
+        </ul>
+        <p class="d-md-none">Search by <a class="text-decoration-none" href="https://github.com/nextapps-de/flexsearch">FlexSearch</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <div class="wrap nn-container" role="document">
+      <div class="content">
+      
+        
+	<div class="row flex-xl-nowrap">
+		
+		<nav class="docs-toc d-none d-xl-block col-xl-3" aria-label="Secondary navigation">
+			<div class="page-links">
+  <h3>On this page</h3>
+    <nav id="toc">
+  <ul>
+    <li><a href="#demo-and-code">Demo and code</a></li>
+    <li><a href="#designing-the-game">Designing the game</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#defining-types">Defining types</a></li>
+    <li><a href="#managing-state">Managing state</a>
+      <ul>
+        <li><a href="#generating-the-next-resource-cost">Generating the next resource cost</a></li>
+        <li><a href="#checking-if-player-can-afford-next-resource">Checking if player can afford next resource</a></li>
+        <li><a href="#getter-functions">Getter functions</a></li>
+        <li><a href="#action-functions">Action functions</a></li>
+      </ul>
+    </li>
+    <li><a href="#game-components">Game components</a>
+      <ul>
+        <li><a href="#creating-the-clicker-component">Creating the <code>Clicker</code> component</a></li>
+        <li><a href="#creating-the-storedisplay-component">Creating the <code>StoreDisplay</code> component</a></li>
+        <li><a href="#integrating-the-components-into-the-game">Integrating the components into the game</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+
+		</nav>
+		<main class="docs-content col-lg-11 col-xl-9 mx-xl-auto">
+		
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="/">Home</a></li>
+<li class="breadcrumb-item"><a href="/web/">Web</a></li>
+<li class="breadcrumb-item active" aria-current="page">Building Incremental Games as Web Applications</li>
+					</ol>
+				</nav>
+			
+			<h1>Building Incremental Games as Web Applications</h1>
+			
+			<nav class="toc-mobile d-xl-none" aria-label="Quaternary navigation">
+				<details>
+    <summary>On this page</summary>
+    <div class="page-links">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#demo-and-code">Demo and code</a></li>
+    <li><a href="#designing-the-game">Designing the game</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#defining-types">Defining types</a></li>
+    <li><a href="#managing-state">Managing state</a>
+      <ul>
+        <li><a href="#generating-the-next-resource-cost">Generating the next resource cost</a></li>
+        <li><a href="#checking-if-player-can-afford-next-resource">Checking if player can afford next resource</a></li>
+        <li><a href="#getter-functions">Getter functions</a></li>
+        <li><a href="#action-functions">Action functions</a></li>
+      </ul>
+    </li>
+    <li><a href="#game-components">Game components</a>
+      <ul>
+        <li><a href="#creating-the-clicker-component">Creating the <code>Clicker</code> component</a></li>
+        <li><a href="#creating-the-storedisplay-component">Creating the <code>StoreDisplay</code> component</a></li>
+        <li><a href="#integrating-the-components-into-the-game">Integrating the components into the game</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  </details>
+
+			</nav>
+			<p>Have you ever wanted to make an idle clicker game like this?</p>
+<div id="gamedemo">
+<p style="text-align:center"><button id="example-1-button" class="example-button">Add&nbsp;<span id="increment-value"></span>&nbsp;to this &rarr;&nbsp;<span id="example-1-counter">0</span></button> <button id="example-1-upgrade-button" class="example-button fadedout">Spend&nbsp;<span id="upgrade-cost"></span>&nbsp;for +1/click</button> <button id="buyAutoClickerButtonElement" class="example-button fadedout">Spend&nbsp;<span id="buyAutoClickerButtonUpgradeCostElement"></span>&nbsp;for +1 click/second</button></p>
+<p id="helpTextContainer"><span id="helptext1">Click at least three times.</span><span id="helptext2" class="fadedout">Good! Now try to get your number up to 100.</span><span id="helptext3" class="fadedout"> Great job! Can you make it to 1,000?</span><div style="text-align:center" id="autoClickersStatsContainer" class="fadedout">Total clicks ever: <span id="totalClicksEver"></span>; Auto Clickers: <span id="numAutoClickers"></span> (<span id="autoClickerCPS"></span> clicks/second)</div></p>
+</div>
+<p>I really like these kinds of games. There&rsquo;s something
+about the predictability of numbers-go-up combined with
+exploration and unfolding that my brain is deeply
+attracted to. Lately I&rsquo;ve been experimenting with
+different kinds of clicker game ideas, and when I do,
+I reach for starter code to get me up and running quickly
+that is very similar to what we are building in this tutorial.</p>
+<p>My definition of an idle clicker game (or &ldquo;incremental&rdquo; game)
+is one that has at least three features:</p>
+<ul>
+<li>It should have at least one way to generate a resource</li>
+<li>It should have at least one way to spend that resource</li>
+<li>It should have at least one way to automate the
+generation of resources</li>
+</ul>
+<p>In this guide, I&rsquo;ll walk you through how to start
+building a basic web-based idle clicker game like the
+one above that leverages Vue, Vite, Pinia, and TypeScript. By
+using web technologies for our prototypes or production games,
+we gain all the affordances of a modern browser coupled with
+an unparalleled distribution strategy (e.g., share a link to
+the game instead of having someone download and install a game).</p>
+<p>By the end of the tutorial, you&rsquo;ll have a foundation from
+which to build your own web-based incremental game—and hopefully
+some inspiration to start making it your own!</p>
+<p><strong>We cover the following topics:</strong></p>
+<ul>
+<li>Setting up your project</li>
+<li>Defining types to organize the game&rsquo;s resources</li>
+<li>Defining a Pinia store to manage the game&rsquo;s state</li>
+<li>Helper functions for computing resource costs and affordability</li>
+<li>Vue components to display state data</li>
+</ul>
+<p>A follow-on tutorial will expand on this template, and add
+to our game:</p>
+<ul>
+<li>Researchable items</li>
+<li>Unlockable items</li>
+<li>Event-based narration updates</li>
+</ul>
+<p>For now, the goal is to keep it simple.</p>
+<p>We&rsquo;ll be using the following computer instruction technologies:</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Tool</th>
+          <th style="text-align: left">To follow along, you should be&hellip;</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><a href="https://vuejs.org/">Vue</a></td>
+          <td style="text-align: left">Familiar (can read and understand what&rsquo;s going on)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://vitejs.dev/">Vite</a></td>
+          <td style="text-align: left">Somewhat familiar (have used or could use)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://pinia.vuejs.org/">Pinia</a></td>
+          <td style="text-align: left">Vaguely familiar (have heard of)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://www.typescriptlang.org/">TypeScript</a></td>
+          <td style="text-align: left">Familiar (can read and understand what&rsquo;s going on)</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="demo-and-code">Demo and code<a href="#demo-and-code" class="anchor" aria-hidden="true">#</a> </h2>
+<p>⏭️ If you&rsquo;d like to skip the tutorial and just get started with
+the template, it&rsquo;s available <a href="https://github.com/jesselawson/pinia-clicker-game">here</a> on GitHub.</p>
+<p>💻 You can also <a href="https://jesselawson.github.io/pinia-clicker-game">play the demo</a> of what we&rsquo;re building before we begin.</p>
+<h2 id="designing-the-game">Designing the game<a href="#designing-the-game" class="anchor" aria-hidden="true">#</a> </h2>
+<p>We&rsquo;re building a foundation from which to build our clicker
+game ideas, so it makes sense to think about what a &ldquo;foundational&rdquo;
+clicker game might be so we can figure out what needs to be
+built.</p>
+<p>Every clicker game starts out with some thing to click. Clicking
+the thing generates some kind of resource, and a resource is
+something that can be exchanged for other things and/or resources.
+Additionally, there will be some kind of way to automation
+resource generation, sometimes called &ldquo;auto-clickers&rdquo;, for
+one or more resources.</p>
+<p>The game we&rsquo;re building in this tutorial will consist of
+these basic elements as energy, capacitors, and circuits.</p>
+<p>Here&rsquo;s the general outline of what the game will consist of:</p>
+<ol>
+<li>
+<p><strong>You generate energy.</strong> The core resource is Energy; you&rsquo;ll
+click a Create Energy button to create Energy.</p>
+</li>
+<li>
+<p><strong>Capacitors increase energy per click.</strong> You can
+spend energy to purchase (just another word for <em>generate</em>,
+if you think about it) capacitors. Each capacitor increases
+the amount of energy you generate per click.</p>
+</li>
+<li>
+<p><strong>Circuits auto-generate Energy.</strong> You can spend energy
+and capacitors on circuits. Each circuit automatically clicks
+the button that creates energy once per second. This allows
+players to generate energy even when they&rsquo;re not actively
+clicking the button (e.g., while they have your game running
+in a browser tab somewhere in the background).</p>
+</li>
+</ol>
+<p>When finished, we&rsquo;ll have a working prototype that is
+playable ad infinitum, with just enough scaffolding to
+start customizing and implementing functionality unique to
+the experience you want to create. It&rsquo;s a <em>foundation</em> for
+a game moreso than a working game demo per se; it&rsquo;s meant for
+you to finish this and then get to tinkering.</p>
+<h1 id="setting-up-the-project">Setting up the project</h1>
+<p>Let&rsquo;s start by setting up a project for our incremental game
+with <code>create-vue</code>, a tool for rapidly scaffolding a Vue
+project:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame is-terminal not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight command nocopybutton"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm create vue@3</span></span></code></pre></div>
+  </figure>
+</div>
+<p>If you&rsquo;ve never used <code>create-vue</code> before, you&rsquo;ll be prompted
+to confirm installation. Go ahead and proceed.</p>
+<p>You&rsquo;ll be prompted to enter a project name. I&rsquo;ll be using
+<code>pinia-clicker</code> for the duration of this tutorial.</p>
+<p>You&rsquo;ll be asked whether you want to install TypeScript. Since
+this demo uses TypeScript, choose <em>yes</em>.</p>
+<p>As for the rest of the questions, the only thing I included
+was Pinia. Here&rsquo;s what my terminal looks like now that I&rsquo;m done:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame is-terminal not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight nocopybutton"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Vue.js - The Progressive JavaScript Framework
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">✔ Project name: … pinia-clicker
+</span></span><span class="line"><span class="cl">✔ Add TypeScript? … No / Yes
+</span></span><span class="line"><span class="cl">✔ Add JSX Support? … No / Yes
+</span></span><span class="line"><span class="cl">✔ Add Vue Router <span class="k">for</span> Single Page Application development? … No / Yes
+</span></span><span class="line"><span class="cl">✔ Add Pinia <span class="k">for</span> state management? … No / Yes
+</span></span><span class="line"><span class="cl">✔ Add Vitest <span class="k">for</span> Unit Testing? … No / Yes
+</span></span><span class="line"><span class="cl">✔ Add an End-to-End Testing Solution? › No
+</span></span><span class="line"><span class="cl">✔ Add ESLint <span class="k">for</span> code quality? … No / Yes
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Scaffolding project in /Users/jesselawson/dev/pinia-clicker...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Done. Now run:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nb">cd</span> pinia-clicker
+</span></span><span class="line"><span class="cl">  npm install
+</span></span><span class="line"><span class="cl">  npm run dev</span></span></code></pre></div>
+  </figure>
+</div>
+<p>Follow the directions (<code>cd</code> into your project dir and run
+the commands above). When you&rsquo;re finished, you will have
+started the Vite development server and should be able to
+open the link in your terminal to view your application.</p>
+<p>With the project scaffolded, we&rsquo;re ready to get started
+building the game.</p>
+<h1 id="building-the-game-components">Building the game components</h1>
+<p>Let&rsquo;s start out defining some types that will give the game
+resources some structure. From there, we&rsquo;ll create a new
+Pinia store to manage the game&rsquo;s state and state mutations
+(e.g., when someone clicks, increment a resource, when
+someone purchases a resource, subtract the costs correctly, etc).
+Finally, we&rsquo;ll create some Vue components to collect input
+and represent our game state to the player.</p>
+<h2 id="defining-types">Defining types<a href="#defining-types" class="anchor" aria-hidden="true">#</a> </h2>
+<p>Since type systems are syntactic methods of <a href="https://www.cis.upenn.edu/~bcpierce/tapl/index.html">enforcing software
+abstractions</a>
+—and writing software involves reasoning about
+different abstractions and their relationships—let&rsquo;s start
+our game by defining some types.</p>
+<p>In the <code>src</code> folder of your project, create a new file called
+<code>types.ts</code>.</p>
+<p>The first type we&rsquo;ll create represents a resource cost:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ts" data-lang="ts"><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">type</span> <span class="nx">Cost</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">key</span>: <span class="kt">string</span><span class="p">]</span><span class="o">:</span> <span class="kt">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="o">&amp;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">energy?</span>: <span class="kt">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">capacitors?</span>: <span class="kt">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">circuits?</span>: <span class="kt">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div>
+  </figure>
+</div>
+<details>
+<summary>What is <code>[key: string]: number } & {</code>?</summary>
+<div class="details-body">
+<p>This is an index signature. Generally, index signatures are
+used when you don&rsquo;t know the structure of a type ahead of time.
+We&rsquo;re using it here as part of an <a href="https://www.typescriptlang.org/docs/handbook/2/objects.html#intersection-types">intersection type</a> so that we can
+have a type of optional (but known) properties.</p>
+<p>Technically, <code>Cost</code> is an intersection type comprised of of an index
+signature (<code>[key: string]: number</code>) and an object type with
+optional properties (<code>{ energy?: number; capacitors?: number; circuits?: number; }</code>).</p>
+<pre>
+const someCost: Cost = {
+    energy: 10,
+    circuits: 5,
+    // note that the `capacitors` property is omitted
+};
+ 
+console.log(someCost.energy);       // Output: 10
+console.log(someCost.capacitors);   // Output: undefined
+console.log(someCost.circuits);     // Output: 5
+</pre>
+</div>
+</details>
+<p>Something in this game can cost any combination of the
+following:</p>
+<ul>
+<li>zero or more energy</li>
+<li>zero or more capacitors</li>
+<li>zero or more circuits</li>
+</ul>
+<p>Next, let&rsquo;s create a type that represents the base costs
+of things that we can purchase:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">type</span> <span class="nx">BaseCosts</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">key</span>: <span class="kt">string</span><span class="p">]</span><span class="o">:</span> <span class="nx">Cost</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="o">&amp;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">energy?</span>: <span class="kt">Cost</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">capacitors</span>: <span class="kt">Cost</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">circuits</span>: <span class="kt">Cost</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div>
+  </figure>
+</div>
+<details>
+<summary>Why is <code>energy</code> optional?</summary>
+<div class="details-body">
+<p>Energy is the basic resource of the game, so I don&rsquo;t want
+it to cost anything. Since a cost of some combination of
+energy, capacitors, and circuits, the resulting base cost
+for what is essentially a free resource would be:</p>
+<pre>
+energy: {
+  energy: 0,
+  capacitors: 0,
+  circuits: 0
+} as Cost,
+</pre>
+<p>Making it optional here with the <code>?</code> operator will allow us
+to define base costs for capacitors and circuits and elide
+a definition of energy costs.</p>
+<p>Use this technique for other resources you add to the game
+that don&rsquo;t cost anything to produce (e.g., maybe you have a
+research tree that just costs time instead of resources).</p>
+</div>
+</details>
+<details>
+<summary>Why do we need to define base costs?</summary>
+<div class="details-body">
+<p>The base costs are used along with a few other variables to
+calculate the costs of each purchase. The formula—sometimes
+called a &ldquo;growth formula&rdquo; or &ldquo;cost function&rdquo;—goes like this:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <pre tabindex="0"><code>next cost = [base cost] * [cost multiplier]^[# owned]</code></pre>
+  </figure>
+</div>
+<p>Here, &ldquo;cost multiplier&rdquo; is synonymous with &ldquo;rate of growth&rdquo;.
+For our game, we&rsquo;re going to use a cost multiplier of <code>1.35</code>.
+This is a completely arbitrary number; tweak it while you
+play your prototype until you settle on a value that feels
+nice, just make sure it&rsquo;s always above <code>1.00</code>. The multiplier
+is the <em>rate of growth</em>, so a larger multiplier is going to
+produce a more drastic exponential increase than a smaller one.</p>
+<p>To illustrate how this works, let&rsquo;s say we set the base cost
+for circuits to 25 energy and 10 capacitors. Using our
+formula, the first circuit will cost 25 energy and 10
+capacitors:</p>
+<pre>
+next energy cost    = 25 * 1.35^0 = 25
+next capacitor cost = 10 * 1.35^0 = 10 
+</pre>
+<p>After we purchase our first capacitor, the cost of the next
+capacitor will be:</p>
+<pre>
+next energy cost    = 25 * 1.35^1 = 33
+next capacitor cost = 10 * 1.35^1 = 13
+</pre>
+</div>
+</details>
+<p>The last type we&rsquo;ll define has to do with our game&rsquo;s state:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">type</span> <span class="nx">GameState</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[</span><span class="nx">key</span>: <span class="kt">string</span><span class="p">]</span><span class="o">:</span> <span class="kt">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="o">&amp;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">energy</span>: <span class="kt">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">capacitors</span>: <span class="kt">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">circuits</span>: <span class="kt">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">costMultiplier</span>: <span class="kt">number</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">baseCosts</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">capacitors</span>: <span class="kt">Cost</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">circuits</span>: <span class="kt">Cost</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>These types give us an expandable structure from which to
+build an incremental game. In the next section, we&rsquo;ll
+use them to implement the core features of our game.</p>
+<h2 id="managing-state">Managing state<a href="#managing-state" class="anchor" aria-hidden="true">#</a> </h2>
+<p>Let&rsquo;s now implement our state management system with Pinia.</p>
+<p>By the end of this part, you will have:</p>
+<ul>
+<li>a fully functional Pinia store to manage state in your game,
+including initial state, getters for retrieving state, and
+actions for mutating state</li>
+</ul>
+<details>
+<summary>What is Pinia and why are we using it?</summary>
+<div class="details-body">
+<p>Pinia is a state management library for Vue. With Pinia,
+you create a place to store your data aptly called a &ldquo;store&rdquo;.
+Your stores have an initial state, getters for retrieving
+state data, and actions for mutating state data.</p>
+<p>If you&rsquo;d like to learn more about Pinia, I recommend the
+<a href="https://pinia.vuejs.org/introduction.html">official documentation</a>.</p>
+</div>
+</details>
+<p>Inside the <code>src</code> folder you&rsquo;ll find that <code>create-vue</code> has
+setup a basic Hello World project for us. Since we opted in
+to Pinia for state management during the setup process, there
+is a <code>src/stores/</code> folder with an example store <code>counter</code>
+defined in <code>counter.ts</code>.</p>
+<p>Let&rsquo;s rename <code>src/stores/counter.ts</code> to <code>src/stores/gamestate.ts</code>.
+We&rsquo;ll use this file to define a Pinia store that represents
+and manages our game&rsquo;s state.</p>
+<p>Next, delete everything in that file, then import and use
+<code>defineStore</code> to start things off:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">defineStore</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;pinia&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">gameState</span> <span class="o">=</span> <span class="nx">defineStore</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;gamestate&#39;</span><span class="p">,</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>Here we begin defining <code>gameState</code>, something we&rsquo;ll import
+into other parts of our game engine here to get and mutate
+state.</p>
+<p>A Pinia store has, in addition to an <code>id</code>, three main sections:</p>
+<ul>
+<li>the intitial state of the store, called <code>state</code></li>
+<li>methods to retrieve values from the store, called <code>getters</code></li>
+<li>methods to mutate values from the store, called <code>actions</code></li>
+</ul>
+<p>We&rsquo;ll define these in order, starting with <code>state</code>:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl">  <span class="c1">// Describe the initial state of our store:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">state</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">energy</span>: <span class="kt">0</span><span class="p">,</span>            <span class="c1">// Start at 0 energy
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">capacitors</span>: <span class="kt">1</span><span class="p">,</span>        <span class="c1">// Start with 1 capacitor
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">circuits</span>: <span class="kt">0</span><span class="p">,</span>          <span class="c1">// Start with 0 circuits
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">costMultiplier</span>: <span class="kt">1.35</span><span class="p">,</span> <span class="c1">// Set rate of growth to 1.35
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">baseCosts</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">capacitors</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">energy</span>: <span class="kt">3</span>        <span class="c1">// Capacitors base cost is 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="p">}</span> <span class="kr">as</span> <span class="nx">Cost</span><span class="p">,</span>         <span class="c1">// 3 energy
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="nx">circuits</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">energy</span>: <span class="kt">5</span><span class="p">,</span>       <span class="c1">// Circuits base cost is
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nx">capacitors</span>: <span class="kt">5</span>    <span class="c1">// 5 energy and 5 capacitors
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="p">}</span> <span class="kr">as</span> <span class="nx">Cost</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="kr">as</span> <span class="nx">BaseCosts</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="kr">as</span> <span class="nx">GameState</span><span class="p">),</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>The <code>state</code> property is where we describe our game&rsquo;s state—
+the variables we want to keep track of and be able to pass
+into other parts of our game.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">State property</th>
+          <th style="text-align: left">What it&rsquo;s for</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>id</code></td>
+          <td style="text-align: left">The unique identifier for the store</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>energy</code></td>
+          <td style="text-align: left">The total amount of energy generated in the game</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>capacitors</code></td>
+          <td style="text-align: left">The number of capacitors purchased; each increase the amount of energy generated per click</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>circuits</code></td>
+          <td style="text-align: left">The number of auto-clickers purchased; each automatically click one time per second per unit purchased</td>
+      </tr>
+  </tbody>
+</table>
+<p>That takes care of our game&rsquo;s initial state. Our next step is
+to define some methods to retrieve data from our game&rsquo;s
+state manager. For the game we are building, we need to know
+the following:</p>
+<ul>
+<li>the total amount of each resource that we&rsquo;ve either
+generated or purchased</li>
+<li>the next cost of something that is able to be purchased</li>
+<li>whether or not we can afford that cost</li>
+</ul>
+<p>Before we define these getters, though, let&rsquo;s build some
+helper functions based on the information we know we&rsquo;ll need.</p>
+<h3 id="generating-the-next-resource-cost">Generating the next resource cost<a href="#generating-the-next-resource-cost" class="anchor" aria-hidden="true">#</a> </h3>
+<p>One thing we&rsquo;ll need to know throughout this game is the
+cost of the <em>next</em> resource we want to purchase. I&rsquo;m using
+the word &ldquo;resource&rdquo; loosely here. In your game, you may
+call it an &ldquo;upgrade&rdquo; or &ldquo;unlockable&rdquo; or something like that.
+Either way, the basic premise is the same: I should be able
+to see the amount of other resources I will need to purchase
+something.</p>
+<p>At the top of <code>src/stores/gamestate.ts</code>, just after the
+import statement, let&rsquo;s define a helper function that will
+calculate the next resource cost of a given resource:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">generateNextCost</span> <span class="o">=</span> <span class="p">(</span><span class="nx">state</span>: <span class="kt">any</span><span class="p">,</span> <span class="nx">resource</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Cost</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// Get the base cost for the resource:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kr">const</span> <span class="nx">baseCosts</span> <span class="o">=</span> <span class="nx">state</span><span class="p">.</span><span class="nx">baseCosts</span><span class="p">[</span><span class="nx">resource</span><span class="p">];</span>  
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// Get how many of these resources we already own:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kr">const</span> <span class="nx">currentResourceCount</span> <span class="o">=</span> <span class="nx">state</span><span class="p">[</span><span class="nx">resource</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Iterate over baseCosts to dynamically calculate 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// the next cost for each cost type (e.g., energy, 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// capacitors, circuits). The reduce function helps us 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// accumulate the next cost values into a new `Cost`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// object that we can then return:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">return</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">baseCosts</span> <span class="kr">as</span> <span class="nx">BaseCosts</span><span class="p">).</span><span class="nx">reduce</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="nx">nextCost</span>: <span class="kt">Cost</span><span class="p">,</span> <span class="nx">costKey</span>: <span class="kt">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">      <span class="c1">// Get the base cost—or, if baseCosts[costKey] is falsy, 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// default the base cost to zero:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="kr">const</span> <span class="nx">baseCost</span> <span class="o">=</span> <span class="nx">baseCosts</span><span class="p">[</span><span class="nx">costKey</span><span class="p">]</span> <span class="o">||</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1">// Calculate the next cost by multiplying the 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// base cost by the cost multiplier raised to the 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// power of the current resource count, and wrap it 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// in Math.floor() to ensure the result is an integer:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="nx">nextCost</span><span class="p">[</span><span class="nx">costKey</span> <span class="kr">as</span> <span class="k">keyof</span> <span class="nx">Cost</span><span class="p">]</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">baseCost</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">state</span><span class="p">.</span><span class="nx">costMultiplier</span><span class="p">,</span> <span class="nx">currentResourceCount</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="nx">nextCost</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span> 
+</span></span><span class="line"><span class="cl">  <span class="p">{});</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>With this function, we&rsquo;ll be able to pass along a reference
+to our game&rsquo;s current state and the string name of something
+we can buy, then get a <code>Cost</code> object in return containing the
+cost of that purchasable item:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="c1">// For example: 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">nextCircuitCost</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">generateNextCost</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="s2">&#34;circuits&#34;</span><span class="p">)</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>The <code>state</code> parameter will come from Pinia; each getter will
+be passed the current state so we can always get the most
+current value of everything.</p>
+<h3 id="checking-if-player-can-afford-next-resource">Checking if player can afford next resource<a href="#checking-if-player-can-afford-next-resource" class="anchor" aria-hidden="true">#</a> </h3>
+<p>Knowing the cost of the next purchase with <code>generateNextCost</code>,
+we can now create a second helper function to return whether
+we can actually afford it. This second helper function will
+compare the next cost with the player&rsquo;s current inventory, then
+return <code>true</code> or <code>false</code> base on whether the player can
+afford it:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">canAffordNext</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Check if the player can afford the next resource 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// based on the current state:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">(</span><span class="nx">state</span>: <span class="kt">GameState</span><span class="p">,</span> <span class="nx">resource</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="kr">boolean</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// Generate the cost of the next resource based on the current state: 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kr">const</span> <span class="nx">nextCost</span> <span class="o">=</span> <span class="nx">generateNextCost</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="nx">resource</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Check if player has enough of each cost key:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">return</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">nextCost</span><span class="p">).</span><span class="nx">every</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// For every cost key, see if the matching state key 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// is greater than or equal (if yes, then player 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// can afford):
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">(</span><span class="nx">costKey</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// Get the current count of the resource, 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// and default to zero if it doesn&#39;t exist:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="kr">const</span> <span class="nx">currentResourceCount</span> <span class="o">=</span> <span class="nx">state</span><span class="p">[</span><span class="nx">costKey</span><span class="p">]</span> <span class="o">||</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1">// Get the cost of the resource, 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// and default to zero if it doesn&#39;t exist:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="kr">const</span> <span class="nx">cost</span> <span class="o">=</span> <span class="nx">nextCost</span><span class="p">[</span><span class="nx">costKey</span> <span class="kr">as</span> <span class="k">keyof</span> <span class="nx">Cost</span><span class="p">]</span> <span class="o">||</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="c1">// Return whether the current count is 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// greater than or equal to the cost:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="k">return</span> <span class="nx">currentResourceCount</span> <span class="o">&gt;=</span> <span class="nx">cost</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>With these two helper functions, we&rsquo;re now ready to implement
+the getters for our Pinia store that holds are game&rsquo;s state.</p>
+<h3 id="getter-functions">Getter functions<a href="#getter-functions" class="anchor" aria-hidden="true">#</a> </h3>
+<p>Our <code>src/stores/gamestate.ts</code> file has two helper functions
+followed by the beginning of our Pinia store. The store has
+the state configured, and we&rsquo;re now ready to get started on
+the next section: the getter functions.</p>
+<p>Getter functions are used to &ldquo;get&rdquo; variables from the state
+and bring them into our presentation logic—which, for this
+game, are Vue components.</p>
+<p>Just like how the initial state is defined in a <code>state</code>
+property, getters in a Pinia store are defined in a
+<code>getters</code> property. So let&rsquo;s start by creating a <code>getters</code>
+property that we can put our getters in, along with our first
+getter:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl">  <span class="p">}</span> <span class="kr">as</span> <span class="nx">GameState</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Define our getters:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">getters</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">getEnergy</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">state</span><span class="p">.</span><span class="nx">energy</span><span class="p">,</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>Our first getter returns the total amount of energy in
+our current state. Notice how we provide <code>state</code> as a parameter.
+In Pinia, <a href="https://pinia.vuejs.org/core-concepts/getters.html#getters">getters rely on state</a>, so any getter function should, at a
+minimum, expect a <code>state</code>.</p>
+<p>Since capacitors represent how much energy is generated
+per click and circuits represent how many clicks are
+automatically made per second, let&rsquo;s create a getter for each
+of those next:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl">  <span class="c1">// Define our getters:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">getters</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">getEnergy</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">state</span><span class="p">.</span><span class="nx">energy</span><span class="p">,</span>
+</span></span><span class="line hl"><span class="cl">    <span class="nx">energyPerClick</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">state</span><span class="p">.</span><span class="nx">capacitors</span><span class="p">,</span>
+</span></span><span class="line hl"><span class="cl">    <span class="nx">energyPerSecond</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">state</span><span class="p">.</span><span class="nx">circuits</span><span class="p">,</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>Now let&rsquo;s create some getters to provide resource costs.</p>
+<p>We can start with a getter that leverages our <code>generateNextCost</code>
+helper function to use the <code>state</code> and a name of a resource
+to calculate the next cost of something:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl">  <span class="c1">// Define our getters:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">getters</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">getEnergy</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">state</span><span class="p">.</span><span class="nx">energy</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">energyPerClick</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">state</span><span class="p">.</span><span class="nx">capacitors</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">energyPerSecond</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">state</span><span class="p">.</span><span class="nx">circuits</span><span class="p">,</span>
+</span></span><span class="line hl"><span class="cl">    <span class="nx">nextResourceCost</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> 
+</span></span><span class="line hl"><span class="cl">      <span class="p">(</span><span class="nx">resource</span>:<span class="kt">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">generateNextCost</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="nx">resource</span><span class="p">),</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>In the <code>nextResourceCost</code> getter, we pass along the state
+and also the name of a resource into <code>generateNextCost</code>. While
+this is a good general-use getter, we can create explicit
+getters for the resources we already know we&rsquo;ll need to know
+the next cost of (i.e., capacitors and circuits) as well:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl">  <span class="c1">// Define our getters:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">getters</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">getEnergy</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">state</span><span class="p">.</span><span class="nx">energy</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">energyPerClick</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">state</span><span class="p">.</span><span class="nx">capacitors</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">energyPerSecond</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">state</span><span class="p">.</span><span class="nx">circuits</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">nextResourceCost</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> 
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="nx">resource</span>:<span class="kt">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">generateNextCost</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="nx">resource</span><span class="p">),</span>
+</span></span><span class="line hl"><span class="cl">    <span class="nx">nextCapacitorCost</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">generateNextCost</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="s2">&#34;capacitors&#34;</span><span class="p">),</span>
+</span></span><span class="line hl"><span class="cl">    <span class="nx">nextCircuitCost</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">generateNextCost</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="s2">&#34;circuits&#34;</span><span class="p">),</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>Just like when we built the helper functions, we not only need
+to know what the next resource costs are but also whether
+we can afford the next resource. Let&rsquo;s build our final getter
+functions that leverage the other helper function:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl">  <span class="c1">// Define our getters:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">getters</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">getEnergy</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">state</span><span class="p">.</span><span class="nx">energy</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">energyPerClick</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">state</span><span class="p">.</span><span class="nx">capacitors</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">energyPerSecond</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">state</span><span class="p">.</span><span class="nx">circuits</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">nextResourceCost</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> 
+</span></span><span class="line"><span class="cl">      <span class="p">(</span><span class="nx">resource</span>:<span class="kt">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">generateNextCost</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="nx">resource</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">nextCapacitorCost</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">generateNextCost</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="s2">&#34;capacitors&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">nextCircuitCost</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">generateNextCost</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="s2">&#34;circuits&#34;</span><span class="p">),</span>
+</span></span><span class="line hl"><span class="cl">    <span class="nx">canAffordCircuit</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">canAffordNext</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="s2">&#34;circuits&#34;</span><span class="p">),</span>
+</span></span><span class="line hl"><span class="cl">    <span class="nx">canAffordCapacitor</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">canAffordNext</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="s2">&#34;capacitors&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>All of these getters will be used when we implement the game&rsquo;s Vue
+components (our presentation—or &ldquo;view&rdquo;—layer). But we&rsquo;re not
+quite ready to move on to our presentation logic just yet!</p>
+<p>While getters are used to <em>get</em> data from our game&rsquo;s state,
+<em>actions</em> are used to mutate—or <em>change</em>—data in our game&rsquo;s
+state.</p>
+<p>In the next section, let&rsquo;s define some actions that our
+game components will use to modify state values.</p>
+<h3 id="action-functions">Action functions<a href="#action-functions" class="anchor" aria-hidden="true">#</a> </h3>
+<p>The third and final section of our Pinia store&rsquo;s definition
+is its <em>actions</em>. Actions are functions that modify state
+values.</p>
+<p>There are three actions that can happen within our game&rsquo;s state:
+energy can be generated, a capacitor can be purchased,
+and a circuit can be purchased. Each of these actions will
+have their own separate function in our store&rsquo;s <code>actions</code>
+property.</p>
+<p>Let&rsquo;s go ahead and define them all now:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl">  <span class="c1">// Define actions that mutate state values:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">actions</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// If amt given, just generate that much energy.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// Otherwise, assume click
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">generateEnergy</span><span class="p">(</span><span class="nx">amt?</span>:<span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span><span class="p">(</span><span class="nx">amt</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="nx">energy</span> <span class="o">+=</span> <span class="nx">amt</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="nx">energy</span> <span class="o">+=</span> <span class="k">this</span><span class="p">.</span><span class="nx">energyPerClick</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nx">addCircuit() {</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">canAffordCircuit</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="nx">energy</span> <span class="o">-=</span> <span class="k">this</span><span class="p">.</span><span class="nx">nextResourceCost</span><span class="p">(</span><span class="s2">&#34;circuits&#34;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">energy</span> <span class="o">??</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="nx">capacitors</span> <span class="o">-=</span> <span class="k">this</span><span class="p">.</span><span class="nx">nextResourceCost</span><span class="p">(</span><span class="s2">&#34;circuits&#34;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">capacitors</span> <span class="o">??</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="nx">circuits</span><span class="o">++</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">addCapacitor() {</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">canAffordCapacitor</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="nx">energy</span> <span class="o">-=</span> <span class="k">this</span><span class="p">.</span><span class="nx">nextResourceCost</span><span class="p">(</span><span class="s2">&#34;capacitors&#34;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="nx">energy</span> <span class="o">??</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="nx">capacitors</span><span class="o">++</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span> <span class="c1">// End of pinia store definition
+</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>Notice how actions can call getters by using <code>this</code>, like how
+<code>addCircuit()</code> first checks if the player can even afford a
+circuit via <code>this.canAffordCircuit</code>.</p>
+<p>Each of these actions are generally related to a button that
+the player can press, i.e., <code>addCapacitor</code> will be called when
+the player tries to buy a capacitor and <code>addCircuit</code> will be
+called when the player tries to buy a circuit. The dual-purpose
+<code>generateEnergy</code> function will either generate some amount
+that&rsquo;s passed as the <code>amt</code> parameter or however much we
+currently generate per click.</p>
+<p>With the state, getters, and actions all defined, our Pinia
+store is complete—and with it, most of the logic for our
+game!</p>
+<p>In our next and final step, we&rsquo;ll bring all of this game
+logic onto the screen and build something we can start
+actually playing in the browser.</p>
+<h2 id="game-components">Game components<a href="#game-components" class="anchor" aria-hidden="true">#</a> </h2>
+<p>Our final task is to bring all of what we&rsquo;ve created so far
+together into the presentation layer of our app. To do that,
+we&rsquo;ll be building two Vue components: one for our main
+clicker button, and another for the current state of all
+our resources along with buttons to purchase capacitors and
+circuits.</p>
+<p>By the end of this part, you will have:</p>
+<ul>
+<li>created a <code>Clicker</code> component that generates energy when clicked</li>
+<li>created a <code>StoreDisplay</code> component that displays the current game state</li>
+<li>integrated the Pinia store with the game components</li>
+</ul>
+<h3 id="creating-the-clicker-component">Creating the <code>Clicker</code> component<a href="#creating-the-clicker-component" class="anchor" aria-hidden="true">#</a> </h3>
+<p>Let&rsquo;s begin by creating the first button of the game.</p>
+<p>First, go to the <code>src/components</code> folder and delete the
+placeholder Vue files (<code>*.vue</code>). These are the files that
+came with the project when we first set it up.</p>
+<p>Then, create a new file called <code>Clicker.vue</code> in the
+<code>src/components</code> directory, and add the following code:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-vue" data-lang="vue"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span> <span class="na">lang</span><span class="o">=</span><span class="s">&#34;ts&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">gameStateStore</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@/stores/gamestate&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">gameState</span> <span class="o">=</span> <span class="nx">gameStateStore</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">button</span> <span class="nt">@click</span><span class="s">=&#34;gameState.generateEnergy()&#34;</span><span class="p">&gt;</span><span class="na">Generate</span> <span class="p">{{</span> <span class="na">gameState.energyPerClick</span> <span class="p">}}</span> <span class="na">Energy</span><span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>This creates a new <code>Clicker</code> component with a button that
+generates energy when clicked. Notice how we can invoke the
+Pinia store&rsquo;s actions in the template after we import the
+store in the setup script.</p>
+<details>
+<summary>Wait—what are the elements of a Vue component file?</summary>
+<p>Using TypeScript with Vue&rsquo;s Composition API, our files
+are going to be split into two parts (technical three, but
+more on that in a bit): the setup script and
+the template. They can be in any order. Review the
+<a href="https://vuejs.org/guide/typescript/composition-api.html">Vue docs</a>
+for more.</p>
+<p>The setup script is defined in a <code>script</code> tag, like this:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <pre tabindex="0"><code>&lt;script setup lang=&#34;ts&#34;&gt;
+//... 
+&lt;/script&gt;</code></pre>
+  </figure>
+</div>
+<p>The template is defined in a <code>template</code> tag, like this:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <pre tabindex="0"><code>&lt;template&gt;
+//... 
+&lt;/template&gt;</code></pre>
+  </figure>
+</div>
+<p>Put them together, and you get a full Vue component file:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <pre tabindex="0"><code>&lt;script setup lang=&#34;ts&#34;&gt;
+//... 
+&lt;/script&gt;
+
+&lt;template&gt;
+//... 
+&lt;/template&gt;</code></pre>
+  </figure>
+</div>
+<p>There&rsquo;s a third, optional part to a Vue component file,
+which is a scoped style block. You can include component-specific
+styling in a <code>style</code> tag just like you would on a normal HTML
+page. We&rsquo;ll be doing this in the last section of this part.</p>
+</details>
+<p>This component gives us both our starting resource
+generation button and a template to use when you&rsquo;re ready
+to add another button like it.</p>
+<p>With our primary button finished, let&rsquo;s now create a component
+to display all the game data variables we&rsquo;re managing with
+Pinia.</p>
+<h3 id="creating-the-storedisplay-component">Creating the <code>StoreDisplay</code> component<a href="#creating-the-storedisplay-component" class="anchor" aria-hidden="true">#</a> </h3>
+<p>The next component we&rsquo;ll create displays all the state
+variables we want the player to know about and includes two
+buttons for making purchases (capacitors and circuits).</p>
+<p>Create a new file called <code>StoreDisplay.vue</code> in the
+<code>src/components</code> directory and add the following code:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-vue" data-lang="vue"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span> <span class="na">lang</span><span class="o">=</span><span class="s">&#34;ts&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">gameStateStore</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@/stores/gamestate&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">gameState</span> <span class="o">=</span> <span class="nx">gameStateStore</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Energy</span><span class="o">:</span> <span class="p">{{</span> <span class="nx">gameState</span><span class="p">.</span><span class="nx">energy</span> <span class="p">}}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Capacitors</span><span class="o">:</span> <span class="p">{{</span> <span class="nx">gameState</span><span class="p">.</span><span class="nx">capacitors</span> <span class="p">}}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Circuits</span><span class="o">:</span> <span class="p">{{</span> <span class="nx">gameState</span><span class="p">.</span><span class="nx">circuits</span> <span class="p">}}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Energy</span> <span class="nx">per</span> <span class="nx">click</span><span class="o">:</span> <span class="p">{{</span> <span class="nx">gameState</span><span class="p">.</span><span class="nx">energyPerClick</span> <span class="p">}}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Energy</span> <span class="nx">per</span> <span class="nx">second</span><span class="o">:</span> <span class="p">{{</span> <span class="nx">gameState</span><span class="p">.</span><span class="nx">energyPerSecond</span> <span class="p">}}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">button</span> <span class="nt">@click</span><span class="s">=&#34;gameState.addCapacitor&#34;</span> <span class="nt">:disabled</span><span class="o">=</span><span class="s">&#34;!gameState.canAffordCapacitor&#34;</span><span class="p">&gt;</span><span class="nx">Purchase</span> <span class="nx">Capacitor</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">span</span> <span class="nt">v-if</span><span class="o">=</span><span class="s">&#34;gameState.nextCapacitorCost.energy !== undefined&#34;</span><span class="p">&gt;{{</span> <span class="na">gameState.nextCapacitorCost.energy</span> <span class="p">}}</span> <span class="na">Energy</span> <span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">span</span> <span class="nt">v-if</span><span class="o">=</span><span class="s">&#34;gameState.nextCapacitorCost.capacitors !== undefined&#34;</span><span class="p">&gt;{{</span> <span class="na">gameState.nextCapacitorCost.capacitors</span> <span class="p">}}</span> <span class="na">Capacitors</span> <span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">span</span> <span class="nt">v-if</span><span class="o">=</span><span class="s">&#34;gameState.nextCapacitorCost.circuits !== undefined&#34;</span><span class="p">&gt;{{</span> <span class="na">gameState.nextCapacitorCost.circuits</span> <span class="p">}}</span> <span class="na">Circuits</span> <span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="err">)</span><span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">button</span> <span class="nt">@click</span><span class="s">=&#34;gameState.addCircuit&#34;</span> <span class="nt">:disabled</span><span class="o">=</span><span class="s">&#34;!gameState.canAffordCircuit&#34;</span><span class="p">&gt;</span><span class="nx">Purchase</span> <span class="nx">Circuit</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">span</span> <span class="nt">v-if</span><span class="o">=</span><span class="s">&#34;gameState.nextCircuitCost.energy !== undefined&#34;</span><span class="p">&gt;{{</span> <span class="na">gameState.nextCircuitCost.energy</span> <span class="p">}}</span> <span class="na">Energy</span> <span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">span</span> <span class="nt">v-if</span><span class="o">=</span><span class="s">&#34;gameState.nextCircuitCost.capacitors !== undefined&#34;</span><span class="p">&gt;{{</span> <span class="na">gameState.nextCircuitCost.capacitors</span> <span class="p">}}</span> <span class="na">Capacitors</span> <span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">span</span> <span class="nt">v-if</span><span class="o">=</span><span class="s">&#34;gameState.nextCircuitCost.circuits !== undefined&#34;</span><span class="p">&gt;{{</span> <span class="na">gameState.nextCircuitCost.circuits</span> <span class="p">}}</span> <span class="na">Circuits</span><span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="err">)</span><span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>Here we being the template by outputing some variables from
+our game&rsquo;s state, then we provide two buttons. Each button
+has a set of <code>span</code> elements for a label; the <code>v-if</code> directive
+will only display the element if the given condition true. These
+spans assemble the full cost of something based on whether
+or not it has any energy, capacitors, or circuits costs
+associated with it.</p>
+<p>Let&rsquo;s deconstruct the second button that adds a circuit to
+see how it works.</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-vue" data-lang="vue"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">button</span> <span class="nt">@click</span><span class="s">=&#34;gameState.addCircuit&#34;</span> <span class="nt">:disabled</span><span class="o">=</span><span class="s">&#34;!gameState.canAffordCircuit&#34;</span><span class="p">&gt;</span><span class="nx">Purchase</span> <span class="nx">Circuit</span> <span class="p">(</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>First we create a button element, assign the <code>addCircuit</code>
+action from the store to a click event, and disable the
+button if ever <code>canAffordCircuit</code> is false. The button&rsquo;s
+text label starts out with &ldquo;Purchase Circuit (&rdquo; and then we
+move on to the dynamic span elements for cost:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-vue" data-lang="vue"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">span</span> <span class="nt">v-if</span><span class="o">=</span><span class="s">&#34;gameState.nextCircuitCost.energy !== undefined&#34;</span><span class="p">&gt;{{</span> <span class="na">gameState.nextCircuitCost.energy</span> <span class="p">}}</span> <span class="na">Energy</span> <span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>If the next circuit cost&rsquo;s energy property is not undefined (i.e., if
+there is an energy cost associated with purchasing the next
+circuit), then output the amount followed by the word &ldquo;Energy.&rdquo;</p>
+<p>This pattern is repeated for the potential capacitor and circuit costs
+as well:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-vue" data-lang="vue"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">span</span> <span class="nt">v-if</span><span class="o">=</span><span class="s">&#34;gameState.nextCircuitCost.capacitors !== undefined&#34;</span><span class="p">&gt;{{</span> <span class="na">gameState.nextCircuitCost.capacitors</span> <span class="p">}}</span> <span class="na">Capacitors</span> <span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">span</span> <span class="nt">v-if</span><span class="o">=</span><span class="s">&#34;gameState.nextCircuitCost.circuits !== undefined&#34;</span><span class="p">&gt;{{</span> <span class="na">gameState.nextCircuitCost.circuits</span> <span class="p">}}</span> <span class="na">Circuits</span><span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="err">)</span><span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>Then at the end, we close the button element.</p>
+<p>Our component implementations are now complete, so now let&rsquo;s
+register them with our app and do some end-of-tutorial tidying up
+to finish our game template. We&rsquo;re almost done!</p>
+<h3 id="integrating-the-components-into-the-game">Integrating the components into the game<a href="#integrating-the-components-into-the-game" class="anchor" aria-hidden="true">#</a> </h3>
+<p>With our two components built, let&rsquo;s now integrate them
+into our Vue app so that we can tinker and interact with
+what we&rsquo;ve built so far.</p>
+<p>Open the <code>App.vue</code> file and replace the existing code with the
+following:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-vue" data-lang="vue"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span> <span class="na">lang</span><span class="o">=</span><span class="s">&#34;ts&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">Clicker</span> <span class="nx">from</span> <span class="s1">&#39;@/components/Clicker.vue&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">StoreDisplay</span> <span class="nx">from</span> <span class="s1">&#39;@/components/StoreDisplay.vue&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;app&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">Clicker</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">StoreDisplay</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="err">#</span><span class="nx">app</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">display</span><span class="o">:</span> <span class="nx">flex</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">justify</span><span class="o">-</span><span class="nx">content</span><span class="o">:</span> <span class="nx">center</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">align</span><span class="o">-</span><span class="nx">items</span><span class="o">:</span> <span class="nx">top</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="nx">height</span><span class="o">:</span> <span class="mi">100</span><span class="nx">vh</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">#</span><span class="nx">app</span> <span class="o">&gt;</span> <span class="o">*</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">margin</span><span class="o">:</span> <span class="mi">1</span><span class="nx">rem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>The template here is where we lay out how the game
+appears—which, for the purpose of being a template, is very
+basic. This component is used in the project&rsquo;s <code>main.ts</code> file to
+define our app and then mount it to an HTML element.</p>
+<p><strong>At this point, you&rsquo;re ready to play your game!</strong></p>
+<p>Start the dev server, and open the link to <code>localhost</code>
+emitted in your terminal window. For example, mine was:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame is-terminal not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight command nocopybutton"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm run dev</span></span></code></pre></div>
+  </figure>
+</div>
+
+
+
+<div class="expressive-code">
+  <figure class="frame is-terminal not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight nocopybutton"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">  VITE v4.3.9  ready in <span class="m">360</span> ms
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  ➜  Local:   http://localhost:5174/
+</span></span><span class="line"><span class="cl">  ➜  Network: use --host to expose
+</span></span><span class="line"><span class="cl">  ➜  press h to show help</span></span></code></pre></div>
+  </figure>
+</div>
+<p>Everything should be working as expected—but as soon as you
+purchase a circuit (technically, one second after), you&rsquo;ll
+see we still have some more work left to do. We need a
+way to account for changes to energy every second. We can do
+that in the browser with <a href="https://developer.mozilla.org/en-US/docs/Web/API/setTimeout"><code>setTimeout()</code></a>, but we&rsquo;re actually going to
+roll our own version <a href="/web/a-setinterval-alternative/">more appropriate for a game&rsquo;s needs</a>.</p>
+<p>Remember back in <code>src/stores/gamestate.ts</code> when we created
+those two helper functions, <code>generateNextCost</code> and <code>canAffordNext</code>?
+I&rsquo;m about to introduce a third helper function we&rsquo;ll use
+instead of <code>setTimeout()</code>, which means there&rsquo;s opportunity
+now to clean up this game template we&rsquo;re writing by creating
+a dedicated space for helper functions. I wont put the two
+we&rsquo;ve already created in there so that you have something to
+do in case you&rsquo;re out of ideas but still want to feel productive.</p>
+<p>Let&rsquo;s create a new file called <code>src/helpers.ts</code>, and in it,
+define <code>setTimeout2</code>:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">setInterval2</span> <span class="o">=</span> <span class="p">(</span><span class="nx">fn</span>:<span class="kt">VoidFunction</span><span class="p">,</span><span class="nx">time</span>:<span class="kt">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// A place to store the timeout Id (later)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">let</span> <span class="nx">timeout</span>:<span class="kt">any</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// calculate the time of the next execution
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">let</span> <span class="nx">nextAt</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">+</span> <span class="nx">time</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// calculate the time of the next execution:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nx">nextAt</span> <span class="o">+=</span> <span class="nx">time</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// set a timeout for the next execution time:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="nx">wrapper</span><span class="p">,</span> <span class="nx">nextAt</span> <span class="o">-</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">());</span> 
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1">// execute the function:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="nx">fn</span><span class="p">();</span> 
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Set the first timeout, kicking off the recursion:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="nx">wrapper</span><span class="p">,</span> <span class="nx">nextAt</span> <span class="o">-</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">());</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// A way to stop all future executions:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kr">const</span> <span class="nx">cancel</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">timeout</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Return an object with a way to halt executions:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="p">{</span> <span class="nx">cancel</span> <span class="p">};</span> 
+</span></span><span class="line"><span class="cl"><span class="p">};</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>If you&rsquo;re curious about why, I wrote a previous blog post about this function <a href="/web/a-setinterval-alternative">here</a>.</p>
+<p>To get our circuits generating energy every second, go to
+<code>App.vue</code>, import our new helper, and use Vue&rsquo;s <code>onMounted</code>
+method to handle passive energy production with our helper&rsquo;s
+help:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-vue" data-lang="vue"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">setup</span> <span class="na">lang</span><span class="o">=</span><span class="s">&#34;ts&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">Clicker</span> <span class="nx">from</span> <span class="s1">&#39;@/components/Clicker.vue&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">StoreDisplay</span> <span class="nx">from</span> <span class="s1">&#39;@/components/StoreDisplay.vue&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">gameStateStore</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./stores/gamestate&#39;</span><span class="p">;</span>
+</span></span><span class="line hl"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">setInterval2</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@/helpers&#39;</span><span class="p">;</span>
+</span></span><span class="line hl"><span class="cl"><span class="kr">import</span> <span class="p">{</span> <span class="nx">onMounted</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;vue&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">gameState</span> <span class="o">=</span> <span class="nx">gameStateStore</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line hl"><span class="cl"><span class="nx">onMounted</span><span class="p">(</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line hl"><span class="cl">  <span class="nx">setInterval2</span><span class="p">(()=&gt;{</span>
+</span></span><span class="line hl"><span class="cl">    <span class="nx">gameState</span><span class="p">.</span><span class="nx">energy</span> <span class="o">+=</span> <span class="nx">gameState</span><span class="p">.</span><span class="nx">energyPerSecond</span> <span class="o">*</span> <span class="nx">gameState</span><span class="p">.</span><span class="nx">circuits</span>
+</span></span><span class="line hl"><span class="cl">  <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
+</span></span><span class="line hl"><span class="cl"><span class="p">});</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;app&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">Clicker</span><span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">StoreDisplay</span><span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="err">#</span><span class="nx">app</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">display</span><span class="o">:</span> <span class="nx">flex</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">justify</span><span class="o">-</span><span class="nx">content</span><span class="o">:</span> <span class="nx">center</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">align</span><span class="o">-</span><span class="nx">items</span><span class="o">:</span> <span class="nx">top</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="nx">height</span><span class="o">:</span> <span class="mi">100</span><span class="nx">vh</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">#</span><span class="nx">app</span> <span class="o">&gt;</span> <span class="o">*</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">margin</span><span class="o">:</span> <span class="mi">1</span><span class="nx">rem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>So every 1000ms, add the product of <code>gameState.energyPerSecond</code>
+and <code>gameState.circuits</code> to <code>gameState.energy</code>.</p>
+<p>Vue&rsquo;s <code>onMounted</code> lifecycle hook <a href="https://vuejs.org/api/composition-api-lifecycle.html#onmounted">docs</a> go into more detail,
+but basically, when the component is ready to have things
+done to it, it invokes this method and our timer starts.</p>
+<p>Run the development server again, and buy a circuit. You should
+see energy accumulating passively.</p>
+<p>Congratulations! You finished this tutorial, and in doing so,
+built your very own incremental game template. What feature
+will you add to it next? What game idea do you want to
+prototype and play around with? I&rsquo;m excited to see what you
+build, so don&rsquo;t hesitate to reach out and let me know when
+your game is ready to share.</p>
+<h1 id="where-to-go-from-here">Where to go from here</h1>
+<p>The basic features are here, but there is so much more than
+just generating resources and purchasing items that makes a
+great incremental game. What&rsquo;s the next feature to implement?
+Where do you go from here? Well, I have a few ideas:</p>
+<ul>
+<li>Remember those two helper functions we created in the
+Pinia store file? Go put those into our dedicated helpers
+file, and update the imports appropriately so that the
+game still runs.</li>
+<li>In <em><a href="#action-functions">Action functions</a></em>, the logic for
+calculating the costs of both circuits and capacitors is
+hard-coded to assume that circuits cost some combination of
+energy and capacitors, and that capacitors only cost zero
+or more energy. How could you modify so that you don&rsquo;t have
+to hard-code these cost relationships?</li>
+<li>How would you implement a way to show (or hide)
+unlockable items based on state conditions (e.g., unlock
+something when you have X circuits)?</li>
+<li>How would you implement research items, with research time
+and in-progress updates?</li>
+<li>How would you implement a new resource &ldquo;Electricity&rdquo;
+that costs X energy per second?
+(how would you change <code>Cost</code> and how it&rsquo;s used?)</li>
+</ul>
+<p>Some of these things will be available in the next version of
+this tutorial—a free online book, just like my other ones.</p>
+<p>All source code for this project is available <a href="https://github.com/jesselawson/pinia-clicker-game">here</a>.</p>
+<blockquote>
+<p><strong>Questions? Comments? Feedback?</strong>
+<br>Please <a href="https://github.com/jesselawson/pinia-clicker-game/issues/new?labels[]=re:%20tutorial&amp;title=Tutorial%20feedback:&amp;assignee=jesselawson&amp;body=">open an issue</a> or reach out
+on <a href="https://bsky.app/profile/jesse.lawsonry.com">BlueSky</a>.</p></blockquote>
+<p>If you enjoyed this tutorial, feel free to show your support
+by <a href="https://buymeacoffee.com/jesselawson">buying me a coffee</a>,
+<a href="https://github.com/jesselawson/pinia-clicker-game">starring the demo project</a> on GitHub, or <a href="https://tech.lgbt/@jesse">saying hello</a> on Mastodon.</p>
+<p>Have fun!</p>
+<p>&ndash;Jesse</p>
+
+			<div class="page-footer-meta d-flex flex-column flex-md-row justify-content-between">
+				
+				
+				</div>
+			<div class="page-nav d-flex flex-column flex-sm-row">
+	
+	<div class="card text-end w-100">
+			<div class="card-body d-flex justify-content-end">
+				<div class="d-flex flex-column">
+					<div class="text-body-secondary">Next</div>
+					<a href="/web/a-setinterval-alternative/" class="stretched-link text-reset text-decoration-none">A setInterval() alternative for browser-based games</a>
+				</div>
+				<div class="d-flex flex-column justify-content-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M5 12l14 0"></path>
+						<path d="M13 18l6 -6"></path>
+						<path d="M13 6l6 6"></path>
+					</svg>
+				</div>
+			</div>
+		</div>
+	</div>
+
+			
+		</main>
+		
+	</div>
+
+      
+      </div>
+    </div>
+    
+    
+    <footer class="footer text-muted">
+  <div class="container-md">
+    <div class="row">
+      <div class="col-lg-8 text-center text-lg-start">
+        <ul class="list-inline">
+          <li class="list-inline-item"><a class="text-muted" href="https://bsky.app/profile/jesse.lawsonry.com">Connect on BlueSky</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-8 text-center text-lg-end">
+        <ul class="list-inline">
+          <li class="list-inline-item">Copyright &copy; 2014-2024 Jesse Lawson. All Rights Reserved.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+
+<script async
+  src="/js/app.c17553444ec7c62f781ddbaa011948f6d85a1bab49420047d68a2b89852a8b36.js"
+  integrity="sha256-wXVTRE7Hxi94HduqARlI9thaG6tJQgBH1ooriYUqizY=">
+</script>
+
+
+
+
+
+
+
+    
+        
+        <script src="/js/clicker-demo.min.js"></script>
+    
+<script async
+  src="/js/flexsearch.7b25ae2da7ab3cc745d4f8536e3f914f92ea8b1afad96ab9249c160c35e0648c.js"
+  integrity="sha256-eyWuLaerPMdF1PhTbj&#43;RT5Lqixr62Wq5JJwWDDXgZIw=">
+</script>
+<script async
+  src="/js/search-modal.0415aa45353ab123a509f6ddc6861549ece898b90872fcf757cd2663041dac96.js"
+  integrity="sha256-BBWqRTU6sSOlCfbdxoYVSezomLkIcvz3V80mYwQdrJY=">
+</script>
+
+    
+  </body>
+</html>

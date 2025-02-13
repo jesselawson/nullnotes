@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nginx on Jesse&#39;s Null Notes</title>
+    <link>/categories/nginx/</link>
+    <description>Recent content in Nginx on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <lastBuildDate>Sun, 30 Mar 2014 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/categories/nginx/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to Backup WordPress on a Remote Server (and send it to Amazon S3)</title>
+      <link>/sysadmin/2014-03-30-backup-wordpress-remote-server-s3/</link>
+      <pubDate>Sun, 30 Mar 2014 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2014-03-30-backup-wordpress-remote-server-s3/</guid>
+      <description>&lt;p&gt;Let&amp;rsquo;s talk about &lt;strong&gt;backups&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;When you are running your own WordPress hosting service, you need to ensure that your sites are backed up nightly. Unfortunately, the more sites you have on your server, the more processing power is required to do these backups, especially if there have been a lot of changes during the day.&lt;/p&gt;&#xA;&lt;p&gt;The smartest way to proceed with nightly backups, then, is to offload the processing requirements to a separate, dedicated backup server, or just a secondary server that can afford to use a lot of its CPU in zipping, rsyncing, and uploading to the Amazon cloud.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

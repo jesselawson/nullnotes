@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preload" href="/fonts/vendor/jost/jost-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/vendor/jost/jost-v4-latin-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/vendor/jost/jost-v4-latin-700.woff2" as="font" type="font/woff2" crossorigin>
+<script 
+  src="/js/color-mode.86a91f050a481d0a3f0c72ac26543cb6228c770875981c58dcbc008fd3f875c8.js"
+  integrity="sha256-hqkfBQpIHQo/DHKsJlQ8tiKMdwh1mBxY3LwAj9P4dcg=">
+</script>
+<script 
+  src="/js/dismissable-alert.72bb9eac822516d16f2fab8ac09cf6bfa193d3ce71c1c3f521742e0c75c35d85.js"
+  integrity="sha256-cruerIIlFtFvL6uKwJz2v6GT085xwcP1IXQuDHXDXYU=">
+</script>
+
+
+<link rel="stylesheet" href="/main.e3116562963566c4dec6b131e12c0c8709374f236ca4e60921eeaa736fbdc193518dde9790e6e3a069ec232e9ecbe246d25085a351e2510c4500ac21dc6e8d4a.css" integrity="sha512-4xFlYpY1ZsTexrEx4SwMhwk3TyNspOYJIe6qc2+9wZNRjd6XkObjoGnsIy6ey+JG0lCFo1HiUQxFAKwh3G6NSg==" crossorigin="anonymous">
+
+<noscript><style>img.lazyload { display: none; }</style></noscript><base href="/sysadmin/2013-06-24-wordpress-author-box-without-a-plugin/">
+
+  <link rel="canonical" href="/sysadmin/2013-06-24-wordpress-author-box-without-a-plugin/">
+
+
+<title>WordPress Author Box without a Plugin  |  Jesse&#39;s Null Notes</title>
+<meta name="description" content="Notes and marginalia on fine computer instructions">
+
+    
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    
+      <link
+        rel="apple-touch-icon"
+        href="/apple-touch-icon.png"
+        sizes="180x180"
+        type="image/png"
+      >
+      <link
+        rel="icon"
+        href="/favicon-192x192.png"
+        sizes="192x192"
+        type="image/png"
+      >
+      <link
+        rel="icon"
+        href="/favicon-512x512.png"
+        sizes="512x512"
+        type="image/png"
+      >
+<link rel="manifest" href="/manifest.webmanifest">
+
+<meta property="og:url" content="/sysadmin/2013-06-24-wordpress-author-box-without-a-plugin/">
+  <meta property="og:site_name" content="Jesse&#39;s Null Notes">
+  <meta property="og:title" content="WordPress Author Box without a Plugin">
+  <meta property="og:description" content="In this tutorial we’re taking the custom author image function we created and turning it into a custom About the Author box in WordPress. If you haven’t already done so, go through the [custom author image tutorial][1] and follow the steps involved in creating our custom author image function.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="sysadmin">
+    <meta property="article:published_time" content="2013-06-24T00:00:00+00:00">
+    <meta property="article:modified_time" content="2013-06-24T00:00:00+00:00">
+    <meta property="og:image" content="/cover.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/cover.png">
+  <meta name="twitter:title" content="WordPress Author Box without a Plugin">
+  <meta name="twitter:description" content="In this tutorial we’re taking the custom author image function we created and turning it into a custom About the Author box in WordPress. If you haven’t already done so, go through the [custom author image tutorial][1] and follow the steps involved in creating our custom author image function.">
+
+    
+    <script type="application/ld+json">
+  {
+   "@context": "https://schema.org",
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+     {
+       "@type": "ListItem",
+       "item": "/",
+       "name": "Jesse's Null Notes",
+       "position": 1
+     },
+     {
+       "@type": "ListItem",
+       "item": "/sysadmin/",
+       "name": "Systems Administration",
+       "position": 2
+     },
+     {
+       "@type": "ListItem",
+       "name": "Word Press Author Box Without a Plugin",
+       "position": 3
+     }
+   ]
+ }
+</script>
+  
+	
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "WordPress Author Box without a Plugin",
+      "description": "",
+      "isPartOf": {
+        "@id": "/sysadmin/2013-06-24-wordpress-author-box-without-a-plugin/"
+      },
+      "mainEntityOfPage": {
+        "@id": "/sysadmin/2013-06-24-wordpress-author-box-without-a-plugin/"
+      },
+      "datePublished": "2013-06-24T00:00:00+00:00",
+      "dateModified": "2013-06-24T00:00:00+00:00",
+      "author": {
+        "@type": "Person",
+        "name": "Jesse Lawson",
+        "url": "/"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Jesse Lawson"
+      }
+    }
+  ]
+}
+</script>
+
+
+
+
+
+
+</head>
+
+  
+  <body class="single section sysadmin" data-bs-spy="scroll" data-bs-target="#toc" data-bs-root-margin="0px 0px -60%" data-bs-smooth-scroll="true" tabindex="0">
+    <div id="announcement" data-id="global-alert-048341a4a629fdfd700581837b3ede16" class="alert alert-primary alert-dismissible fade show text-center" role="alert">
+    <span class="alert-text">Migration from old site to here is underway, so some stuff may be missing. Check back in a bit!</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+<div class="sticky-top">
+<header class="navbar navbar-expand-lg">
+  <div class="container-md">
+  
+    <a class="navbar-brand me-auto me-lg-3" href="/">Jesse&#39;s Null Notes</a>
+
+    
+    
+    <button type="button" id="searchToggleMobile" class="btn btn-link nav-link mx-2 d-lg-none" aria-label="Search website">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <circle cx="10" cy="10" r="7"></circle>
+        <line x1="21" y1="21" x2="15" y2="15"></line>
+      </svg>
+    </button>
+    
+    
+    <button class="btn btn-link nav-link mx-2 order-3 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavMain" aria-controls="offcanvasNavMain" aria-label="Open main navigation menu">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <line x1="4" y1="8" x2="20" y2="8"></line>
+        <line x1="4" y1="16" x2="20" y2="16"></line>
+      </svg>
+    </button>
+
+    
+    <div class="offcanvas offcanvas-end h-auto" tabindex="-1" id="offcanvasNavMain" aria-labelledby="offcanvasNavMainLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavMainLabel">Jesse&#39;s Null Notes</h5>
+        <button type="button" class="btn btn-link nav-link p-0 ms-auto" data-bs-dismiss="offcanvas" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M18 6l-12 12"></path>
+            <path d="M6 6l12 12"></path>
+         </svg>
+        </button>
+      </div>
+      
+      <div class="offcanvas-body d-flex flex-column flex-lg-row justify-content-between">
+        <ul class="navbar-nav flex-grow-1"><li class="nav-item">
+                <a class="nav-link" href="/all/">Browse All</a>
+              </li>
+            </ul>
+
+        
+        
+        <button type="button" id="searchToggleDesktop" class="btn btn-link nav-link p-2 d-none d-lg-block" aria-label="Search website">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <circle cx="10" cy="10" r="7"></circle>
+            <line x1="21" y1="21" x2="15" y2="15"></line>
+          </svg>
+        </button>
+        
+        
+        
+        <button id="buttonColorMode" class="btn btn-link mx-auto nav-link p-0 ms-lg-2 me-lg-1" type="button" aria-label="Toggle theme">
+          <svg data-bs-theme-value="dark" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
+          </svg>
+          <svg data-bs-theme-value="light" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sun" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0m-5 0h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"></path>
+          </svg>
+        </button>
+        
+        <ul id="socialMenu" class="nav mx-auto flex-row order-lg-4">
+          <li class="nav-item">
+              <a class="nav-link social-link" href="https://bsky.app/profile/jesse.lawsonry.com"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-bluesky" width="24" height="24" viewBox="0 0 512 512" stroke-width="5" stroke="currentColor" fill="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2c42.1-31.6 110.3-56 110.3 21.8c0 15.5-8.9 130.5-14.1 149.2C478.2 298 412 314.6 353.1 304.5c102.9 17.5 129.1 75.5 72.5 133.5c-107.4 110.2-154.3-27.6-166.3-62.9l0 0c-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8l0 0c-12 35.3-59 173.1-166.3 62.9c-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1C10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z"/></svg><small class="ms-2 visually-hidden">BlueSky</small></a>
+            </li>
+          <li class="nav-item">
+              <a class="nav-link social-link" href="https://github.com/jesselawson"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path></svg><small class="ms-2 visually-hidden">GitHub</small></a>
+            </li>
+          </ul>
+        
+        <a class="btn btn-primary rounded-pill mt-2 btn-block d-lg-none" href="https://buymeacoffee.com/jesselawson" role="button">☕ buy me a coffee</a>
+        </div>
+    </div>
+
+    
+    <a class="btn btn-primary rounded-pill ms-3 me-2 px-4 order-lg-3 d-none d-lg-block" href="https://buymeacoffee.com/jesselawson" role="button">☕ buy me a coffee</a>
+    </div>
+</header>
+</div>
+
+<div class="modal" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 visually-hidden" id="searchModalLabel">Search</h1>
+        <button type="button" class="btn-close visually-hidden" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="search-input flex-grow-1 d-none">
+          <form id="search-form" class="search-form" action="#" method="post" accept-charset="UTF-8" role="search">
+            <label for="query" class="visually-hidden">Search</label>
+            <div class="d-flex">
+              <input type="search" id="query" name="query" class="search-text form-control form-control-lg" placeholder="Search" aria-label="Search" maxlength="128" autocomplete="off">
+              <button type="button" class="btn btn-link text-decoration-none px-0 ms-3 d-md-none" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-body">
+        <p class="search-loading status message d-none mt-3 text-center">Loading search index…</p>
+        <p class="search-no-recent message d-none mt-3 text-center">No recent searches</p>
+        <p class="search-no-results message d-none mt-3 text-center">No results for "<strong><span class="query-no-results">Query here</span></strong>"</p>
+        <div id="searchResults" class="search-results"></div>
+        <template>
+          <article class="search-result list-view">
+            <div class="card my-3">
+              <div class="card-body">
+                <header>
+                  <h2 class="h5 title title-submitted mb-0"><a class="stretched-link text-decoration-none text-reset" href="#">Title here</a></h2>
+                  <div class="submitted d-none"><time class="created-date">Date here</time></div>
+                </header>
+                <div class="content">Summary here</div>
+              </div>
+            </div>
+          </article>
+        </template>
+      </div>
+      <div class="modal-footer">
+        <ul class="list-inline me-auto d-none d-md-block">
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Enter key" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M12 3.53088v3c0 1-1 2-2 2H4M7 11.53088l-3-3 3-3"></path></g></svg></kbd><span class="DocSearch-Label">to select</span></li>
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Arrow down" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M7.5 3.5v8M10.5 8.5l-3 3-3-3"></path></g></svg></kbd><kbd class="me-2"><svg width="15" height="15" aria-label="Arrow up" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M7.5 11.5v-8M10.5 6.5l-3-3-3 3"></path></g></svg></kbd><span class="DocSearch-Label">to navigate</span></li>
+          <li class="list-inline-item"><kbd class="me-2"><svg width="15" height="15" aria-label="Escape key" role="img"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"><path d="M13.6167 8.936c-.1065.3583-.6883.962-1.4875.962-.7993 0-1.653-.9165-1.653-2.1258v-.5678c0-1.2548.7896-2.1016 1.653-2.1016.8634 0 1.3601.4778 1.4875 1.0724M9 6c-.1352-.4735-.7506-.9219-1.46-.8972-.7092.0246-1.344.57-1.344 1.2166s.4198.8812 1.3445.9805C8.465 7.3992 8.968 7.9337 9 8.5c.032.5663-.454 1.398-1.4595 1.398C6.6593 9.898 6 9 5.963 8.4851m-1.4748.5368c-.2635.5941-.8099.876-1.5443.876s-1.7073-.6248-1.7073-2.204v-.4603c0-1.0416.721-2.131 1.7073-2.131.9864 0 1.6425 1.031 1.5443 2.2492h-2.956"></path></g></svg></kbd><span class="DocSearch-Label">to close</span></li>
+        </ul>
+        <p class="d-md-none">Search by <a class="text-decoration-none" href="https://github.com/nextapps-de/flexsearch">FlexSearch</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <div class="wrap nn-container" role="document">
+      <div class="content">
+      
+        
+	<div class="row flex-xl-nowrap">
+		
+		<nav class="docs-toc d-none d-xl-block col-xl-3" aria-label="Secondary navigation">
+			<div class="page-links">
+  <h3>On this page</h3>
+    <nav id="toc">
+  <ul>
+    <li><a href="#what-do-we-want-from-a-custom-about-the-author-box">What do we want from a custom ‘About the Author&rsquo; box?</a></li>
+    <li><a href="#step-1-edit-functionsphp">Step 1: Edit <em>functions.php</em>.</a></li>
+    <li><a href="#step-2-add-our-function-to-singlephp">Step 2: Add our function to <em>single.php</em>.</a></li>
+    <li><a href="#step-3-edit-functionsphp">Step 3: Edit <em>functions.php</em>.</a></li>
+    <li><a href="#-and-thats-it">… And that&rsquo;s it!</a></li>
+  </ul>
+</nav>
+</div>
+
+		</nav>
+		<main class="docs-content col-lg-11 col-xl-9 mx-xl-auto">
+		
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="/">Home</a></li>
+<li class="breadcrumb-item"><a href="/sysadmin/">Sysadmin</a></li>
+<li class="breadcrumb-item active" aria-current="page">WordPress Author Box without a Plugin</li>
+					</ol>
+				</nav>
+			
+			<h1>WordPress Author Box without a Plugin</h1>
+			
+			<nav class="toc-mobile d-xl-none" aria-label="Quaternary navigation">
+				<details>
+    <summary>On this page</summary>
+    <div class="page-links">
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-do-we-want-from-a-custom-about-the-author-box">What do we want from a custom ‘About the Author&rsquo; box?</a></li>
+    <li><a href="#step-1-edit-functionsphp">Step 1: Edit <em>functions.php</em>.</a></li>
+    <li><a href="#step-2-add-our-function-to-singlephp">Step 2: Add our function to <em>single.php</em>.</a></li>
+    <li><a href="#step-3-edit-functionsphp">Step 3: Edit <em>functions.php</em>.</a></li>
+    <li><a href="#-and-thats-it">… And that&rsquo;s it!</a></li>
+  </ul>
+</nav>
+    </div>
+  </details>
+
+			</nav>
+			<p>In this tutorial we&rsquo;re taking the custom author image function we created and turning it into a custom About the Author box in WordPress. If you haven&rsquo;t already done so, go through the [custom author image tutorial][1] and follow the steps involved in creating our custom author image function.</p>
+<p>If you&rsquo;re too lazy to do that, copy and paste the following code in your <em>functions.php</em> file:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="cm">/*-----------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="cm">/* GRABS AND DISPLAYS AUTHOR IMAGE 
+</span></span></span><span class="line"><span class="cl"><span class="cm">/* (USING OUR CUSTOM AUTHOR IMAGE LOCATIONS)
+</span></span></span><span class="line"><span class="cl"><span class="cm">-----------------------------------------*/</span>
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">the_author_image</span><span class="p">(</span><span class="nv">$curauth</span><span class="o">=</span><span class="s2">&#34;&#34;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">global</span> <span class="nv">$post</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span><span class="p">(</span><span class="nv">$curauth</span><span class="o">==</span><span class="s2">&#34;&#34;</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// If we are not requesting a specific author image via their ID, 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// we&#39;ll get the current author image of whatever page we&#39;re
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// calling this function from.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nv">$author_id</span> <span class="o">=</span> <span class="nx">get_the_author_meta</span><span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Make sure you change the file extension if you aren&#39;t using JPG!
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nv">$url</span> <span class="o">=</span> <span class="nx">home_url</span><span class="p">()</span><span class="o">.</span><span class="s2">&#34;/author-images/author-&#34;</span><span class="o">.</span><span class="nv">$author_id</span><span class="o">.</span><span class="s2">&#34;.jpg&#34;</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl"> <span class="k">return</span> <span class="s1">&#39;&lt;img alt=&#34;&#34; src=&#34;&#39;</span><span class="o">.</span><span class="nv">$url</span><span class="o">.</span><span class="s1">&#39;&#34; /&gt;&#39;</span><span class="p">;</span> <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="c1">// However, if we ARE requesting a specific img via $curauth, 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// then let&#39;s grab THAT author id image instead. 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nv">$url</span> <span class="o">=</span> <span class="nx">home_url</span><span class="p">()</span><span class="o">.</span><span class="s2">&#34;/author-images/author-&#34;</span><span class="o">.</span><span class="nv">$curauth</span><span class="o">-&gt;</span><span class="na">ID</span><span class="o">.</span><span class="s2">&#34;.jpg&#34;</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s1">&#39;&lt;img alt=&#34;&#34; src=&#34;&#39;</span><span class="o">.</span><span class="nv">$url</span><span class="o">.</span><span class="s1">&#39;&#34; /&gt;&#39;</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> 
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>Now that you&rsquo;ve got our custom author image function up and running, we&rsquo;re ready to create a custom ‘About the Author&rsquo; box solution.</p>
+<h2 id="what-do-we-want-from-a-custom-about-the-author-box">What do we want from a custom ‘About the Author&rsquo; box?<a href="#what-do-we-want-from-a-custom-about-the-author-box" class="anchor" aria-hidden="true">#</a> </h2>
+<ul>
+<li>A customized author image that we have already uploaded to our server because we followed [this tutorial][1] and loved it</li>
+<li>The author&rsquo;s display name</li>
+<li>The author&rsquo;s bio (from the Your Profile screen in the WordPress back-end</li>
+<li>A CSS example of exactly how Lawsonry does this (so you can make your own, duh!)</li>
+<li>The author box should automatically appear at the end of every individual article</li>
+</ul>
+<p>We&rsquo;ve defined the requirements. Let&rsquo;s get started.</p>
+<h2 id="step-1-edit-functionsphp">Step 1: Edit <em>functions.php</em>.<a href="#step-1-edit-functionsphp" class="anchor" aria-hidden="true">#</a> </h2>
+<p>Go to Appearance-&gt;Editor, and open up your <em>functions.php</em> file. We&rsquo;ll create a function here that displays the author box in one quick call.</p>
+<p>A note on execution: There are two ways we can approach this. First, we can create a filter that will automatically call the function at the end of the_content. I don&rsquo;t like doing this because I&rsquo;m used to editing single.php for something I want happening on every individual post. Second, we can do just that — edit single.php and add the function call wherever we want the author box to appear. This is ideal because we can customize where we put the author box (and lets us change where it is later in case we want to move it around).</p>
+<p>Let&rsquo;s define our new function:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <pre tabindex="0"><code>function the_about_the_author_box() {
+  // We&#39;ll fill in the function later
+
+}</code></pre>
+  </figure>
+</div>
+<p>I don&rsquo;t want to fill this in just yet because I want us to go to where we&rsquo;ll display the about the author box and make a call to this function to get it out of the way. It&rsquo;s a lot easier to debug/modify our function and how our box is displayed when we have *functions.php *loaded up in one screen and our page loaded up in another.</p>
+<h2 id="step-2-add-our-function-to-singlephp">Step 2: Add our function to <em>single.php</em>.<a href="#step-2-add-our-function-to-singlephp" class="anchor" aria-hidden="true">#</a> </h2>
+<p>Now that we have a custom function defined, let&rsquo;s make it show up in every single individual post. I&rsquo;ll also show you how to exclude the About the Author box for specific categories, too, in case you have a category that is automatically filled with posts or that you don&rsquo;t have a set author for.</p>
+<p>Go to Appearance-&gt;Editor, and open up your <em>single.php</em> file. There are two places that are popular to put an about the author box, and while I&rsquo;ll show you how to put the box in both of those places, you are more than welcome to paste the code wherever you want and have your About the Author box show up somewhere else.</p>
+<p>The first place that&rsquo;s popular is right after the post title. Search your single.php for something like this:</p>
+<p><code>&lt;?php&gt; the_title(); ?&gt;</code></p>
+<p>Usually this is wrapped in header tags, and probably belong to a class, so you might even see something like this:</p>
+<p><code>&lt;h1 class=&quot;header-title&quot;&gt; &lt;?php the_title(); ?&gt; &lt;/h1&gt;</code></p>
+<p>Let&rsquo;s add in our function just after the call to the_title, so if you see something like the latter example from above, you would save your file once you have something that looks like this:</p>
+<p>`<?php the_title(); ?></p>
+<?php the_about_the_author_box(); ?>`
+<p>Now that we know <em>where</em> we want our about the author box to be displayed, let&rsquo;s talk about <em>what</em> will be displayed when this function is called. Right now we have an empty function, so let&rsquo;s go back to <em>functions.php</em> and fill it in.</p>
+<h2 id="step-3-edit-functionsphp">Step 3: Edit <em>functions.php</em>.<a href="#step-3-edit-functionsphp" class="anchor" aria-hidden="true">#</a> </h2>
+<p>Yes, we could have done this in addition to step one, but I wanted it to be separated to focus on what we&rsquo;re doing. What do we want out of an About the Author box?</p>
+<ul>
+<li><span style="line-height: 13px;">Display the author name</span></li>
+<li>Display the author image (using our custom image from the [previous tutorial][1])</li>
+<li>Display the author bio</li>
+<li>Wrap it all in some CSS to customize it</li>
+</ul>
+<p>Knowing our prerequisites, let&rsquo;s design the layout of the output. It&rsquo;s always a good idea to sketch out how you want your CSS to look, that way you have a clear plan going into the code. Nothing too fancy — a simple container, then a left class (which will hold the author image) and a right class (which holds everything else). Now that we&rsquo;ve got an idea of what we want it to look like, let&rsquo;s get our hands dirty with some code.</p>
+<p>Go to Appearance-&gt;Editor, and reopen your <em>functions.php</em> file. Find our function and let&rsquo;s get started:</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="k">function</span> <span class="nf">the_about_the_author_box</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// First, grab all of the author&#39;s relevant information
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nv">$name</span> <span class="o">=</span> <span class="nx">get_the_author_meta</span><span class="p">(</span><span class="s1">&#39;display_name&#39;</span><span class="p">);</span>  <span class="c1">// Get the &#34;display name&#34; that we choose in the profile field
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nv">$bio</span> <span class="o">=</span> <span class="nx">get_the_author_meta</span><span class="p">(</span><span class="s1">&#39;user_description&#39;</span><span class="p">);</span> <span class="c1">// Get the bio from the profile field
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="nv">$output</span> <span class="o">=</span> <span class="s1">&#39;&lt;div class=&#34;aboutbox-container&#34;&gt;&#39;</span><span class="p">;</span>           <span class="c1">// Begin the container 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nv">$output</span> <span class="o">.=</span> <span class="s1">&#39;&lt;div class=&#34;aboutbox-left&#34;&gt;&#39;</span><span class="p">;</span>               <span class="c1">// Begin the left inner container
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nv">$output</span> <span class="o">.=</span> <span class="nx">the_author_image</span><span class="p">();</span>                          <span class="c1">// Get the author image
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nv">$output</span> <span class="o">.=</span> <span class="s1">&#39;&lt;/div&gt;&lt;div class=&#34;aboutbox-right&#34;&gt;&#39;</span><span class="p">;</span>        <span class="c1">// End the left inner container and begin the right
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nv">$output</span> <span class="o">=</span> <span class="s1">&#39;&lt;h3 class=&#34;aboutbox-title&#34;&gt;&#39;</span><span class="p">;</span>                <span class="c1">// Start the title tag with our CSS
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nv">$output</span> <span class="o">.=</span> <span class="nv">$name</span><span class="p">;</span>                                      
+</span></span><span class="line"><span class="cl">  <span class="nv">$output</span> <span class="o">.=</span> <span class="s1">&#39;&lt;/h3&gt;&lt;p class=&#34;aboutbox-bio&#34;&gt;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">$output</span> <span class="o">.=</span> <span class="nv">$bio</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">$output</span> <span class="o">.=</span> <span class="s1">&#39;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&#39;</span><span class="p">;</span>                          <span class="c1">// Close out the rest of the tags
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="k">echo</span> <span class="nv">$output</span><span class="p">;</span> <span class="c1">// Display the box!
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></div>
+  </figure>
+</div>
+<p>I&rsquo;ve added some comments to explain what&rsquo;s happening, but here&rsquo;s the gist of it: We establish a container, put the author image in the left part, and put the author&rsquo;s name and bio in the right part.</p>
+<p>Now on to the CSS. If you have the tab in your theme, go to Appearances-&gt;Edit CSS. If you don&rsquo;t have that option, go to Appearance-&gt;Editor, and click on your <em>stylesheet.css</em> file. Here&rsquo;s some default information that I have put in for you to use as a springboard to your own customizations. Copy and paste this into the editor and save it.</p>
+
+
+
+<div class="expressive-code">
+  <figure class="frame not-content">
+  <figcaption class="header">
+    <span class="title"></span>
+  </figcaption>
+  <pre tabindex="0"><code>.aboutbox-container {
+  width: 100%; 
+}
+
+.aboutbox-left {
+  float: left; 
+  margin: 5px; 
+  width: 100px; /*Set this to the width of your author images*/
+}
+
+.aboutbox-right {
+  overflow: hidden;
+  margin: 5px; 
+}
+
+h3.aboutbox-title {
+  font-family: Georgia; 
+  font-weight: bold; 
+  font-size: 22px; 
+  color: #aa0000;
+}
+
+p.aboutbox-bio {
+  font-family: &#34;Helvetica Neue&#34;, Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  color: #444; 
+  font-size: 14px; 
+}</code></pre>
+  </figure>
+</div>
+<p>Now it&rsquo;s on you to come up with some fancy CSS that matches your site and aesthetic tastes.</p>
+<h2 id="-and-thats-it">… And that&rsquo;s it!<a href="#-and-thats-it" class="anchor" aria-hidden="true">#</a> </h2>
+<p>Phew! This was a long one. Fortunately, you&rsquo;ve got one hell of a tour guide (how modest, right?). Hopefully by now you&rsquo;ve already plowed through the [custom author image tutorial][1], and now that you&rsquo;re finished with this, you can tell all your friends about your new custom ‘About the Author&rsquo; box in WordPress.</p>
+<p>Here&rsquo;s some more WordPress tutorials you might want to check out:</p>
+<ul>
+<li>[<span style="line-height: 13px;">Custom Post Style in WordPress</span>][2]</li>
+<li>[Disable HTML in WordPress Comments][3]</li>
+<li>[Custom Category Style in WordPress][4]</li>
+<li>[How to Add a Featured Image to Single Posts][5]</li>
+</ul>
+<p>[1]: {{ ref &ldquo;/blog/2013-06-24-custom-author-image-in-wordpress.md&rdquo; }} &ldquo;Custom Author Image in WordPress&rdquo;
+[2]: http://lawsonry.com/2013/06/custom-post-style-in-wordpress.html &ldquo;Custom Post Styles in WordPress tutorial&rdquo;
+[3]: http://lawsonry.com/2013/06/disable-html-in-wordpress-comments.html &ldquo;Disable HTML in WordPress Comments&rdquo;
+[4]: http://lawsonry.com/2013/06/custom-category-style-in-wordpress.html &ldquo;Custom Category Style in WordPress&rdquo;
+[5]: http://lawsonry.com/2013/06/how-to-add-featured-image-to-single-post.html &ldquo;How to Add Featured Image to Single Post&rdquo;</p>
+			<div class="page-footer-meta d-flex flex-column flex-md-row justify-content-between">
+				
+				
+				</div>
+			<div class="page-nav d-flex flex-column flex-sm-row">
+	
+	<div class="card w-100">
+			<div class="card-body d-flex">
+				<div class="d-flex flex-column justify-content-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M5 12l14 0"></path>
+						<path d="M5 12l6 6"></path>
+						<path d="M5 12l6 -6"></path>
+				 	</svg>
+				</div>
+				<div class="d-flex flex-column">
+					<div class="text-body-secondary">Prev</div>
+					<a href="/sysadmin/2013-06-24-how-to-hide-a-category-in-wordpress/" class="stretched-link text-reset text-decoration-none">How to Hide a Category in WordPress</a>
+				</div>
+			</div>
+		</div>
+	<div class="m-2"></div>
+	<div class="card text-end w-100">
+			<div class="card-body d-flex justify-content-end">
+				<div class="d-flex flex-column">
+					<div class="text-body-secondary">Next</div>
+					<a href="/sysadmin/2014-01-15-quickly-block-traffic-with-ipset-and-iptables/" class="stretched-link text-reset text-decoration-none">Quickly Block Traffic with ipset and iptables</a>
+				</div>
+				<div class="d-flex flex-column justify-content-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+						<path d="M5 12l14 0"></path>
+						<path d="M13 18l6 -6"></path>
+						<path d="M13 6l6 6"></path>
+					</svg>
+				</div>
+			</div>
+		</div>
+	</div>
+
+			
+		</main>
+		
+	</div>
+
+      
+      </div>
+    </div>
+    
+    
+    <footer class="footer text-muted">
+  <div class="container-md">
+    <div class="row">
+      <div class="col-lg-8 text-center text-lg-start">
+        <ul class="list-inline">
+          <li class="list-inline-item"><a class="text-muted" href="https://bsky.app/profile/jesse.lawsonry.com">Connect on BlueSky</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-8 text-center text-lg-end">
+        <ul class="list-inline">
+          <li class="list-inline-item">Copyright &copy; 2014-2024 Jesse Lawson. All Rights Reserved.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+
+<script async
+  src="/js/app.c17553444ec7c62f781ddbaa011948f6d85a1bab49420047d68a2b89852a8b36.js"
+  integrity="sha256-wXVTRE7Hxi94HduqARlI9thaG6tJQgBH1ooriYUqizY=">
+</script>
+
+
+
+
+
+
+<script async
+  src="/js/flexsearch.7b25ae2da7ab3cc745d4f8536e3f914f92ea8b1afad96ab9249c160c35e0648c.js"
+  integrity="sha256-eyWuLaerPMdF1PhTbj&#43;RT5Lqixr62Wq5JJwWDDXgZIw=">
+</script>
+<script async
+  src="/js/search-modal.0415aa45353ab123a509f6ddc6861549ece898b90872fcf757cd2663041dac96.js"
+  integrity="sha256-BBWqRTU6sSOlCfbdxoYVSezomLkIcvz3V80mYwQdrJY=">
+</script>
+
+    
+  </body>
+</html>

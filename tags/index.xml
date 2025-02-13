@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Jesse&#39;s Null Notes</title>
+    <link>/tags/</link>
+    <description>Recent content in Tags on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <lastBuildDate>Sun, 21 May 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Gamedev</title>
+      <link>/tags/gamedev/</link>
+      <pubDate>Sun, 21 May 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/gamedev/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pinia</title>
+      <link>/tags/pinia/</link>
+      <pubDate>Sun, 21 May 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/pinia/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Typescript</title>
+      <link>/tags/typescript/</link>
+      <pubDate>Sun, 21 May 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/typescript/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Nginx</title>
+      <link>/tags/nginx/</link>
+      <pubDate>Thu, 16 Jul 2015 00:00:00 +0000</pubDate>
+      <guid>/tags/nginx/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Sysadmin</title>
+      <link>/tags/sysadmin/</link>
+      <pubDate>Thu, 16 Jul 2015 00:00:00 +0000</pubDate>
+      <guid>/tags/sysadmin/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bad Bots</title>
+      <link>/tags/bad-bots/</link>
+      <pubDate>Fri, 20 Dec 2013 00:00:00 +0000</pubDate>
+      <guid>/tags/bad-bots/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Block Ip</title>
+      <link>/tags/block-ip/</link>
+      <pubDate>Fri, 20 Dec 2013 00:00:00 +0000</pubDate>
+      <guid>/tags/block-ip/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Htaccess</title>
+      <link>/tags/htaccess/</link>
+      <pubDate>Fri, 20 Dec 2013 00:00:00 +0000</pubDate>
+      <guid>/tags/htaccess/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Spam</title>
+      <link>/tags/spam/</link>
+      <pubDate>Fri, 20 Dec 2013 00:00:00 +0000</pubDate>
+      <guid>/tags/spam/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Visitors</title>
+      <link>/tags/visitors/</link>
+      <pubDate>Fri, 20 Dec 2013 00:00:00 +0000</pubDate>
+      <guid>/tags/visitors/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

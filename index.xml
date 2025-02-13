@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jesse&#39;s Null Notes</title>
+    <link>/</link>
+    <description>Recent content on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <lastBuildDate>Thu, 13 Feb 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>jj pick out files from working copy</title>
+      <link>/jj/pick-out-files-from-working-copy/</link>
+      <pubDate>Thu, 13 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>/jj/pick-out-files-from-working-copy/</guid>
+      <description>&lt;p&gt;If you have a subset of files in your working copy you would like to&#xA;pull out into a separate commit, you can use &lt;code&gt;jj split -i&lt;/code&gt; to interactively&#xA;select which files to do that with.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Warp Filter for request info</title>
+      <link>/rust/warp-filter-for-request-info/</link>
+      <pubDate>Wed, 12 Feb 2025 00:00:00 +0000</pubDate>
+      <guid>/rust/warp-filter-for-request-info/</guid>
+      <description>&lt;p&gt;Here&amp;rsquo;s one example of a warp filter that will provide you the user agent (if present) and the&#xA;remote address (IPv4) associated with a request.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Using enums with Diesel</title>
+      <link>/rust/using-enums-with-diesel/</link>
+      <pubDate>Tue, 21 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>/rust/using-enums-with-diesel/</guid>
+      <description>&lt;p&gt;Using custom enums with Diesel requires implementation of two traits for the enum: &lt;code&gt;FromSql&lt;/code&gt; and &lt;code&gt;ToSql&lt;/code&gt;.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;The &lt;code&gt;FromSql&lt;/code&gt; pattern involves matching primitives and then constructing the enum.&lt;/li&gt;&#xA;&lt;li&gt;The &lt;code&gt;ToSql&lt;/code&gt; pattern involves matching the enum and then delegating construction to the primitive&amp;rsquo;s &lt;code&gt;to_sql&lt;/code&gt; method.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;why&#34;&gt;Why&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;The database columns store raw bytes of data, so if we want to store data there, we need to represent it as raw bytes&#xA;before writing it.&lt;/li&gt;&#xA;&lt;li&gt;Diesel expects us to show it how we want to convert our enum into the bytes that our database wants.&lt;/li&gt;&#xA;&lt;li&gt;We need to implement the &lt;code&gt;FromSql&lt;/code&gt; and &lt;code&gt;ToSql&lt;/code&gt; traits because there&amp;rsquo;s no direct correlation between a Rust enum and a Postgresql type (not even an enum type).&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;  &#xA;&#xA;&#xA;&#xA;&#xA;&lt;div class=&#34;shortcode-message&#34;&gt;&#xA;  &lt;div class=&#34;profile&#34;&gt;&#xA;    &#xA;    &#xA;      &lt;img src=&#34;/images/default.png&#34; alt=&#34;default&#39;s profile&#34; /&gt;&#xA;    &#xA;  &lt;/div&gt;&#xA;  &lt;div class=&#34;content&#34;&gt;&#xA;    &lt;p&gt;While Postgres does have its own version of an &lt;code&gt;enum&lt;/code&gt;, the way Rust understands enums and the way Postgresql understands enums is different, so we would need to manually handle conversion regardless.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>FClassFinder vs StaticLoadClass</title>
+      <link>/unreal/fclassfinder-staticloadclass/</link>
+      <pubDate>Tue, 14 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>/unreal/fclassfinder-staticloadclass/</guid>
+      <description>&lt;p&gt;&lt;code&gt;FClassFinder&lt;/code&gt; uses compile-time checking. If the asset path is incorrect, you&amp;rsquo;ll get a warning during compilation. It also encapsulates the logic of loading and checking the asset, reducing the amount of code you need to write.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How the engine spawns HUD</title>
+      <link>/unreal/how-does-unreal-engine-spawn-hud/</link>
+      <pubDate>Tue, 14 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>/unreal/how-does-unreal-engine-spawn-hud/</guid>
+      <description>&lt;p&gt;In &lt;code&gt;UE_5.4\Engine\Source\Runtime\Engine\Private\PlayerController.cpp&lt;/code&gt;:&lt;/p&gt;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&lt;div class=&#34;expressive-code&#34;&gt;&#xD;&#xA;  &lt;figure class=&#34;frame not-content&#34;&gt;&#xD;&#xA;  &lt;figcaption class=&#34;header&#34;&gt;&#xD;&#xA;    &lt;span class=&#34;title&#34;&gt;&lt;/span&gt;&#xD;&#xA;  &lt;/figcaption&gt;&#xD;&#xA;  &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;APlayerController&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ClientSetHUD_Implementation&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TSubclassOf&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;AHUD&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NewHUDClass&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&#x9;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MyHUD&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;NULL&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&#x9;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&#x9;&#x9;&lt;span class=&#34;n&#34;&gt;MyHUD&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Destroy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&#x9;&#x9;&lt;span class=&#34;n&#34;&gt;MyHUD&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&#x9;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&#x9;&lt;span class=&#34;n&#34;&gt;FActorSpawnParameters&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SpawnInfo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&#x9;&lt;span class=&#34;n&#34;&gt;SpawnInfo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Owner&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&#x9;&lt;span class=&#34;n&#34;&gt;SpawnInfo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Instigator&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;GetInstigator&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&#x9;&lt;span class=&#34;n&#34;&gt;SpawnInfo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ObjectFlags&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;|=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;RF_Transient&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&#x9;&lt;span class=&#34;c1&#34;&gt;// We never want to save HUDs into a map&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&#x9;&lt;span class=&#34;n&#34;&gt;MyHUD&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;GetWorld&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SpawnActor&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;AHUD&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;NewHUDClass&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SpawnInfo&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&#xD;&#xA;  &lt;/figure&gt;&#xD;&#xA;&lt;/div&gt;&#xD;&#xA;&lt;p&gt;HUD is spawned as an actor. That makes sense since it needs to be owned by the client.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Set up Enhanced Input</title>
+      <link>/unreal/set-up-enhanced-input/</link>
+      <pubDate>Tue, 14 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>/unreal/set-up-enhanced-input/</guid>
+      <description>&lt;p&gt;The enhanced input system relies on two kinds of files in your editor:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Input action data asset&lt;/li&gt;&#xA;&lt;li&gt;Input mapping context data asset&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;An &lt;strong&gt;input action&lt;/strong&gt; data asset (e.g., &amp;ldquo;IA_Jump&amp;rdquo;) is how you bind an &lt;strong&gt;input&lt;/strong&gt; to an &lt;strong&gt;action&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>What goes where?</title>
+      <link>/unreal/what-to-put-where/</link>
+      <pubDate>Tue, 14 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>/unreal/what-to-put-where/</guid>
+      <description>&lt;p&gt;Inspired by &lt;a href=&#34;https://www.reddit.com/r/unrealengine/comments/yetxy1/comment/iu2ltvl/&#34;&gt;this Reddit post&lt;/a&gt;:&lt;/p&gt;&#xA;&lt;h3 id=&#34;gamemode-bp&#34;&gt;GameMode BP&lt;/h3&gt;&#xA;&lt;p&gt;GameMode should govern the overall game rules and settings.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Variables/Settings:&lt;/strong&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Match time&lt;/li&gt;&#xA;&lt;li&gt;Game type (e.g., Deathmatch, Capture the Flag)&lt;/li&gt;&#xA;&lt;li&gt;Score limits&lt;/li&gt;&#xA;&lt;li&gt;Respawn settings&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Considerations:&lt;/strong&gt; Ensure this only runs on the server to maintain authoritative control over the game rules.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;gamestate-bp&#34;&gt;GameState BP&lt;/h3&gt;&#xA;&lt;p&gt;GameState should manage game-wide information that should be visible to all players.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Axum WebSocket echo server</title>
+      <link>/rust/mwe-axum-ws-server/</link>
+      <pubDate>Tue, 19 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>/rust/mwe-axum-ws-server/</guid>
+      <description>&lt;p&gt;This is a minimum working example (MWE) of a WebSocket echo server in Rust&#xA;using &lt;code&gt;axum&lt;/code&gt; and &lt;code&gt;tokio&lt;/code&gt;.&lt;/p&gt;&#xA;&lt;p&gt;The HTTPS handshake happens on the same route (&lt;code&gt;/&lt;/code&gt;) as the WebSocket connection.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Lifetimes in Rust by example</title>
+      <link>/rust/lifetimes/</link>
+      <pubDate>Sat, 24 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>/rust/lifetimes/</guid>
+      <description>&lt;p&gt;When you make a reservation at a restaurant, the restaurant provides you access&#xA;to a table in the future in the form of a reservation.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Building Incremental Games as Web Applications</title>
+      <link>/web/clicker-game-template/</link>
+      <pubDate>Sun, 21 May 2023 00:00:00 +0000</pubDate>
+      <guid>/web/clicker-game-template/</guid>
+      <description>&lt;p&gt;Have you ever wanted to make an idle clicker game like this?&lt;/p&gt;&#xA;&lt;div id=&#34;gamedemo&#34;&gt;&#xA;&lt;p style=&#34;text-align:center&#34;&gt;&lt;button id=&#34;example-1-button&#34; class=&#34;example-button&#34;&gt;Add&amp;nbsp;&lt;span id=&#34;increment-value&#34;&gt;&lt;/span&gt;&amp;nbsp;to this &amp;rarr;&amp;nbsp;&lt;span id=&#34;example-1-counter&#34;&gt;0&lt;/span&gt;&lt;/button&gt; &lt;button id=&#34;example-1-upgrade-button&#34; class=&#34;example-button fadedout&#34;&gt;Spend&amp;nbsp;&lt;span id=&#34;upgrade-cost&#34;&gt;&lt;/span&gt;&amp;nbsp;for +1/click&lt;/button&gt; &lt;button id=&#34;buyAutoClickerButtonElement&#34; class=&#34;example-button fadedout&#34;&gt;Spend&amp;nbsp;&lt;span id=&#34;buyAutoClickerButtonUpgradeCostElement&#34;&gt;&lt;/span&gt;&amp;nbsp;for +1 click/second&lt;/button&gt;&lt;/p&gt;&#xA;&lt;p id=&#34;helpTextContainer&#34;&gt;&lt;span id=&#34;helptext1&#34;&gt;Click at least three times.&lt;/span&gt;&lt;span id=&#34;helptext2&#34; class=&#34;fadedout&#34;&gt;Good! Now try to get your number up to 100.&lt;/span&gt;&lt;span id=&#34;helptext3&#34; class=&#34;fadedout&#34;&gt; Great job! Can you make it to 1,000?&lt;/span&gt;&lt;div style=&#34;text-align:center&#34; id=&#34;autoClickersStatsContainer&#34; class=&#34;fadedout&#34;&gt;Total clicks ever: &lt;span id=&#34;totalClicksEver&#34;&gt;&lt;/span&gt;; Auto Clickers: &lt;span id=&#34;numAutoClickers&#34;&gt;&lt;/span&gt; (&lt;span id=&#34;autoClickerCPS&#34;&gt;&lt;/span&gt; clicks/second)&lt;/div&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

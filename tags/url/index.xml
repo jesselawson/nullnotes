@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Url on Jesse&#39;s Null Notes</title>
+    <link>/tags/url/</link>
+    <description>Recent content in Url on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <lastBuildDate>Sat, 30 Nov 2013 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/url/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to Find and Replace a String in MySQL</title>
+      <link>/sysadmin/2013-11-30-how-to-find-and-replace-a-string-in-mysql/</link>
+      <pubDate>Sat, 30 Nov 2013 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2013-11-30-how-to-find-and-replace-a-string-in-mysql/</guid>
+      <description>&lt;p&gt;One of the problems with moving your site from one domain to another is that the images in all your posts are still served from the old setup. In order to fix this, you need to run a simple MySQL command that will search through all your posts and replace the old URL with the new one.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

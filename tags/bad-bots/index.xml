@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bad Bots on Jesse&#39;s Null Notes</title>
+    <link>/tags/bad-bots/</link>
+    <description>Recent content in Bad Bots on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <lastBuildDate>Fri, 20 Dec 2013 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/bad-bots/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WP Engine Hotfix: Preventing Spam and Bad Bot Traffic, Part II</title>
+      <link>/sysadmin/2013-12-20-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-ii/</link>
+      <pubDate>Fri, 20 Dec 2013 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2013-12-20-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-ii/</guid>
+      <description>&lt;p&gt;In [Part I][1] of this WP Engine Hotfix, I discussed some of the theory behind WP Engine&amp;rsquo;s visitor calculations and how end-users of WP Engine could benefit from taking charge of their traffic themselves. In this next part, I&amp;rsquo;ll discuss ways to log your visitor traffic, scrub that traffic for blacklisted and abusive IPs (as well as employ a nifty contact form honeypot), and completely block access to your site by these harmful bots, scrapers, harvesters, and spammers that jack up your visitor count.&lt;/p&gt;&#xA;&lt;p&gt;It&amp;rsquo;s important to note that this tutorial is not WP Engine specific. You can employ these methods on any hosting environment in which you have access to Apache. If you&amp;rsquo;re on Nginx, I&amp;rsquo;ll cover how to block unwanted traffic in a different tutorial.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

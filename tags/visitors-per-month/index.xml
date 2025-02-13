@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Visitors per Month on Jesse&#39;s Null Notes</title>
+    <link>/tags/visitors-per-month/</link>
+    <description>Recent content in Visitors per Month on Jesse&#39;s Null Notes</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>Copyright (c) 2012-2024 Jesse Lawson. All Rights Reserved.</copyright>
+    <lastBuildDate>Wed, 18 Dec 2013 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/visitors-per-month/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WP Engine Hotfix: Preventing Spam and Bad Bot Traffic, Part I</title>
+      <link>/sysadmin/2013-12-18-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-i/</link>
+      <pubDate>Wed, 18 Dec 2013 00:00:00 +0000</pubDate>
+      <guid>/sysadmin/2013-12-18-wp-engine-hotfix-preventing-spam-and-bad-bot-traffic-part-i/</guid>
+      <description>&lt;p&gt;WP Engine counts traffic from &amp;ldquo;bad&amp;rdquo; bots (like harvesters and spam bots) the same way it tracks human visitors. While some people have gone to great lengths to talk about how this has dissatisfied them to the point of leaving WP Engine, steps can be taken to take charge of your website&amp;rsquo;s defense and disallow these bots from ever making it to your pages. In this article, I discuss how to find out who is really visiting your blog (raw metrics), how to filter out the &amp;ldquo;bad&amp;rdquo; bot traffic, and (hopefully) reduce your visits in WP Engine&amp;rsquo;s algorithm.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
